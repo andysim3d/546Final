@@ -2,22 +2,34 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Register</title>
+<title>Enrollment</title>
 <link href="../css/register_site.css" rel="stylesheet">
 </head>
-
-<h1>Register</h1>
-
-<form action="../include/regist.php" method="post">
-Email: <input type="email" name="email"
-               placeholder="Input your email"><br>
-Name: <input type="text" name="Name"
-               placeholder="Input your name"><br>
-Password <input type="password" name="password"
-               placeholder="Input your password"><br>
-<input type="submit">
-</form>
 <body>
+	<form action="regist.php" method="post">
+	<div>
+		<h1>Enrollment</h1>
+		<label> <span>Email: </span><input type="email" name="email"
+			placeholder="Input your email">
+		</label> 
+		<label> <span>Name:</span> <input type="text" name="Name"
+			placeholder="Input your name">
+		</label> 
+		<label> <span>Password:</span> <input type="password"
+			name="password" placeholder="Input your password">
+		</label> 
+		<label> <span>Confirm Password:</span> <input type="password"
+			name="confirm_password" placeholder="Reinput your password">
+		</label>
+		<br>
+		<label> <input type="submit" >
+		</label>
+		
+		<label>
+		<input type="button" value="log in">
+		</label>
+	</div>
+	</form>
 
 </body>
 </html>
