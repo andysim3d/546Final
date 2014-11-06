@@ -14,5 +14,5 @@ if( -1 == postquestion($UID, $title, $content)){
 else{
 	echo"Post Success!<br/>\n";
 }
-
+	
 ?>

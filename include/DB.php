@@ -128,7 +128,6 @@ function IDValidate($userID){
 	//if num != 0, means this email has been registed
 	if ($num == 0) {
 		return -1;
-	}
-	
+	}	
 }
 ?>
