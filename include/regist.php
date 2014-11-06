@@ -9,10 +9,17 @@
 		$Name = $_POST["Name"];
 		$Password = $_POST["password"];
 		
-		
+		if( ($res == regist($Email, $Name, $Password)) == -1) {
+
+			echo "Register fail!<br/>\n";
+		}
+		else{
+
+			echo "Register Success! Your ID is $res<br/>\n";
+		}
 	}
 	else{
-		
+		echo "Register fail!<br/>\n";
 	}
 	
 	
