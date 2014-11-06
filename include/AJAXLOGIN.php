@@ -4,21 +4,29 @@ include("./DB.php");
 
 $dom = new DOMDocument();
 if (!isset($_GET["email"]) || !isset($_GET["password"])) {
-	return $dom;
+	echo $dom->saveXML();
 }
 
 $email = $_GET["email"];
 if(!emailValidate($email)){
-	return $dom;
+		echo $dom->saveXML();
 }
+
 $password = $_GET["password"];
 $userinfo = LogIN($email, $password);
 if (!isset($userinfo["login"])) {
-	return $dom;
+	echo $dom->saveXML();
 }
 if($userinfo["login"] == -1){
-	return $dom;
+	echo $dom->saveXML();
 }
+
+/*foreach ($userinfo as $key => $variable) {
+	# code...
+	echo "$key == > $variable<br/>\n";
+}
+*/
+
 $user_Info = $dom->createElement("Info");
 
 $user_ID = $dom->createElement("user-ID");
@@ -44,6 +52,13 @@ $user_Info->appendChild($user_credits);
 
 $dom->appendChild($user_Info);
 $xmlString = $dom->saveXML();
-
 echo $xmlString;
+
+
+
+/*opendir(getcwd());
+$filename = "text.xml";
+$fh = fopen($filename, "w");
+fwrite($fh, $xmlString);
+*/
 ?>

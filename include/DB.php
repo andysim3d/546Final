@@ -7,11 +7,12 @@ function LogIN($email, $password){
 	$db = new database();
 	$db->connect();
 	$pass = htmlentities($password);
-	$email = htmlentities($password);
+	$email = htmlentities($email);
+
 	$query = "SELECT * 
-		FROM `User` 
-		where `email` = $email
-		and `password` = sha1($pass)";
+			FROM `User` 
+			where `email` = \"".$email."\"
+			and `passwd` = \"".sha1($pass)."\"";
 	$res = $db->send_sql($query);
 	//if count = 1, means log in success
 	$count = 0;
