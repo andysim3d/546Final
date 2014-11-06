@@ -1,0 +1,9 @@
+@CHARSET "UTF-8";
+body{
+	background-color: #00CCFF;
+}
+
+h1 {
+	color: white;
+	text-align: center;
+}
