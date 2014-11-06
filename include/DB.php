@@ -9,9 +9,9 @@ function LogIN($email, $password){
 	$pass = htmlentities($password);
 	$email = htmlentities($password);
 	$query = "SELECT * 
-		FROM User 
-		where email = $email
-		and password = sha1($pass)";
+		FROM `User` 
+		where `email` = $email
+		and `password` = sha1($pass)";
 	$res = $db->send_sql($query);
 	//if count = 1, means log in success
 	$count = 0;
