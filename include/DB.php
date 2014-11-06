@@ -3,10 +3,8 @@ include("./databaseClassMySQLi.php");
 
 
 
-//$GLOBALS['DB'] = new database();
 function LogIN($email, $password){
 
-	//$GLOBALS['DB']->connect();
 	$db = new database();
 	$db->connect();
 	$pass = htmlentities($password);
@@ -38,8 +36,22 @@ function LogIN($email, $password){
 //htmlentities//
 
 function regist($username, $email, $password){
-	
+	//Do something.
 }
 
+//user could upgrade when they have enough credits
+function Upgrade($userID){
+
+	$db = new database();
+	$query = "
+			Update group = group +1
+			from User 
+			where UID = $userID
+			";
+	$db->send_sql($query);
+	
+	$db->connect();
+	
+}
 
 ?>
