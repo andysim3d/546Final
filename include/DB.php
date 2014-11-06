@@ -36,7 +36,6 @@ function LogIN($email, $password){
 
 function regist($username, $email, $password){
 	
-
 	$db = new database();
 	$db->connect();
 	
@@ -48,7 +47,6 @@ function regist($username, $email, $password){
 	}
 	
 	$num = mysqli_num_rows($res);
-	
 	//if num != 0, means this email has been registed
 	if ($num != 0) {
 		return -1;
@@ -73,9 +71,9 @@ function Upgrade($userID){
 
 	$db = new database();
 	$query = "
-			Update group = group +1
-			from User 
-			where UID = $userID
+			Update `group` = `group` +1
+			from `User` 
+			where `UID` = $userID
 			";
 	$db->send_sql($query);
 	
@@ -90,7 +88,27 @@ function emailValidate($email){
 }
 
 function postquestion($userID, $title, $content){
+	if(IDValidate($userID) == -1){
+		return -1;
+	}
+	$ProcceedContent = htmlentities($content);
+	$ProcceedTitle = htmlentities($title);
+	$db = new database();
+	$db->connect();
+	//date_timezone_set();
+	//$date = new DateTime(strtotime(), new DateTimeZone('UTC'));
+	//date_timezone_set('UTC');
+	//$date_ = date('Y-d-m');
+	date_default_timezone_set('UTC');
+	$query = "INSERT INTO `Questions`(`UID`, `Title`, `Content`, `Time`) 
+			VALUES ($userID,\"$ProcceedTitle\",\"$ProcceedContent\",\"". date("Y-m-d H:i:s") ."\")";
+	if($res = $db->send_sql($query)){
+		return -1;
+	}
 	
+	$res = $db->insert_id();
+	return $res;
+
 }
 
 function IDValidate($userID){
@@ -101,5 +119,16 @@ function IDValidate($userID){
 	$db = new database();
 	$db->connect();
 	$query = "Select * from `User` where `UID` = $userID";
+	
+	if(!$res = $db->send_sql($query)){
+		return -1;
+	}
+	
+	$num = mysqli_num_rows($res);
+	//if num != 0, means this email has been registed
+	if ($num == 0) {
+		return -1;
+	}
+	
 }
 ?>
