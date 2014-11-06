@@ -34,7 +34,7 @@ $user_Name = $dom->createElement("user-name");
 $user_group = $dom->createElement("user-group");
 $user_credits = $dom->createElement("user-credits");
 
-$text = $dom->createTextNode($userinfo["ID"]);
+$text = $dom->createTextNode($userinfo["UID"]);
 $user_ID->appendChild($text);
 $user_Info->appendChild($user_ID);
 

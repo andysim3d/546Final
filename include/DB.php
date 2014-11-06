@@ -82,13 +82,24 @@ function Upgrade($userID){
 	$db->connect();
 	
 }
-
+//validate email;
 function emailValidate($email){
 	$res = filter_var($email, FILTER_VALIDATE_EMAIL);
 	//$reg = "/[^a-z0-9]([a-z0-9_]+[.]*)+[@]/";
-
 	return $res;
+}
 
+function postquestion($userID, $title, $content){
+	
+}
 
+function IDValidate($userID){
+	$reg = "/[0-9]+/";
+	if(!preg_match($reg, $userID)){
+		return -1;
+	}
+	$db = new database();
+	$db->connect();
+	$query = "Select * from `User` where `UID` = $userID";
 }
 ?>
