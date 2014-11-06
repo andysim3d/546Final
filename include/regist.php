@@ -8,8 +8,8 @@
 		$Email = $_POST["email"];
 		$Name = $_POST["Name"];
 		$Password = $_POST["password"];
-		
-		if( ($res == regist($Email, $Name, $Password)) == -1) {
+		$res == regist($Email, $Name, $Password);
+		if( $res == -1) {
 
 			echo "Register fail!<br/>\n";
 		}
