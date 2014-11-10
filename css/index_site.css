@@ -5,7 +5,6 @@ body {
 }
 
 #nav_bar {
-
 	background-color: rgb(33,128,213);
 }
 
@@ -13,3 +12,6 @@ body {
 	color: #000;
 }
 
+#navbar>li>a {
+	color: #000;
+}
