@@ -8,10 +8,10 @@ body {
 	background-color: rgb(33,128,213);
 }
 
-#nav_header>a {
+#navbar_header>a {
 	color: #000;
 }
 
-#navbar>li>a {
+#navbar>ul>li>a {
 	color: #000;
 }
