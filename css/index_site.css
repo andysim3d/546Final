@@ -5,5 +5,11 @@ body {
 }
 
 #nav_bar {
+
 	background-color: rgb(33,128,213);
 }
+
+#nav_header>a {
+	color: #000;
+}
+
