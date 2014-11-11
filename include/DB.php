@@ -161,6 +161,8 @@ function GetProfile($userID){
 			$row = $db->next_row();
 	
 			$res['getProfile'] = 1;
+			$res['UID'] = $row['UID'];
+			$res['PID'] = $row['PID'];
 			$res['Location'] = $row['Location'];
 			$res['Habit'] = $row['Habit'];
 			$res['BOD'] = $row['BOD'];
@@ -176,22 +178,46 @@ function GetProfile($userID){
 function UpdateProfile($newly){
 	$db = new database();
 	$db->connect();
+/*	
+	foreach ($newly as $key => $value) {
+		echo "$key => $value<br/>\n";
+	}
+*/
+	$query = "UPDATE `Profiles` 
+			SET
+			`Habit`=\"".$newly['Habit']."\",
+			`Location`=\"".$newly['Location']."\",
+			`BOD`=\"".$newly['BOD']."\" 
+			WHERE `PID` =".$newly['PID'];
+	//echo "$query<br/>\n";
 	
-	$query = "Update
-			`Profiles`
-			set `Habit` = ".$newly['Habit'].",
-			`Location` = ".$newly['Location'].",
-			`BOD` = ".$newly['BOD']." 
-			where `PID` = ". $newly['PID'];
-	
-		if(!$res = $db->send_sql($query)){
+	if(!$res = $db->send_sql($query)){
 			$db->disconnect();
 			return -1;
 		}
 	
 	echo"Update success!<br/>\n";
+
+	$db->disconnect();
+}
+
+function InsertProfile($newly){
+
+	$db = new database();
+	$db->connect();
 	
+	$query = "INSERT INTO `Profiles`(`UID`, `Habit`, `Location`, `BOD`) 
+			VALUES (". $newly['UID']."
+			,\"". $newly['Habit'] ."\"
+			,\"". $newly['Location'] ."\"
+			,\"". $newly['BOD'] ."\")";
 	
+	if(!$res = $db->send_sql($query)){
+			$db->disconnect();
+			echo "Insert failed!<br/>\n";
+			return -1;
+	}
+	echo "Insert Succeed!<br/>\n";
 	
 	$db->disconnect();
 }
