@@ -14,7 +14,11 @@ function LogIN($email, $password){
 			FROM `User` 
 			where `email` = \"".$email."\"
 			and `passwd` = \"".sha1($pass)."\"";
-	$res = $db->send_sql($query);
+	if(!$res = $db->send_sql($query)){
+			$db->disconnect();
+			echo "Login failed!<br/>\n";
+			return -1;
+	}
 	//if count = 1, means log in success
 	$count = 0;
 
@@ -225,7 +229,29 @@ function InsertProfile($newly){
 	$db->disconnect();
 }
 
-function GetQuestion($num){
+function GetQuestion(){
+	$db = new database();
+	$db->connect();
+	$query = "select * from Questions
+			order by TIME
+			limit $LIMITION
+			";
+	echo "$query<br/>";
+	if(!$res = $db->send_sql($query)){
+		$db->disconnect();
+		echo "Get Questions failed!<br/>\n";
+		return -1;
+	}
+
+	$num = mysqli_num_rows($res);
 	
+	for($cur; $cur < $num; $cur++){
+		$temres = $db->next_row();
+		foreach ($temres as $key => $var){
+			$res[$cur][$key] = $var;
+		}
+	}
+	
+	return $res;
 }
 ?>
