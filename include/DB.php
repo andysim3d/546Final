@@ -1,6 +1,9 @@
 <?php
 include("./databaseClassMySQLi.php");
 
+//for paging query
+$LIMITION = 10;
+
 function LogIN($email, $password){
 	$db = new database();
 	$db->connect();
@@ -222,4 +225,7 @@ function InsertProfile($newly){
 	$db->disconnect();
 }
 
+function GetQuestion($num){
+	
+}
 ?>
