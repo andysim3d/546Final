@@ -114,12 +114,13 @@ function postquestion($userID, $title, $content){
 function IDValidate($userID){
 	$reg = "/[0-9]+/";
 	if(!preg_match($reg, $userID)){
+		echo "Not match";
 		return -1;
 	}
 	$db = new database();
 	$db->connect();
 	$query = "Select * from `User` where `UID` = $userID";
-	
+	echo $query."<br/>";
 	if(!$res = $db->send_sql($query)){
 		$db->disconnect();
 		return -1;
@@ -135,36 +136,40 @@ function IDValidate($userID){
 }
 
 function GetProfile($userID){
-	
+
+	//echo "GetProfile $userID<br/>";
 	if(IDValidate($userID) == -1){
 		echo "User Invalidate<br/>";
 		return -1;
-	}
-
-	$db = new database();
-	$db->connect();
-	$query = "Select * from `Profiles` where `UID` = $userID";
+		}
 	
-
-	if(!$row = $db->send_sql($query)){
+		$db = new database();
+		$db->connect();
+		$query = "Select * from `Profiles` where `UID` = $userID";
+	
+	
+		if(!$row = $db->send_sql($query)){
+			$db->disconnect();
+			return -1;
+		}
+	
+		$num = mysqli_num_rows($row);
+		//echo $num;
+	
+		//if $num == 0, means this user has not edit profile
+		if($num != 0){
+			$row = $db->next_row();
+	
+			$res['getProfile'] = 1;
+			$res['Location'] = $row['Location'];
+			$res['Habit'] = $row['Habit'];
+			$res['BOD'] = $row['BOD'];
+		}
+		else {
+			$res['getProfile'] = -1;
+		}
+	
 		$db->disconnect();
-		return -1;
-	}
-	
-	$num = mysqli_num_rows($row);
-	
-	//if $num == 0, means this user has not edit profile
-	if($num != 0){
-		$res['getProfile'] = 1;
-		$res['Location'] = $row['Location'];
-		$res['Habit'] = $row['Habit'];
-		$res['BOD'] = $row['BOD'];
-	}
-	else {
-		$res['getProfile'] = -1;
-	}
-	
-	$db->disconnect();
-	return $res;
+		return $res;
 }
 ?>

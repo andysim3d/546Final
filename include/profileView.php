@@ -6,6 +6,7 @@ if (!isset($_GET['UID'])){
 	echo"balh<br/>";
 	return -1;
 }
+$userID = $_GET['UID'];
 
 $profile = GetProfile($userID);
 
