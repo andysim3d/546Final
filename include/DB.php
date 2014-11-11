@@ -172,4 +172,28 @@ function GetProfile($userID){
 		$db->disconnect();
 		return $res;
 }
+
+function UpdateProfile($newly){
+	$db = new database();
+	$db->connect();
+	
+	$query = "Update
+			`Profiles`
+			set `Habit` = ".$newly['Habit'].",
+			`Location` = ".$newly['Location'].",
+			`BOD` = ".$newly['BOD']." 
+			where `PID` = ". $newly['PID'];
+	
+		if(!$res = $db->send_sql($query)){
+			$db->disconnect();
+			return -1;
+		}
+	
+	echo"Update success!<br/>\n";
+	
+	
+	
+	$db->disconnect();
+}
+
 ?>
