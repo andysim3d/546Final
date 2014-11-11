@@ -1,7 +1,7 @@
 <?php
 
 include("./DB.php");
-//for test
+//$_GET is used for test
 if (!isset($_GET['UID'])){
 	echo"balh<br/>";
 	return -1;
@@ -14,7 +14,7 @@ if($profile['getProfile'] == -1){
 	echo "No profiles found.<br/>";
 	//return -1;
 	
-	
+	//generate newly as profile entity.
 	if(isset($_GET['Location'])){
 		$after['Location'] = $_GET['Location'];
 	}
@@ -36,6 +36,7 @@ if($profile['getProfile'] == -1){
 		$after['BOD'] ="1970-01-01";
 	}
 	$after['UID'] = $userID;
+	//insert
 	InsertProfile($after);
 }
 
