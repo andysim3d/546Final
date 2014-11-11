@@ -1,0 +1,17 @@
+@CHARSET "UTF-8";
+body {
+  min-height: 2000px;
+  padding-top: 70px;
+}
+
+#nav_bar {
+	background-color: rgb(33,128,213);
+}
+
+#navbar_header>a {
+	color: #000;
+}
+
+#navbar>ul>li>a {
+	color: #000;
+}
