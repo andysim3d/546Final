@@ -1,8 +1,6 @@
 <?php
 include("./databaseClassMySQLi.php");
 
-
-
 function LogIN($email, $password){
 	$db = new database();
 	$db->connect();
@@ -56,11 +54,13 @@ function regist($username, $email, $password){
 				Values (\"$email\", \"$username\",\"". SHA1($password) ."\",1,0)";
 	
 	if(!$res = $db->send_sql($query)){
+		$db->disconnect();
 		return -1;
 	}
 	
 	$id = $db->insert_id();
 
+	$db->disconnect();
 	return $id;
 	
 	//Do something.
@@ -83,7 +83,6 @@ function Upgrade($userID){
 //validate email;
 function emailValidate($email){
 	$res = filter_var($email, FILTER_VALIDATE_EMAIL);
-	//$reg = "/[^a-z0-9]([a-z0-9_]+[.]*)+[@]/";
 	return $res;
 }
 
@@ -103,12 +102,13 @@ function postquestion($userID, $title, $content){
 	$query = "INSERT INTO `Questions`(`UID`, `Title`, `Content`, `Time`) 
 			VALUES ($userID,\"$ProcceedTitle\",\"$ProcceedContent\",\"". date("Y-m-d H:i:s") ."\")";
 	if($res = $db->send_sql($query)){
+		$db->disconnect();
 		return -1;
 	}
 	
 	$res = $db->insert_id();
+	$db->disconnect();
 	return $res;
-
 }
 
 function IDValidate($userID){
@@ -121,13 +121,50 @@ function IDValidate($userID){
 	$query = "Select * from `User` where `UID` = $userID";
 	
 	if(!$res = $db->send_sql($query)){
+		$db->disconnect();
 		return -1;
 	}
 	
 	$num = mysqli_num_rows($res);
 	//if num != 0, means this email has been registed
 	if ($num == 0) {
+	$db->disconnect();
 		return -1;
-	}	
+	}
+	$db->disconnect();
+}
+
+function GetProfile($userID){
+	
+	if(IDValidate($userID) == -1){
+		echo "User Invalidate<br/>";
+		return -1;
+	}
+
+	$db = new database();
+	$db->connect();
+	$query = "Select * from `Profiles` where `UID` = $userID";
+	
+
+	if(!$row = $db->send_sql($query)){
+		$db->disconnect();
+		return -1;
+	}
+	
+	$num = mysqli_num_rows($row);
+	
+	//if $num == 0, means this user has not edit profile
+	if($num != 0){
+		$res['getProfile'] = 1;
+		$res['Location'] = $row['Location'];
+		$res['Habit'] = $row['Habit'];
+		$res['BOD'] = $row['BOD'];
+	}
+	else {
+		$res['getProfile'] = -1;
+	}
+	
+	$db->disconnect();
+	return $res;
 }
 ?>
