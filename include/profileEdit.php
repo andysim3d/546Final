@@ -19,14 +19,14 @@ if($profile['getProfile'] == -1){
 		$after['Location'] = $_GET['Location'];
 	}
 	else{
-		$after['Location'] ="Where?";
+		$after['Location'] ="-";
 	}
 	
 	if(isset($_GET['Habit'])){
 		$after['Habit'] = $_GET['Habit'];
 	}
 	else{
-		$after['Habit'] ="Nothing";
+		$after['Habit'] ="-";
 	}
 	
 	if(isset($_GET['BOD'])){
