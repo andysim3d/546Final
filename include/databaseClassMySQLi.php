@@ -2,16 +2,16 @@
 
 	/*************************************************
 	**												**
-    **  Class database written by Steven A. Gabarr�**
+    **  Class database written by Steven A. Gabarr  **
 	** 												**
 	*************************************************/
 
 	class database
 	{
 		private $res;
-		private $host = "localhost"; // change to your own default values
-		private $user = "hyang17"; // change to your own default values
-		private $pass = "adslapple2012"; // change to your own default values
+		private $host = "127.0.0.1"; // change to your own default values
+		private $user = "Andy"; // change to your own default values
+		private $pass = "zhang"; // change to your own default values
 		private $db = "cs546final";
 		private $mysqli;
 
