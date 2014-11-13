@@ -39,7 +39,7 @@ function LogIN($email, $password){
 }
 //htmlentities//
 
-function regist($username, $email, $password){
+function regist($email, $username, $password){
 	
 	$db = new database();
 	$db->connect();
