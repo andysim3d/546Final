@@ -5,6 +5,13 @@ function newDoc() {
     window.location.assign("../pages/register.html")
 }
 
-function login_check() {
-	
-}
+$(document).ready(function() {
+	$(function() {
+		$("#dialog").dialog({
+			autoOpen: false
+		});
+		$("#login_button").on("click",function() {
+			$("#dialog").dialog("open");
+		});
+	});
+});
