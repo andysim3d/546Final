@@ -2,7 +2,7 @@
  * 
  */
 function newDoc() {
-    window.location.assign("../pages/register.html")
+    window.location.assign("../pages/register.php")
 }
 
 $(document).ready(function() {

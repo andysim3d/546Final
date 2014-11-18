@@ -58,12 +58,20 @@
 				<div class="col-md-2 col-md-offset-3">
 				       <button type="submit" class="btn btn-default">Submit</button>
 				</div>
+				<div class="col-md-2 col-md-offset-3">
+				       <button type="button" onClick="Goback()" id='back' class="btn btn-default">Back</button>
+				</div>
+	<!-- button id='back'>back</button> -->
       </form>
     </div>
-	
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
+    <script>
+      function Goback(){
+        window.history.back();
+      }
+    </script>
   </body>
   <script>
   </script>

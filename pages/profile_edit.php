@@ -32,7 +32,7 @@
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="../pages/index.html">Answer</a>
+				<a class="navbar-brand" href="../pages/index.php">Answer</a>
 			</div>
 			<div id="navbar" class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
@@ -40,12 +40,12 @@
 							<input type="text" class="form-control" placeholder="Search...">
 							<button type="submit" class="btn btn-primary">Search</button>
 						</form></li>
-					<li><a href="../pages/index.html">Home</a></li>
-					<li><a href="../pages/article.html">Article</a></li>
+					<li><a href="../pages/index.php">Home</a></li>
+					<li><a href="../pages/article.php">Article</a></li>
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
 						data-toggle="dropdown">Settings <span class="caret"></span></a>
 						<ul class="dropdown-menu" role="menu">
-							<li><a href="../pages/profile.html">Profile</a></li>
+							<li><a href="../pages/profile.php">Profile</a></li>
 							<li><a href="#">Another action</a></li>
 							<li><a href="#">Something else here</a></li>
 							<li class="divider"></li>
