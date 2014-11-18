@@ -47,13 +47,25 @@
 						</ul></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
-					<li><button class="btn btn-primary">LOGIN</button></li>
+					<li><button class="btn btn-primary" onclick="login_check()">LOGIN</button></li>
 					<li><button class="btn btn-primary" onclick="newDoc()">Sign Up</button></li>
 				</ul>
 			</div>
 			<!--/.nav-collapse -->
 		</div>
 	</nav>
+
+    <div class="container">
+    <div id="dialog" title="Dialog Form">
+    <form role="form" action="" method="get">
+    <label>Name:</label>
+    <input id="name" name="name" type="text">
+    <label>Email:</label>
+    <input id="email" name="email" type="text">
+    <input id="submit" type="submit" value="Submit">
+    </form>
+    </div>
+    </div>
 
 	<div class="container">
 

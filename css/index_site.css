@@ -15,3 +15,11 @@ body {
 #navbar>ul>li>a {
 	color: #000;
 }
+
+.ui-dialog .ui-dialog-content {
+padding:2em
+}
+
+#dialog {
+	background-color: #F5F5F5
+}
