@@ -40,12 +40,12 @@
 							<input type="text" class="form-control" placeholder="Search...">
 							<button type="submit" class="btn btn-primary">Search</button>
 						</form></li>
-					<li ><a href="../pages/index.php">Home</a></li>
-					<li><a href="../pages/article.php">Article</a></li>
+					<li ><a href="../pages/index.html">Home</a></li>
+					<li><a href="../pages/article.html">Article</a></li>
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
 						data-toggle="dropdown">Settings <span class="caret"></span></a>
 						<ul class="dropdown-menu" role="menu">
-							<li><a href="../pages/profile.php">Profile</a></li>
+							<li><a href="../pages/profile.html">Profile</a></li>
 							<li><a href="#">Another action</a></li>
 							<li><a href="#">Something else here</a></li>
 							<li class="divider"></li>
@@ -66,7 +66,7 @@
 
 	<div class="container">
 
-		<form role="form" action="../include/profileView.php" method="get">
+		<form role="form" action="profileView.php" method="get">
 			<fieldset>
 				<legend>Personal Information</legend>
 				<div class="form-group">

@@ -7,6 +7,7 @@
   }
 ?>
 <!DOCTYPE html>
+<?php session_start(); ?>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -32,7 +33,7 @@
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="../pages/index.php">Answer</a>
+				<a class="navbar-brand" href="../pages/index.html">Answer</a>
 			</div>
 			<div id="navbar" class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
@@ -70,7 +71,7 @@
 			<h1>Navbar example</h1>
 			<p>This example is a quick exercise to illustrate how the
 				default, static and fixed to top navbar work. It includes the
-				responsive CSS and php, so it also adapts to your viewport and
+				responsive CSS and HTML, so it also adapts to your viewport and
 				device.</p>
 			<p>To see the difference between static and fixed top navbars,
 				just scroll.</p>

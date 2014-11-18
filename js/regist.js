@@ -1,7 +1,7 @@
 /**
  * 
  */
- $(document).ready(function(){
+$(document).ready(function(){
  	$("input[id='confirm_password']").bind('input', function(){
  		var text = $("input[id='password']").val();
  		if(text != $("input[id='confirm_password']").val()){
@@ -14,7 +14,7 @@
  	});
  	
  	$("input[id='email']").bind('blur',fn);
- });
+});
  
  
 
