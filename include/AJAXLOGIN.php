@@ -1,7 +1,8 @@
 <?php
-
+session_start();
 include("./DB.php");
 
+echo $_SESSION['ID'];
 $dom = new DOMDocument();
 if (!isset($_GET["email"]) || !isset($_GET["password"])) {
 	echo $dom->saveXML();
@@ -53,8 +54,6 @@ $user_Info->appendChild($user_credits);
 $dom->appendChild($user_Info);
 $xmlString = $dom->saveXML();
 echo $xmlString;
-
-
 
 /*opendir(getcwd());
 $filename = "text.xml";
