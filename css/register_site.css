@@ -7,3 +7,10 @@ h1 {
 	color: white;
 	text-align: center;
 }
+
+input.invalid { 
+
+    background-color: #00ff00 ;
+    border-style : solid;
+    border-color : red; 
+} 

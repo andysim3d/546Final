@@ -4,22 +4,28 @@ include("./DB.php");
 
 echo $_SESSION['ID'];
 $dom = new DOMDocument();
-if (!isset($_GET["email"]) || !isset($_GET["password"])) {
+if (!isset($_POST["email"]) || !isset($_POST["password"])) {
+	
 	echo $dom->saveXML();
+	return;
 }
 
-$email = $_GET["email"];
+$email = $_POST["email"];
 if(!emailValidate($email)){
 		echo $dom->saveXML();
+		return;
 }
 
-$password = $_GET["password"];
+$password = $_POST["password"];
 $userinfo = LogIN($email, $password);
 if (!isset($userinfo["login"])) {
+	
 	echo $dom->saveXML();
+	return;
 }
 if($userinfo["login"] == -1){
 	echo $dom->saveXML();
+	return;
 }
 
 /*foreach ($userinfo as $key => $variable) {
@@ -52,6 +58,12 @@ $user_credits->appendChild($text);
 $user_Info->appendChild($user_credits);
 
 $dom->appendChild($user_Info);
+
+$_SESSION['UID'] = $user_ID;
+$_SESSION['Name'] = $user_Name;
+$_SESSION['GRP'] = $user_group;
+$_SESSION['CRD'] = $user_credits;
+
 $xmlString = $dom->saveXML();
 echo $xmlString;
 
