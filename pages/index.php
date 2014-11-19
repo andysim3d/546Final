@@ -116,7 +116,61 @@
 
 		<fieldset>
 			<legend>Content</legend>
-			<div></div>
+					<?php
+			
+//change to your path
+include ("../include/DB.php");
+$LIMITATION=10;
+	$db = new database();
+	$db->connect();
+	$query_question ="SELECT user.Name,questions.Title,questions.time,questions.QID
+                      FROM `user` 
+                      INNER JOIN `questions`
+                      ON user.UID=questions.UID
+";
+	if(!$res_question = $db->send_sql($query_question)){
+		$db->disconnect();
+		echo "Get Questions failed!<br>\n";
+		return -1;
+	}
+	$num = mysqli_num_rows($res_question);
+	while($i<$num)
+	{
+	    $content=$res_question->fetch_assoc();
+		$content_question[$i][0]=$content['Name'];
+		$content_question[$i][1]=$content['Title'];
+		$content_question[$i][2]=$content['time'];
+		$content_question[$i][3]=$content['QID'];
+		$i++;
+	}
+	$i=0;
+	while($i<$num)
+	{
+	 $question_id=$content_question[$i][3];
+	 $query_answer="SELECT user.Name,answers.Content,answers.Time,answers.Anonymity,answers.Up_Vote,answers.Down_Vote
+                    FROM `user` 
+                    INNER JOIN `answers`
+                    ON user.UID=answers.UID and answers.QID=$question_id;
+	 ";
+	 echo "<div class=\"jumbotron\">\n";	
+	 echo "<h4>".$content_question[$i][1]."</h4>\n";
+	 echo "<h6>Poster:".$content_question[$i][0]."</h6>\n";
+     echo "<h6>Time:".$content_question[$i][2]."</h6>\n";	
+	 
+    if(!$res_answer = $db->send_sql($query_answer)){
+		$db->disconnect();
+		echo "Get Questions failed!<br>\n";
+		return -1;
+	}
+	$answer_content=$res_answer->fetch_assoc();
+	 echo "<p>".$answer_content['Content']."</p>";
+     echo "<h6>".$answer_content['Name']."<h6>";
+     echo "</div>";
+	 
+	 $i++;
+	}
+	
+?>
 		</fieldset>
 
 	</div>
