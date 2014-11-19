@@ -4,14 +4,29 @@ include("./DB.php");
 
 echo $_SESSION['ID'];
 $dom = new DOMDocument();
+
+$user_Info = $dom->createElement("Info");
+$user_Login = $dom->createElement("Login");
+//$txt = $dom->createTextNode("true");
+
 if (!isset($_POST["email"]) || !isset($_POST["password"])) {
-	
+	$txt = $dom->createTextNode("false");
+
+	$user_Login->appendChild($txt);
+	$user_Info->appendChild($user_Login);
+	$dom->appendChild($user_Info);
 	echo $dom->saveXML();
 	return;
 }
 
 $email = $_POST["email"];
 if(!emailValidate($email)){
+	$txt = $dom->createTextNode("false");
+$user_Login->appendChild($txt);
+$user_Info->appendChild($user_Login);
+	$dom->appendChild($user_Info);
+
+	
 		echo $dom->saveXML();
 		return;
 }
@@ -19,11 +34,22 @@ if(!emailValidate($email)){
 $password = $_POST["password"];
 $userinfo = LogIN($email, $password);
 if (!isset($userinfo["login"])) {
+	$txt = $dom->createTextNode("false");
+$user_Login->appendChild($txt);
+$user_Info->appendChild($user_Login);
+	$dom->appendChild($user_Info);
+
 	
 	echo $dom->saveXML();
 	return;
 }
 if($userinfo["login"] == -1){
+	$txt = $dom->createTextNode("false");
+$user_Login->appendChild($txt);
+$user_Info->appendChild($user_Login);
+	$dom->appendChild($user_Info);
+
+	
 	echo $dom->saveXML();
 	return;
 }
@@ -35,11 +61,16 @@ if($userinfo["login"] == -1){
 */
 
 $user_Info = $dom->createElement("Info");
+$user_Login = $dom->createElement("Login");
+$txt = $dom->createTextNode("true");
 
 $user_ID = $dom->createElement("user-ID");
 $user_Name = $dom->createElement("user-name");
 $user_group = $dom->createElement("user-group");
 $user_credits = $dom->createElement("user-credits");
+
+$user_Login->appendChild($txt);
+$user_Info->appendChild($user_Login);
 
 $text = $dom->createTextNode($userinfo["UID"]);
 $user_ID->appendChild($text);

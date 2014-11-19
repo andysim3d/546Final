@@ -62,13 +62,12 @@
 					
 					<?php 
 					if(isset($_SESSION['UID'])){
-						echo "<button class=\"btn btn-primary\" id=\"login_button\" onclick=\"\">";
-
+						echo "<button class=\"btn btn-primary\" id=\"login_button\">";
 						echo $_SESSION['Name'];
 					}
 					else{
 						echo "<button class=\"btn btn-primary\" id=\"login_button\">"; 
-						echo "Login In";
+						echo "Login";
 					}
 					?>
 					</button></li>
@@ -78,11 +77,11 @@
 					
 					<?php 
 					if(isset($_SESSION['UID'])){
-						echo "<button class=\"btn btn-primary\" onclick=\"Logout()\">";
+						echo "<button class=\"btn btn-primary\" id=\"logout_button\">";
 						echo "Log Out";
 					}
 					else{
-						echo "<button class=\"btn btn-primary\" onclick=\"newDoc()\">";
+						echo "<button class=\"btn btn-primary\" id=\"signup_button\">";
 						echo "Sign Up";
 					}
 					?>
@@ -107,9 +106,12 @@
 				<div class="form-group">
 					<div class="row">
 						<div class="col-md-4">
-							<label>Password:</label> <input id="password" name="password"
-								type="password"> <input id="LoginBtn" type="submit"
-								value="Login">
+							<label>Password:</label> 
+
+							<input id="password" name="password"
+								type="password"/>
+								 <button id="LoginBtn" type="Button"
+								value="Login">Login 	</button>
 						</div>
 					</div>
 				</div>
@@ -136,5 +138,5 @@
 	<script src="../js/bootstrap.min.js"></script>
 	<script src="../js/index.js"></script>
 	<script src="../js/jquery.validate.min.js"></script>
-</body>
+	</body>
 </html>
