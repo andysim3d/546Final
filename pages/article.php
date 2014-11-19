@@ -1,13 +1,5 @@
-<?php session_start(); 
-  
-  //$_SESSION['ID'] = 1;
-  foreach ( $_SESSION as $key => $val ){ 
-    # code...
-    echo "$key => $val";
-  }
-?>
-<!DOCTYPE html>
 <?php session_start(); ?>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -33,7 +25,7 @@
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="../pages/index.php">Answer</a>
+				<a class="navbar-brand" href="../pages/index.html">Answer</a>
 			</div>
 			<div id="navbar" class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">

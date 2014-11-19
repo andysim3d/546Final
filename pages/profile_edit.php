@@ -1,11 +1,4 @@
-<?php session_start(); 
-  
-  //$_SESSION['ID'] = 1;
-  foreach ( $_SESSION as $key => $val ){ 
-    # code...
-    echo "$key => $val";
-  }
-?>
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

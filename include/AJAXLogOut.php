@@ -5,9 +5,11 @@ unset($_SESSION['Name']);
 unset($_SESSION['GRP']);
 unset($_SESSION['CRD']);
 $dm = new DOMDocument();
+$title = $dm->createElement("Info");
 $tep = $dm->createElement("Logout");
 $ls = $dm->createTextNode("true");
 $tep->appendChild($ls);
-$dm->appendChild($tep);
+$title->appendChild($tep);
+$dm->appendChild($title);
 echo $dm->saveXML();
 ?>

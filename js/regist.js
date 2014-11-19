@@ -2,21 +2,24 @@
  * 
  */
 $(document).ready(function(){
- 	$("input[id='confirm_password']").bind('input', function(){
- 		var text = $("input[id='password']").val();
- 		if(text != $("input[id='confirm_password']").val()){
-		$(this).css("background-color", "red");
+	//validate password same as comfirm_password
+ 	$("#confirm_password").bind('input', function(){
+ 		var text = $("#password").val();
+ 		if(text != $("#confirm_password").val()){
+ 			$(this).css("background-color", "red");
  		}
  		else{
 
-$(this).css("background-color", "green");
+ 			$(this).css("background-color", "green");
  		}
  	});
  	
- 	$("input[id='email']").bind('blur',fn);
+ 	$("#email").bind('blur',fn);
 });
  
- 
+ 	function back(){
+ 		windows.history.back();	
+ 	}
 
 	function fn(){
 		$.post("../include/AJAXEmailComfirm.php", {email: $(this).val()},
@@ -26,11 +29,11 @@ $(this).css("background-color", "green");
 				reason = $("Content",xml).text();
 				//alert(res);
 	 			if(res == "true"){
-	 				$("input[id='email']").css("background-color", "green");
+	 				$("#email").css("background-color", "green");
 	 			}
 	 			else{
-	 				$("input[id='email']").val(reason);
-	 				$("input[id='email']").css("background-color", "red");
+	 				$("#email").val(reason);
+	 				$("#email").css("background-color", "red");
 	 			}
 
 			});

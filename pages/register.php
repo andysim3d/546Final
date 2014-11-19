@@ -1,13 +1,5 @@
-<?php session_start(); 
-  
-  //$_SESSION['ID'] = 1;
-  foreach ( $_SESSION as $key => $val ){ 
-    # code...
-    echo "$key => $val";
-  }
-?>
-<!DOCTYPE html>
 <?php session_start(); ?>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -27,7 +19,8 @@
 					<div class="row">
 						<div class="col-md-6 col-md-offset-3">
 						 <label for="email">Email:</label>
-          <input type="email" class="form-control" id="email" name="email" placeholder="Input your email">
+          <input type="email" class="form-control" id="email" name="email" placeholder="Input your email"/>
+          <span class="glyphicon" id="frn1">::before </span>
 						</div>
 					</div>
 				</div>
@@ -35,7 +28,8 @@
 					<div class="row">
 						<div class="col-md-6 col-md-offset-3">
 						          <label for="Name">Name:</label>
-                                  <input type="text" class="form-control" id="Name" name="Name" placeholder="Input your name">
+                                  <input type="text" class="form-control" id="Name" name="Name" placeholder="Input your name"/>
+                                  <span class="glyphicon" id="frn2">::before </span>
 						</div>
 					</div>
 				</div>
@@ -43,16 +37,19 @@
 					<div class="row">
 						<div class="col-md-6 col-md-offset-3">
 						       <label for="password">Password:</label>
-          <input type="password" class="form-control" id="password" name="password" placeholder="Input your password">    
-						</div>
+          <input type="password" class="form-control" id="password" name="password" placeholder="Input your password"/>    
+					<span class="glyphicon" id="frn3">::before </span>
+          	</div>
 					</div>
 				</div>
 				<div class="form-group">
 					<div class="row">
 						<div class="col-md-6 col-md-offset-3">
 						         <label for="confirm_password">Confirm Password:</label>
-          <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Re-input your password">
-						</div>
+          <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Re-input your password"/>
+					<span class="glyphicon" id="frn4">::before </span>
+          
+          	</div>
 					</div>
 				</div>
 				<div class="col-md-2 col-md-offset-3">

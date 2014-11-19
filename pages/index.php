@@ -1,11 +1,4 @@
-<?php session_start(); 
-  
-  $_SESSION['ID'] = 1;
-  //foreach ( $_SESSION as $key => $val ){ 
-    # code...
-    //echo "$key => $val";
-  //}
-?>
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -77,7 +70,7 @@
 					
 					<?php 
 					if(isset($_SESSION['UID'])){
-						echo "<button class=\"btn btn-primary\" id=\"logout_button\">";
+						echo "<button class=\"btn btn-primary\" id=\"signup_button\">";
 						echo "Log Out";
 					}
 					else{

@@ -2,7 +2,6 @@
 session_start();
 include("./DB.php");
 
-echo $_SESSION['ID'];
 $dom = new DOMDocument();
 
 $user_Info = $dom->createElement("Info");
