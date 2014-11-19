@@ -39,6 +39,8 @@ function LogIN($email, $password){
 }
 //htmlentities//
 
+//return 1 if not exsit and validate
+//return -1 if exist or invalidate
 function checkEmailExist($email){
 	$db = new database();
 	$db->connect();
