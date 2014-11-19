@@ -1,10 +1,10 @@
 <?php session_start(); 
   
   $_SESSION['ID'] = 1;
-  foreach ( $_SESSION as $key => $val ){ 
+  //foreach ( $_SESSION as $key => $val ){ 
     # code...
-    echo "$key => $val";
-  }
+    //echo "$key => $val";
+  //}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -56,9 +56,38 @@
 						</ul></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
-					<li><button class="btn btn-primary" id="login_button">LOGIN</button></li>
-					<li><button class="btn btn-primary" onclick="newDoc()">Sign
-							Up</button></li>
+				
+					<li>
+					
+					
+					<?php 
+					if(isset($_SESSION['UID'])){
+						echo "<button class=\"btn btn-primary\" id=\"login_button\" onclick=\"\">";
+
+						echo $_SESSION['Name'];
+					}
+					else{
+						echo "<button class=\"btn btn-primary\" id=\"login_button\">"; 
+						echo "Login In";
+					}
+					?>
+					</button></li>
+					
+					<li>
+					
+					
+					<?php 
+					if(isset($_SESSION['UID'])){
+						echo "<button class=\"btn btn-primary\" onclick=\"Logout()\">";
+						echo "Log Out";
+					}
+					else{
+						echo "<button class=\"btn btn-primary\" onclick=\"newDoc()\">";
+						echo "Sign Up";
+					}
+					?>
+					</button>
+							</li>
 				</ul>
 			</div>
 			<!--/.nav-collapse -->
