@@ -89,10 +89,10 @@ $user_Info->appendChild($user_credits);
 
 $dom->appendChild($user_Info);
 
-$_SESSION['UID'] = $user_ID;
-$_SESSION['Name'] = $user_Name;
-$_SESSION['GRP'] = $user_group;
-$_SESSION['CRD'] = $user_credits;
+$_SESSION['UID'] = $userinfo['UID'];
+$_SESSION['Name'] = $userinfo['Name'];
+$_SESSION['GRP'] = $userinfo['group'];
+$_SESSION['CRD'] = $userinfo['credits'];
 
 $xmlString = $dom->saveXML();
 echo $xmlString;
