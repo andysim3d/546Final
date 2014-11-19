@@ -21,7 +21,7 @@ $(this).css("background-color", "green");
 	function fn(){
 		$.post("../include/AJAXEmailComfirm.php", {email: $(this).val()},
 				function(xml){
-				//alert(xml);
+				alert(xml);
 				res = $("Validate",xml).text();
 				reason = $("Content",xml).text();
 				//alert(res);
