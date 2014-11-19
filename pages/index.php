@@ -108,7 +108,7 @@
 					<div class="row">
 						<div class="col-md-4">
 							<label>Password:</label> <input id="password" name="password"
-								type="password"> <input id="submit" type="submit"
+								type="password"> <input id="LoginBtn" type="submit"
 								value="Login">
 						</div>
 					</div>

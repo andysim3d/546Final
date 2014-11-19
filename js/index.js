@@ -14,6 +14,28 @@ $(document).ready(function() {
 			$("#dialog").dialog("open");
 		});
 	});
+	
+	$("LoginBtn").bind("onclick", function(){
+		
+		$.post("../include/AJAXLOGIN.php", {email: $(this).val()},
+				function(xml){
+				//alert(xml);
+				res = $("Validate",xml).text();
+				reason = $("Content",xml).text();
+				//alert(res);
+	 			if(res == "true"){
+	 				$("input[id='email']").css("background-color", "green");
+	 			}
+	 			else{
+	 				$("input[id='email']").val(reason);
+	 				$("input[id='email']").css("background-color", "red");
+	 			}
+
+			});
+
+		
+	});
+	
 });
 
 // When the browser is ready...
@@ -49,7 +71,3 @@ $(function() {
       }
   });
 });
-
-function logout(){
-	
-}
