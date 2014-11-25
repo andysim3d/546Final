@@ -57,6 +57,32 @@ function Login(){
       });
 }
 
+function post_question() {
+    _Content = $("#Content").val();
+	_Title = $("#Title").val();
+	
+	if(_Content == "" || _Title == ""){
+		return -1;
+	}
+  $.post("../include/AJAXpostQuestion.php",{Content:_Content, Title:_Title},
+  function(xml){
+  res=$("Content",xml).text();
+  alert(res);
+  
+  if(res=="true"){
+  //post question success
+  alert("Post question succeed");
+  window.location.assign("../pages/index.php");
+  }
+  else
+  {
+  alert("Post question failed");
+  window.location.assign("../pages/index.php");
+  }
+  });
+}
+
+
 $(document).ready(function() {
 
     $("#LoginBtn").on("click", Login);
@@ -73,6 +99,7 @@ $(document).ready(function() {
   else{
     $("#signup_button").on("click",Logout);
   }
+  $("#question_submit").on("click",post_question);
 });
 
 
