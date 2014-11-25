@@ -133,6 +133,7 @@ $LIMITATION=10;
 		echo "Get Questions failed!<br>\n";
 		return -1;
 	}
+	$i = 0;
 	$num = mysqli_num_rows($res_question);
 	while($i<$num)
 	{

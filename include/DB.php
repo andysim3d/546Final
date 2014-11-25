@@ -135,7 +135,8 @@ function postquestion($userID, $title, $content){
 	date_default_timezone_set('UTC');
 	$query = "INSERT INTO `Questions`(`UID`, `Title`, `Content`, `Time`) 
 			VALUES ($userID,\"$ProcceedTitle\",\"$ProcceedContent\",\"". date("Y-m-d H:i:s") ."\")";
-	if($res = $db->send_sql($query)){
+	if(!($res = $db->send_sql($query))){
+		//echo "fail";
 		$db->disconnect();
 		return -1;
 	}
@@ -154,7 +155,6 @@ function IDValidate($userID){
 	$db = new database();
 	$db->connect();
 	$query = "Select * from `User` where `UID` = $userID";
-	echo $query."<br/>";
 	if(!$res = $db->send_sql($query)){
 		$db->disconnect();
 		return -1;
