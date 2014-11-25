@@ -126,14 +126,14 @@
 
 	<div class="container">
 
-	<form role="form" action="AJAXpostQuestion.php" method="post" enctype="multipart/form-data">
+	<form role="form" action="../include/AJAXpostQuestion.php" method="post" enctype="multipart/form-data">
 			<fieldset>
 				<legend>Post Question</legend>
 				<div class="form-group">
 					<div class="row">
 						<div class="col-md-6">
 							<label for="Title">Title:</label> 
-							  <input type="text" name="name" placeholder="Input your question's title" size="50">
+							  <input type="text" name="Title" placeholder="Input your question's title" size="50">
 						</div>
 					</div>
 				</div>

@@ -84,7 +84,7 @@
 							<?php 
 					if(isset($_SESSION['UID'])){
 						echo "<button class=\"btn btn-primary\" id=\"post_button\">";
-						echo "<span class=\"\glyphicon glyphicon-question-sign\" aria-hidden=\"true\"></span>";
+						echo "<span class=\"glyphicon glyphicon-question-sign\" aria-hidden=\"true\"></span>";
 						echo "Add Questions";
 					}
 					?>

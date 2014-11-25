@@ -7,7 +7,7 @@ $rootnode = $dom->createElement("Response");
 $contentnode = $dom->createElement("Content");
 
 
-if(!isset($_POST["title"]) || !isset($_POST["content"]) || !isset($_SESSION["UID"])){
+if(!isset($_POST["Title"]) || !isset($_POST["Content"]) || !isset($_SESSION["UID"])){
 	
 	$bool = $dom->createTextNode("false");
 	$contentnode->appendChild($bool);
@@ -16,8 +16,8 @@ if(!isset($_POST["title"]) || !isset($_POST["content"]) || !isset($_SESSION["UID
 	echo $dom->saveXML();
 	return;
 }
-$title = $_POST["title"];
-$content = $_POST["content"];
+$title = $_POST["Title"];
+$content = $_POST["Content"];
 $UID = $_SESSION["UID"];
 if( -1 == postquestion($UID, $title, $content)){
 	$bool = $dom->createTextNode("false");
