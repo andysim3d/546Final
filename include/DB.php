@@ -200,7 +200,6 @@ function IDValidate($userID){
 			$affectrows = $stmt->affected_rows;
 			
 			if($affectrows != 0){
-				//$db->disconnect();
 				return 1;
 			}
 		}
@@ -209,8 +208,7 @@ function IDValidate($userID){
 }
 
 function GetProfile($userID){
-
-	//echo "GetProfile $userID<br/>";
+	
 	if(IDValidate($userID) == -1){
 		echo "User Invalidate<br/>";
 		return -1;
