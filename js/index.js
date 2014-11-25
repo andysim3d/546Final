@@ -62,6 +62,7 @@ function post_question() {
 	_Title = $("#Title").val();
 	
 	if(_Content == "" || _Title == ""){
+		 alert("Input is invalid, You need input both Title and Content");
 		return -1;
 	}
   $.post("../include/AJAXpostQuestion.php",{Content:_Content, Title:_Title},

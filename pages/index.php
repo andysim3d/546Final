@@ -87,9 +87,9 @@
 						echo "<button class=\"btn btn-primary\" id=\"post_button\" onclick=\"Jump_question()\">";
 						echo "<span class=\"glyphicon glyphicon-question-sign\" aria-hidden=\"true\"></span>";
 						echo "Add Questions";
+						echo "</button>";
 					}
 					?>
-					</button>
 							</li>
 					
 				</ul>

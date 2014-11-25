@@ -34,7 +34,7 @@
 							<input type="text" class="form-control" placeholder="Search..." >
 							<button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>Search</button>
 						</form></li>
-					<li class="active"><a href="../pages/index.php">Home</a></li>
+					<li><a href="../pages/index.php">Home</a></li>
 					<li><a href="../pages/article.php">Article</a></li>
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
 						data-toggle="dropdown">Settings <span class="caret"></span></a>
@@ -87,9 +87,10 @@
 						echo "<button class=\"btn btn-primary\" id=\"post_button\" onclick=\"Jump_question()\">";
 						echo "<span class=\"\glyphicon glyphicon-question-sign\" aria-hidden=\"true\"></span>";
 						echo "Add Questions";
+						echo "</button>";
 					}
 					?>
-					</button>
+
 							</li>
 					
 				</ul>
