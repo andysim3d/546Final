@@ -155,19 +155,6 @@ function postquestion($userID, $title, $content){
 	$query = "INSERT INTO `Questions`(`UID`, `Title`, `Content`, `Time`) 
 			VALUES ( ? , ? , ? , ? )";
 	
-/*	$query = "INSERT INTO `Questions`(`UID`, `Title`, `Content`, `Time`) 
-			VALUES ($userID,\"$ProcceedTitle\",\"$ProcceedContent\",\"". date("Y-m-d H:i:s") ."\")";
-
-	if(!($res = $db->send_sql($query))){
-		//echo "fail";
-		$db->disconnect();
-		return -1;
-	}
-	
-	$res = $db->insert_id();
-	$db->disconnect();
-*/
-
 	if ($stmt = $db->prepare($query)) {
 		$stmt->bind_param("isss", $userID, $ProcceedTitle, $ProcceedContent, date("Y-m-d H:i:s"));
 		if($stmt->execute()){
