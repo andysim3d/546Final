@@ -47,7 +47,7 @@ function LogIN($email, $password){
 function checkEmailExist($email){
 	$db = new database();
 	$db->connect();
-	
+	if(emailValidate($email) != false)
 	$query = "SELECT
 				* FROM `User`
 				 where `email` = ? ";
@@ -74,18 +74,6 @@ function regist($email, $username, $password){
 	$db = new database();
 	$db->connect();
 	
-	/* $query = "SELECT 
-				* FROM `User`
-				 where `email` = \"" . $email."\"";
-	if(!$res = $db->send_sql($query)){
-		return -1;
-	}
-	
-	$num = mysqli_num_rows($res);
-	//if num != 0, means this email has been registed
-	if ($num != 0) {
-		return -1;
-	} */
 	if(checkEmailExist($email) == -1){
 		return -1;
 	}
@@ -97,45 +85,51 @@ function regist($email, $username, $password){
 	$query = "Insert into `User`(`email`, `Name`, `passwd`, `group`, `credits`)
 	Values (? , ? , ? ,1,0)";
 	
-	//lsllslslslsls
 	if ($stmt = $db->prepare($query)) {
-		$stmt->bind_param("s", $email);
+		$stmt->bind_param("sss", $email, $username, sha1($password));
+		//here
 		if($stmt->execute()){
 	
 			$stmt->store_result();
 			$affectrows = $stmt->affected_rows;
 				
-			if($affectrows == 0){
+			if($affectrows == 1){
+				$id = $stmt -> insert_id;
 				$db->disconnect();
-				return 1;
+				return $id;
 			}
 		}
 	}
-	if(!$res = $db->send_sql($query)){
-		$db->disconnect();
-		return -1;
-	}
 	
-	$id = $db->insert_id();
-
 	$db->disconnect();
-	return $id;
-	
-	//Do something.
+	return -1;
 }
 
 //user could upgrade when they have enough credits
 function Upgrade($userID){
 
 	$db = new database();
-	$query = "
-			Update `group` = `group` +1
-			from `User` 
-			where `UID` = $userID
-			";
-	$db->send_sql($query);
-	
 	$db->connect();
+	$query = "Update `group` = `group` +1
+				from `User` 
+				where `UID` = ?";
+	
+
+	if ($stmt = $db->prepare($query)) {
+		$stmt->bind_param("i", $userID);
+		if($stmt->execute()){
+	
+			$stmt->store_result();
+			$affectrows = $stmt->affected_rows;
+				
+			if($affectrows != 0){
+				$db->disconnect();
+				return 1;
+			}
+		}
+	}
+	return  -1;
+	//$db->connect();
 	
 }
 //validate email;
@@ -157,8 +151,13 @@ function postquestion($userID, $title, $content){
 	//date_timezone_set('UTC');
 	//$date_ = date('Y-d-m');
 	date_default_timezone_set('UTC');
+	
 	$query = "INSERT INTO `Questions`(`UID`, `Title`, `Content`, `Time`) 
+			VALUES ( ? , ? , ? , ? )";
+	
+/*	$query = "INSERT INTO `Questions`(`UID`, `Title`, `Content`, `Time`) 
 			VALUES ($userID,\"$ProcceedTitle\",\"$ProcceedContent\",\"". date("Y-m-d H:i:s") ."\")";
+
 	if(!($res = $db->send_sql($query))){
 		//echo "fail";
 		$db->disconnect();
@@ -167,7 +166,21 @@ function postquestion($userID, $title, $content){
 	
 	$res = $db->insert_id();
 	$db->disconnect();
-	return $res;
+*/
+
+	if ($stmt = $db->prepare($query)) {
+		$stmt->bind_param("isss", $userID, $ProcceedTitle, $ProcceedContent, date("Y-m-d H:i:s"));
+		if($stmt->execute()){
+	
+			$affectrows = $stmt->affected_rows;
+	
+			if($affectrows != 0){
+				//$db->disconnect();
+				return $stmt->insert_id;
+			}
+		}
+	}
+	return -1;
 }
 
 function IDValidate($userID){
@@ -178,19 +191,21 @@ function IDValidate($userID){
 	}
 	$db = new database();
 	$db->connect();
-	$query = "Select * from `User` where `UID` = $userID";
-	if(!$res = $db->send_sql($query)){
-		$db->disconnect();
-		return -1;
+	$query = "Select * from `User` where `UID` = ? ";
+
+	if ($stmt = $db->prepare($query)) {
+		$stmt->bind_param("i", $userID);
+		if($stmt->execute()){
+			$stmt->store_result();
+			$affectrows = $stmt->affected_rows;
+			
+			if($affectrows != 0){
+				//$db->disconnect();
+				return 1;
+			}
+		}
 	}
-	
-	$num = mysqli_num_rows($res);
-	//if num != 0, means this email has been registed
-	if ($num == 0) {
-	$db->disconnect();
-		return -1;
-	}
-	$db->disconnect();
+	return -1;
 }
 
 function GetProfile($userID){
@@ -241,12 +256,21 @@ function UpdateProfile($newly){
 		echo "$key => $value<br/>\n";
 	}
 */
+	
 	$query = "UPDATE `Profiles` 
+			SET
+			`Habit`= ? ,
+			`Location`= ? ,
+			`BOD`= ?  
+			WHERE `PID` =?" ;
+	
+	/*$query = "UPDATE `Profiles` 
 			SET
 			`Habit`=\"".$newly['Habit']."\",
 			`Location`=\"".$newly['Location']."\",
 			`BOD`=\"".$newly['BOD']."\" 
 			WHERE `PID` =".$newly['PID'];
+			*/
 	//echo "$query<br/>\n";
 	
 	if(!$res = $db->send_sql($query)){
