@@ -48,10 +48,6 @@ function checkEmailExist($email){
 	$db = new database();
 	$db->connect();
 	
-	/*$query = "SELECT
-				* FROM `User`
-				 where `email` = \"" . $email."\"";
-				 */
 	$query = "SELECT
 				* FROM `User`
 				 where `email` = ? ";
@@ -69,16 +65,6 @@ function checkEmailExist($email){
 			}
 		}
 	}
-	//if(!$res = $db->send_sql($query)){
-	//	return -1;
-	//}
-	
-//	$num = mysqli_num_rows($res);
-	//if num != 0, means this email has been registed
-	//if ($num != 0) {
-		//$db->disconnect();
-		//return -1;
-	//}
 	$db->disconnect();
 	return -1;
 
@@ -103,10 +89,31 @@ function regist($email, $username, $password){
 	if(checkEmailExist($email) == -1){
 		return -1;
 	}
-
+/*
 	$query = "Insert into `User`(`email`, `Name`, `passwd`, `group`, `credits`)
 				Values (\"$email\", \"$username\",\"". SHA1($password) ."\",1,0)";
+	*/
+
+	$query = "Insert into `User`(`email`, `Name`, `passwd`, `group`, `credits`)
+	Values (? , ? , ? ,1,0)";
 	
+	
+	
+	
+
+	if ($stmt = $db->prepare($query)) {
+		$stmt->bind_param("s", $email);
+		if($stmt->execute()){
+	
+			$stmt->store_result();
+			$affectrows = $stmt->affected_rows;
+				
+			if($affectrows == 0){
+				$db->disconnect();
+				return 1;
+			}
+		}
+	}
 	if(!$res = $db->send_sql($query)){
 		$db->disconnect();
 		return -1;
@@ -260,12 +267,16 @@ function InsertProfile($newly){
 	$db = new database();
 	$db->connect();
 	
-	$query = "INSERT INTO `Profiles`(`UID`, `Habit`, `Location`, `BOD`) 
+	$query = "INSERT INTO `Profiles`(`UID`, `Habit`, `Location`, `BOD`)
+			VALUES (? , ? , ? , ? )";
+	
+	
+	/*$query = "INSERT INTO `Profiles`(`UID`, `Habit`, `Location`, `BOD`) 
 			VALUES (". $newly['UID']."
 			,\"". $newly['Habit'] ."\"
 			,\"". $newly['Location'] ."\"
 			,\"". $newly['BOD'] ."\")";
-	
+	*/
 	if(!$res = $db->send_sql($query)){
 			$db->disconnect();
 			echo "Insert failed!<br/>\n";
