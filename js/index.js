@@ -5,6 +5,10 @@ function newDoc() {
     window.location.assign("../pages/register.php")
 }
 
+function Jump_question() {
+    window.location.assign("../pages/postquestion.php")
+}
+
 function popupLogin(){
       $("#dialog").dialog("open");
 }
