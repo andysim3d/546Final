@@ -16,6 +16,18 @@
 		private $mysqli;
 
 
+		public function prepare($sql){
+			return $this->mysqli->prepare($sql);
+		}
+		
+		public function is_connected()
+		{
+			if (isset($this->mysqli))
+			{
+				return true;
+			}
+			return false;
+		}
 		// sets user, pass and host and connects
 		public function setup($u, $p, $h, $db)
 		{

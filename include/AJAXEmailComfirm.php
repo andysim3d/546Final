@@ -11,25 +11,35 @@ if(!isset($_POST['email'])){
 }
 else
 {
+	if($_POST['email'] == ""){
+		$con = $dom->createElement("Validate");
+		$text = $dom->createTextNode("false");
+		$content = $dom->createElement("Contnet");
+		$resp = $dom->createElement("Response");
+		$con->appendChild($text);
+		$content->appendChild($con);
+		$resp->appendChild($content);
+		$dom->appendChild($resp);
+	}
 	if(checkEmailExist($_POST['email']) == 1){
-	$con = $dom->createElement("Validate");
-	$text = $dom->createTextNode("true");
-	$content = $dom->createElement("Contnet");
-	$resp = $dom->createElement("Response");
-	$con->appendChild($text);
-	$content->appendChild($con);
-	$resp->appendChild($content);
-	$dom->appendChild($resp);
+		$con = $dom->createElement("Validate");
+		$text = $dom->createTextNode("true");
+		$content = $dom->createElement("Contnet");
+		$resp = $dom->createElement("Response");
+		$con->appendChild($text);
+		$content->appendChild($con);
+		$resp->appendChild($content);
+		$dom->appendChild($resp);
 	}
 	else{
-	$con = $dom->createElement("Validate");
-	$text = $dom->createTextNode("false");
-	$content = $dom->createElement("Contnet");
-	$resp = $dom->createElement("Response");
-	$con->appendChild($text);
-	$content->appendChild($con);
-	$resp->appendChild($content);
-	$dom->appendChild($resp);
+		$con = $dom->createElement("Validate");
+		$text = $dom->createTextNode("false");
+		$content = $dom->createElement("Contnet");
+		$resp = $dom->createElement("Response");
+		$con->appendChild($text);
+		$content->appendChild($con);
+		$resp->appendChild($content);
+		$dom->appendChild($resp);
 	}
 }
 

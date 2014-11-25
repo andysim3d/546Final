@@ -5,6 +5,9 @@ include("./databaseClassMySQLi.php");
 $LIMITION = 10;
 
 function LogIN($email, $password){
+	if($email == "" || $password == ""){
+		return -1;
+	}
 	$db = new database();
 	$db->connect();
 	$pass = htmlentities($password);
@@ -45,23 +48,40 @@ function checkEmailExist($email){
 	$db = new database();
 	$db->connect();
 	
-	$query = "SELECT
+	/*$query = "SELECT
 				* FROM `User`
 				 where `email` = \"" . $email."\"";
-	echo $query;
-	if(!$res = $db->send_sql($query)){
-		return -1;
-	}
-	
-	$num = mysqli_num_rows($res);
-	//if num != 0, means this email has been registed
-	if ($num != 0) {
-		$db->disconnect();
-		return -1;
-	}
+				 */
+	$query = "SELECT
+				* FROM `User`
+				 where `email` = ? ";
+	//echo $query;
+	if ($stmt = $db->prepare($query)) {
+		$stmt->bind_param("s", $email);
+		if($stmt->execute()){
 
+			$stmt->store_result();
+			$affectrows = $stmt->affected_rows;
+			
+			if($affectrows == 0){
+				$db->disconnect();
+				return 1;
+			}
+		}
+	}
+	//if(!$res = $db->send_sql($query)){
+	//	return -1;
+	//}
+	
+//	$num = mysqli_num_rows($res);
+	//if num != 0, means this email has been registed
+	//if ($num != 0) {
+		//$db->disconnect();
+		//return -1;
+	//}
 	$db->disconnect();
-	return 1;
+	return -1;
+
 }
 function regist($email, $username, $password){
 	
@@ -260,6 +280,7 @@ function GetQuestion(){
 	$LIMITION = 10;
 	$db = new database();
 	$db->connect();
+	//static SQL, no need to bind
 	$query = "select * from Questions
 			order by TIME
 			limit $LIMITION
