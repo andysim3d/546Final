@@ -97,10 +97,7 @@ function regist($email, $username, $password){
 	$query = "Insert into `User`(`email`, `Name`, `passwd`, `group`, `credits`)
 	Values (? , ? , ? ,1,0)";
 	
-	
-	
-	
-
+	//lsllslslslsls
 	if ($stmt = $db->prepare($query)) {
 		$stmt->bind_param("s", $email);
 		if($stmt->execute()){
