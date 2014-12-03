@@ -101,6 +101,16 @@ $(document).ready(function() {
     $("#signup_button").on("click",Logout);
   }
   $("#question_submit").on("click",post_question);
+  $(".jumbotron").bind("click",function(){
+	  if($(this).children(".answer_rich").css("display") == "none"){
+		$(this).children(".answer_summary").css("display","none");
+		$(this).children(".answer_rich").css("display","block");
+	  }
+	  else{
+		$(this).children(".answer_summary").css("display","block");
+		$(this).children(".answer_rich").css("display","none");
+	  }
+	  });
 });
 
 
