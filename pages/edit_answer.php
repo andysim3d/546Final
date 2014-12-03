@@ -1,3 +1,4 @@
+
 <?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -7,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="">
 <meta name="author" content="">
-<title>Index of Answer</title>
+<title>Edit Answer</title>
 
 <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css" rel="stylesheet">
 <link href="../css/bootstrap.min.css" rel="stylesheet">
@@ -26,7 +27,7 @@
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="../pages/index.php">Q&A</a>
+				<a class="navbar-brand" href="../pages/index.php">Answer</a>
 			</div>
 			<div id="navbar" class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
@@ -34,7 +35,7 @@
 							<input type="text" class="form-control" placeholder="Search..." >
 							<button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>Search</button>
 						</form></li>
-					<li class="active"><a href="../pages/index.php">Home</a></li>
+					<li><a href="../pages/index.php">Home</a></li>
 					<li><a href="../pages/article.php">Article</a></li>
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
 						data-toggle="dropdown">Settings <span class="caret"></span></a>
@@ -80,8 +81,7 @@
 					?>
 					</button>
 							</li>
-							
-					<li>
+						<li>	
 							<?php 
 					if(isset($_SESSION['UID'])){
 						echo "<button class=\"btn btn-primary\" id=\"post_button\" onclick=\"Jump_question()\">";
@@ -90,8 +90,8 @@
 						echo "</button>";
 					}
 					?>
+	
 							</li>
-					
 				</ul>
 			</div>
 			<!--/.nav-collapse -->
@@ -123,88 +123,13 @@
 			</form>
 		</div>
 	</div>
-
-	<div class="container">
-
-		<fieldset>
-			<legend>Content</legend>
-					<?php
-			
-//change to your path
-include ("../include/DB.php");
-$LIMITATION=10;
-	$db = new database();
-	$db->connect();
-	$query_question ="SELECT user.Name,questions.Title,questions.time,questions.QID
-                      FROM `user` 
-                      INNER JOIN `questions`
-                      ON user.UID=questions.UID
-";
-	if(!$res_question = $db->send_sql($query_question)){
-		$db->disconnect();
-		echo "Get Questions failed!<br>\n";
-		return -1;
-	}
-	$i = 0;
-	$num = mysqli_num_rows($res_question);
-	while($i<$num)
+    <div class="container">
+	<?PHP
+	if(isset($_GET['var']))
 	{
-	    $content=$res_question->fetch_assoc();
-		$content_question[$i][0]=$content['Name'];
-		$content_question[$i][1]=$content['Title'];
-		$content_question[$i][2]=$content['time'];
-		$content_question[$i][3]=$content['QID'];
-		$i++;
+	include("../include/");
 	}
-	$i=0;
-	while($i<$num)
-	{
-	 $question_id=$content_question[$i][3];
-	 $query_answer="SELECT user.Name,answers.Content,answers.Time,answers.Anonymity,answers.Up_Vote,answers.Down_Vote,answers.AID
-                    FROM `user` 
-                    INNER JOIN `answers`
-                    ON user.UID=answers.UID and answers.QID=$question_id;
-	 ";
-	 echo "<div class=\"jumbotron\">\n";
-     echo "<h4><a href=\"edit_answer.php?var=".$content_question[$i][3]."\">".$content_question[$i][1]."</a></h4>\n";
-	 echo "<h6>Poster:".$content_question[$i][0]."</h6>\n";
-     echo "<h6>Time:".$content_question[$i][2]."</h6>\n";	
-	 
-    if(!$res_answer = $db->send_sql($query_answer)){
-		$db->disconnect();
-		echo "Get Questions failed!<br>\n";
-		return -1;
-	}
-	$answer_content=$res_answer->fetch_assoc();
-	 $len=strlen($answer_content['Content']);
-	 if($len>150)
-	 //If the length of the answer is too long, cut it 
-	 {
-	 $answer_str=$answer_content['Content'];
-	 $answer_short=substr($answer_str,0,150);
-	 echo "<p>".$answer_content['AID']."</p>";
-	 echo "<div class=\"answer_summary\" style=\"display: block;\">".$answer_short."......</div>";
-	 echo "<div class=\"answer_rich\" style=\"display: none;\">".$answer_content['Content']."</div>";
-     echo "<h6>".$answer_content['Name']."<h6>";
-	 echo "<h4></h4>";
-	 echo "<a href=\"#\" ><span class=\"glyphicon glyphicon-thumbs-up\" aria-hidden=\"true\"></span><span class=\"count\">&nbsp".$answer_content['Up_Vote']."</span>&nbspUp</a>";
-	 echo "<span>&nbsp &nbsp &nbsp</span>";
-	 echo "<a padding-left:10px><span class=\"glyphicon glyphicon-thumbs-down\" aria-hidden=\"true\"></span></span><span class=\"count\">&nbsp-".$answer_content['Down_Vote']."</span>&nbspDown</a>";
-     echo "</div>";
-	 }
-	 else
-	 //If the length of the answer is suitable
-	 {
-	 echo "<p>".$answer_content['Content']."</p>";
-	 echo "<p>".$answer_content['Name']."</p>";
-	 echo "</div>";
-	 }
-	 $i++;
-	}
-	
-?>
-		</fieldset>
-
+	?>
 	</div>
 	<!-- /container -->
 
@@ -217,5 +142,7 @@ $LIMITATION=10;
 	<script src="../js/bootstrap.min.js"></script>
 	<script src="../js/index.js"></script>
 	<script src="../js/jquery.validate.min.js"></script>
+	
+	
 	</body>
 </html>
