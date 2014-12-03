@@ -30,8 +30,8 @@
 			</div>
 			<div id="navbar" class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
-					<li><form class="navbar-form ">
-							<input type="text" class="form-control" placeholder="Search..." >
+					<li><form class="navbar-form " action="search.php" method="post">
+							<input type="text" class="form-control" placeholder="Search..." name="search_input">
 							<button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>Search</button>
 						</form></li>
 					<li class="active"><a href="../pages/index.php">Home</a></li>
