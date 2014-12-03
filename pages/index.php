@@ -166,7 +166,7 @@ $LIMITATION=10;
                     ON user.UID=answers.UID and answers.QID=$question_id;
 	 ";
 	 echo "<div class=\"jumbotron\">\n";
-     echo "<h4><a href=\"edit_answer.php?var=".$content_question[$i][3]."\">".$content_question[$i][1]."</a></h4>\n";
+     echo "<h4><a href=\"question_view.php?var=".$content_question[$i][3]."\">".$content_question[$i][1]."</a></h4>\n";
 	 echo "<h6>Poster:".$content_question[$i][0]."</h6>\n";
      echo "<h6>Time:".$content_question[$i][2]."</h6>\n";	
 	 
