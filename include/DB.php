@@ -5,6 +5,7 @@ include("./databaseClassMySQLi.php");
 $LIMITION = 10;
 
 function LogIN($email, $password){
+
 	if($email == "" || $password == ""){
 		return -1;
 	}
@@ -15,28 +16,36 @@ function LogIN($email, $password){
 
 	$query = "SELECT * 
 			FROM `User` 
-			where `email` = \"".$email."\"
-			and `passwd` = \"".sha1($pass)."\"";
-	if(!$res = $db->send_sql($query)){
-			$db->disconnect();
-			echo "Login failed!<br/>\n";
-			return -1;
-	}
-	//if count = 1, means log in success
-	$count = 0;
+			where `email` = ?
+			and `passwd` = ?";
 
-	if($row = $db->next_row()){
-		$count = 1;
-		$userinfo['login'] = 1;
-		$userinfo['UID'] = $row['UID'];
-		$userinfo['email'] = $row['email'];
-		$userinfo['Name'] = $row['Name'];
-		$userinfo['group'] = $row['group'];
-		$userinfo['credits'] = $row['credits'];
+
+	if ($stmt = $db->prepare($query)) {
+		$stmt->bind_param("ss", $email, sha1($password));
+		echo $query;
+		if($stmt->execute()){
+
+			//$stmt->store_result();
+			$results = $stmt->get_result();
+			$reuslt = array();
+			if(count($results) == 1){
+
+				foreach ($results as $key => $value) {
+					 $userinfo['login'] = 1;
+					 foreach ($value as $key_ => $value_) {
+					 	// $result[$key_] = $value_[$key_];
+					 	$userinfo[$key_] = $value_;
+					 	//echo $key_;
+					 }
+				}//
+
+				$db->disconnect();
+				return $userinfo;
+			}
+		}
 	}
-	else{
-		$userinfo['login'] = -1;
-	}
+	$userinfo['login'] = -1;
+	
 	$db->disconnect();
 	return $userinfo;
 }
@@ -212,7 +221,6 @@ function GetProfile($userID){
 		}
 	
 		$num = mysqli_num_rows($row);
-		//echo $num;
 	
 		//if $num == 0, means this user has not edit profile
 		if($num != 0){
@@ -232,16 +240,57 @@ function GetProfile($userID){
 		$db->disconnect();
 		return $res;
 }
+function GetQuestion_Answer($Qid){
+	$db = new database();
+	$db->connect();
 
+	$query = "SELECT `Answers`.`Content`, `Time`, `Name` 
+			FROM `Answers`, `User` 
+			where `User`.`UID` = `Answers`.`UID`
+			and `QID` = ?";
+
+	if ($stmt = $db->prepare($query)) {
+		$stmt->bind_param("i", $Qid);
+		if($stmt->execute()){
+		$results = array();
+		$result = $stmt->get_result();
+		return $result;
+		}
+	}
+	return -1;
+}
+function GetQuestion_ByID($QID){
+
+	$db = new database();
+	$db->connect();
+	$query = "SELECT `Questions`.`Content`, `Title`, `Name`, `Time`
+			FROM `Questions`, `User` 
+			where `User`.`UID` = `Questions`.`UID`
+			and `QID` = ?";
+
+	if ($stmt = $db->prepare($query)) {
+		$stmt->bind_param("i", $QID);
+
+		if($stmt->execute()){
+
+			$result = $stmt->get_result();
+
+			$results = array();
+			foreach ($result as $keys => $values) {
+				$element;
+				foreach ($values as $key => $value) {
+					$element[$key] = $value;
+				}
+				array_push($results, $element);
+			}
+			return $results;
+		}
+	}
+	return -1;
+}
 function UpdateProfile($newly){
 	$db = new database();
 	$db->connect();
-/*	
-	foreach ($newly as $key => $value) {
-		echo "$key => $value<br/>\n";
-	}
-*/
-	
 	$query = "UPDATE `Profiles` 
 			SET
 			`Habit`= ? ,
@@ -302,7 +351,6 @@ function GetQuestion(){
 			order by TIME
 			limit $LIMITION
 			";
-	echo "$query<br/>";
 	if(!$res = $db->send_sql($query)){
 		$db->disconnect();
 		echo "Get Questions failed!<br/>\n";
