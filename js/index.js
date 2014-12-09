@@ -22,6 +22,7 @@ function Logout(){
     if(res == "true"){
       $("#login_button").text("Login");
       $("#signup_button").text("Sign up");
+      location.reload(true);
     }
   });
 }
@@ -47,6 +48,7 @@ function Login(){
           $("#login_button").unbind('click');
           $("#signup_button").unbind('click');
           $("#signup_button").bind('click',Logout);
+          location.reload(true);
         }
         else{
           //
