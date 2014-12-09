@@ -1,6 +1,3 @@
-/**
- * 
- */
 function newDoc() {
     window.location.assign("../pages/register.php")
 }
@@ -20,11 +17,11 @@ function Logout(){
     res = $("Logout",xml).text();
     //alert(res);
     if(res == "true"){
-      $("#login_button").text("Login");
-      $("#signup_button").text("Sign up");
-      location.reload(true);
+	  location.reload(true);
     }
   });
+  
+  
 }
 
 function Login(){
@@ -40,15 +37,7 @@ function Login(){
         res = $("Login",xml).text();
         //alert(res);
         if(res == "true"){
-          //login success
-          name =  $("user-name",xml).text()
-          //alert(name);
-          $("#login_button").text(name);
-          $("#signup_button").text("Log out");
-          $("#login_button").unbind('click');
-          $("#signup_button").unbind('click');
-          $("#signup_button").bind('click',Logout);
-          location.reload(true);
+		  location.reload(true);
         }
         else{
           //
@@ -100,10 +89,10 @@ $(document).ready(function() {
     $("#signup_button").on("click",newDoc);
   }
   else{
-    $("#signup_button").on("click",Logout);
+    $("#logout_button").on("click",Logout);
   }
   $("#question_submit").on("click",post_question);
-  $(".jumbotron").bind("click",function(){
+  $(".answer_wrapper").bind("click",function(){
 	  if($(this).children(".answer_rich").css("display") == "none"){
 		$(this).children(".answer_summary").css("display","none");
 		$(this).children(".answer_rich").css("display","block");
