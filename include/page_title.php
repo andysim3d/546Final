@@ -53,21 +53,6 @@ echo "
 else
 {
 echo "
-<!DOCTYPE html>
-<html lang=\"en\">
-<head>
-<meta charset=\"utf-8\">
-<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">
-<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">
-<meta name=\"description\" content=\"\">
-<meta name=\"author\" content=\"\">
-<title>Index of Answer</title>
-
-<link href=\"http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css\" rel=\"stylesheet\">
-<link href=\"../css/bootstrap.min.css\" rel=\"stylesheet\">
-<link href=\"../css/index_site.css\" rel=\"stylesheet\">
-
-</head>
 <body>
 <nav class=\"navbar navbar-default navbar-fixed-top\" role=\"navigation\"
 		id=\"nav_bar\">
@@ -84,8 +69,8 @@ echo "
 			</div>
 			<div id=\"navbar\" class=\"navbar-collapse collapse\">
 				<ul class=\"nav navbar-nav\">
-					<li><form class=\"navbar-form \">
-							<input type=\"text\" class=\"form-control\" placeholder=\"Search...\">
+		          <li><form class=\"navbar-form \" action=\"search.php\" method=\"post\">
+							<input type=\"search\" class=\"form-control\" placeholder=\"Search...\" name=\"search_input\"></input>
 							<button type=\"submit\" class=\"btn btn-primary\">Search</button>
 						</form></li>
 					<li><a href=\"../pages/index.php\">Home</a></li>
