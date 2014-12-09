@@ -1,7 +1,23 @@
 <?php session_start(); 
- include '../include/page_title.php';
 ?>
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+<title>Index of Answer</title>
+
+<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css" rel="stylesheet">
+<link href="../css/bootstrap.min.css" rel="stylesheet">
+<link href="../css/index_site.css" rel="stylesheet">
+
+</head>
+
+<?php  include '../include/page_title.php'; ?>
 	<div class="container" id="dialog_container">
 		<div id="dialog" title="LOGIN">
 			<form action="../include/AJAXLOGIN.php" method="post" id="login_form" novalidate="novalidate">
