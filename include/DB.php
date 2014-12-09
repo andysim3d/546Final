@@ -22,7 +22,7 @@ function LogIN($email, $password){
 
 	if ($stmt = $db->prepare($query)) {
 		$stmt->bind_param("ss", $email, sha1($password));
-		echo $query;
+		//echo $query;
 		if($stmt->execute()){
 
 			//$stmt->store_result();
@@ -92,7 +92,7 @@ function regist($email, $username, $password){
 	*/
 
 	$query = "Insert into `User`(`email`, `Name`, `passwd`, `group`, `credits`)
-	Values (? , ? , ? ,1,0)";
+	Values ( ? , ? , ? , 1 , 0 )";
 	
 	if ($stmt = $db->prepare($query)) {
 		$stmt->bind_param("sss", $email, $username, sha1($password));
@@ -155,10 +155,6 @@ function postquestion($userID, $title, $content){
 	$ProcceedTitle = htmlentities($title);
 	$db = new database();
 	$db->connect();
-	//date_timezone_set();
-	//$date = new DateTime(strtotime(), new DateTimeZone('UTC'));
-	//date_timezone_set('UTC');
-	//$date_ = date('Y-d-m');
 	date_default_timezone_set('UTC');
 	
 	$query = "INSERT INTO `Questions`(`UID`, `Title`, `Content`, `Time`) 
@@ -171,7 +167,6 @@ function postquestion($userID, $title, $content){
 			$affectrows = $stmt->affected_rows;
 	
 			if($affectrows != 0){
-				//$db->disconnect();
 				return $stmt->insert_id;
 			}
 		}
@@ -298,15 +293,18 @@ function UpdateProfile($newly){
 			`BOD`= ?  
 			WHERE `PID` =?" ;
 	
-	/*$query = "UPDATE `Profiles` 
-			SET
-			`Habit`=\"".$newly['Habit']."\",
-			`Location`=\"".$newly['Location']."\",
-			`BOD`=\"".$newly['BOD']."\" 
-			WHERE `PID` =".$newly['PID'];
-			*/
-	//echo "$query<br/>\n";
+	if ($stmt = $db->prepare($query)) {
+		$stmt->bind_param("ssss", $newly['UID'],$newly['Habit'],
+			$newly['Location'],$newly['BOD']);
 	
+		if($stmt->execute()){
+	
+			$result = $stmt->$affect_rows;
+	
+			return $results;
+		}
+	}
+	/*
 	if(!$res = $db->send_sql($query)){
 			$db->disconnect();
 			return -1;
@@ -315,6 +313,7 @@ function UpdateProfile($newly){
 	echo"Update success!<br/>\n";
 
 	$db->disconnect();
+	*/
 }
 
 function InsertProfile($newly){
@@ -325,13 +324,24 @@ function InsertProfile($newly){
 	$query = "INSERT INTO `Profiles`(`UID`, `Habit`, `Location`, `BOD`)
 			VALUES (? , ? , ? , ? )";
 	
+	if ($stmt = $db->prepare($query)) {
+		$stmt->bind_param("ssss", $newly['UID'],$newly['Habit'],
+			$newly['Location'],$newly['BOD']);
+	
+		if($stmt->execute()){
+	
+			$result = $stmt->$insert_id;
+	
+			return $results;
+		}
+	}
 	
 	/*$query = "INSERT INTO `Profiles`(`UID`, `Habit`, `Location`, `BOD`) 
 			VALUES (". $newly['UID']."
 			,\"". $newly['Habit'] ."\"
 			,\"". $newly['Location'] ."\"
 			,\"". $newly['BOD'] ."\")";
-	*/
+	
 	if(!$res = $db->send_sql($query)){
 			$db->disconnect();
 			echo "Insert failed!<br/>\n";
@@ -340,14 +350,14 @@ function InsertProfile($newly){
 	echo "Insert Succeed!<br/>\n";
 	
 	$db->disconnect();
+	*/
 }
-
 
 function GetArticlesByUID($UID){
 	
 	$db = new database();
 	$db->connect();
-	$query = "SELECT `Title`, `Time`,`Name` 
+	$query = "SELECT `Title`, `Content`, `Time`, `Up_Vote`, `Down_Vote`,`Name` 
 			FROM `Article`, `User` WHERE `User`.`UID` = `Article`.`UID` and `User`.`UID` = ? ";
 
 	if ($stmt = $db->prepare($query)) {
@@ -402,9 +412,6 @@ function GetArticle($Artid){
 	
 	
 }
-
-
-
 
 
 function GetQuestion(){
