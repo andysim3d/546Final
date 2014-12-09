@@ -342,6 +342,71 @@ function InsertProfile($newly){
 	$db->disconnect();
 }
 
+
+function GetArticlesByUID($UID){
+	
+	$db = new database();
+	$db->connect();
+	$query = "SELECT `Title`, `Time`,`Name` 
+			FROM `Article`, `User` WHERE `User`.`UID` = `Article`.`UID` and `User`.`UID` = ? ";
+
+	if ($stmt = $db->prepare($query)) {
+		$stmt->bind_param("i", $UID);
+	
+		if($stmt->execute()){
+	
+			$result = $stmt->get_result();
+	
+			$results = array();
+			foreach ($result as $keys => $values) {
+				$element;
+				foreach ($values as $key => $value) {
+					$element[$key] = $value;
+				}
+				array_push($results, $element);
+			}
+			return $results;
+		}
+	}
+	return -1;
+}
+
+function GetArticle($Artid){
+	
+
+	$db = new database();
+	$db->connect();
+	$query = "SELECT `Title`, `Content`, `Time`, `Up_Vote`, `Down_Vote`,`Name` 
+			FROM `Article`, `User` WHERE `User`.`UID` = `Article`.`UID` and `ArtID` = ? ";
+	
+	
+	if ($stmt = $db->prepare($query)) {
+		$stmt->bind_param("i", $Artid);
+	
+		if($stmt->execute()){
+	
+			$result = $stmt->get_result();
+	
+			$results = array();
+			foreach ($result as $keys => $values) {
+				$element;
+				foreach ($values as $key => $value) {
+					$element[$key] = $value;
+				}
+				array_push($results, $element);
+			}
+			return $results;
+		}
+	}
+	return -1;
+	
+	
+}
+
+
+
+
+
 function GetQuestion(){
 	$LIMITION = 10;
 	$db = new database();

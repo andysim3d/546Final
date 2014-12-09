@@ -1,5 +1,4 @@
-<?php
-session_start();
+<?php session_start();
 include("./DB.php");
 
 $dom = new DOMDocument();
@@ -8,6 +7,7 @@ $user_Info = $dom->createElement("Info");
 $user_Login = $dom->createElement("Login");
 //$txt = $dom->createTextNode("true");
 
+$_SESSION['login'] = false;
 if (!isset($_POST["email"]) || !isset($_POST["password"])) {
 	$txt = $dom->createTextNode("false");
 
@@ -60,7 +60,7 @@ $user_Info->appendChild($user_Login);
 */
 
 $user_Info = $dom->createElement("Info");
-$user_Login = $dom->createElement("Login");
+$user_Login = $dom->createElement("login");
 $txt = $dom->createTextNode("true");
 
 $user_ID = $dom->createElement("user-ID");
@@ -89,6 +89,7 @@ $user_Info->appendChild($user_credits);
 
 $dom->appendChild($user_Info);
 
+$_SESSION['login'] = true;
 $_SESSION['UID'] = $userinfo['UID'];
 $_SESSION['Name'] = $userinfo['Name'];
 $_SESSION['GRP'] = $userinfo['group'];
