@@ -413,6 +413,142 @@ function GetArticle($Artid){
 	
 }
 
+function GetUpCount($AID){
+
+	$db = new database();
+	$db->connect();
+	$query = "SELECT count(*) as Count from `UP_Table` 
+			 where `AID` = ?";
+	
+	if ($stmt = $db->prepare($query)) {
+		$stmt->bind_param("i", $AID);
+	
+		if($stmt->execute()){
+			$result = $stmt->get_result();
+			//return $result;
+
+			$results = array();
+			foreach ($result as $keys => $values) {
+				$element;
+				foreach ($values as $key => $value) {
+					$element[$key] = $value;
+				}
+				array_push($results, $element);
+			}
+			return $results;
+		}
+	}
+	return -1;
+}
+
+
+function VoteUp($AID, $UID){
+
+	WithDrawVoteDown($AID,$UID);
+	$db = new database();
+	$db->connect();
+	$query = "INSERT INTO `UP_Table`(`AID`, `UID`) 
+			VALUES ( ? , ? )";
+	
+	if ($stmt = $db->prepare($query)) {
+		$stmt->bind_param("ii", $AID, $UID);
+	
+		if($stmt->execute()){
+			$result = $stmt->store_result();
+			return $result;
+		}
+	}
+	return -1;
+}
+
+
+
+function WithdrawVoteUp($AID, $UID){
+	
+	$db = new database();
+	$db->connect();
+	$query = "DELETE FROM `UP_Table` 
+				WHERE `AID`= ? and `UID`= ?";
+	
+	if ($stmt = $db->prepare($query)) {
+		$stmt->bind_param("ii", $AID, $UID);
+	
+		if($stmt->execute()){
+
+			$result = $stmt->store_result();
+			return $result;
+		}
+	}
+	return -1;
+}
+
+function VoteDown($AID, $UID){
+
+	WithDrawVoteUp($AID,$UID);
+	$db = new database();
+	$db->connect();
+	$query = "INSERT INTO `DOWN_Table`(`AID`, `UID`) 
+			VALUES ( ? , ? )";
+	
+	if ($stmt = $db->prepare($query)) {
+		$stmt->bind_param("ii", $AID, $UID);
+	
+		if($stmt->execute()){
+
+			$result = $stmt->store_result();
+			return $result;
+		}
+	}
+	return -1;
+}
+
+function GetDownCount($AID){
+
+	$db = new database();
+	$db->connect();
+	$query = "SELECT count(*) as Count from `DOWN_Table` 
+			 where `AID` = ?";
+	
+	if ($stmt = $db->prepare($query)) {
+		$stmt->bind_param("i", $AID);
+	
+		if($stmt->execute()){
+			$result = $stmt->get_result();
+			//return $result;
+
+			$results = array();
+			foreach ($result as $keys => $values) {
+				$element;
+				foreach ($values as $key => $value) {
+					$element[$key] = $value;
+				}
+				array_push($results, $element);
+			}
+			return $results;
+		}
+	}
+	return -1;
+}
+
+function WithdrawVoteDown($AID, $UID){
+	
+	$db = new database();
+	$db->connect();
+	$query = "DELETE FROM `DOWN_Table` 
+				WHERE `AID`= ? and `UID`= ?";
+	
+	if ($stmt = $db->prepare($query)) {
+		$stmt->bind_param("ii", $AID, $UID);
+	
+		if($stmt->execute()){
+
+			$result = $stmt->store_result();
+			return $result;
+		}
+	}
+	return -1;
+}
+
 
 function GetQuestion(){
 	$LIMITION = 10;
