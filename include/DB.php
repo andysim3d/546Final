@@ -197,7 +197,7 @@ function IDValidate($userID){
 	}
 	return -1;
 }
-
+//TODO:
 function GetProfile($userID){
 	
 	if(IDValidate($userID) == -1){
@@ -207,33 +207,49 @@ function GetProfile($userID){
 	
 		$db = new database();
 		$db->connect();
-		$query = "Select * from `Profiles` where `UID` = $userID";
-	
-	
-		if(!$row = $db->send_sql($query)){
-			$db->disconnect();
-			return -1;
+		$query = "Select `Location`, `Name`,`Habit`, `BOD`, `
+				 from `Profiles`, `User` 
+				where `User`.`UID` = ? 
+				and `Profiles`.`UID` = `User`.`UID`";
+
+		if ($stmt = $db->prepare($query)) {
+			$stmt->bind_param("i", $userID);
+
+			if($stmt->execute()){
+			
+				$result = $stmt->get_result();
+			
+				$results = array();
+				foreach ($result as $keys => $values) {
+					$element;
+					foreach ($values as $key => $value) {
+						$element[$key] = $value;
+					}
+					array_push($results, $element);
+				}
+				return $results[0];
+			}
 		}
+		return -1;
+		//$num = mysqli_num_rows($row);
 	
-		$num = mysqli_num_rows($row);
+// 		//if $num == 0, means this user has not edit profile
+// 		if($num != 0){
+// 			$row = $db->next_row();
 	
-		//if $num == 0, means this user has not edit profile
-		if($num != 0){
-			$row = $db->next_row();
+// 			$res['getProfile'] = 1;
+// 			$res['UID'] = $row['UID'];
+// 			$res['PID'] = $row['PID'];
+// 			$res['Location'] = $row['Location'];
+// 			$res['Habit'] = $row['Habit'];
+// 			$res['BOD'] = $row['BOD'];
+// 		}
+// 		else {
+// 			$res['getProfile'] = -1;
+// 		}
 	
-			$res['getProfile'] = 1;
-			$res['UID'] = $row['UID'];
-			$res['PID'] = $row['PID'];
-			$res['Location'] = $row['Location'];
-			$res['Habit'] = $row['Habit'];
-			$res['BOD'] = $row['BOD'];
-		}
-		else {
-			$res['getProfile'] = -1;
-		}
-	
-		$db->disconnect();
-		return $res;
+// 		$db->disconnect();
+// 		return $res;
 }
 function GetQuestion_Answer($Qid){
 	$db = new database();
@@ -325,7 +341,7 @@ function InsertProfile($newly){
 			VALUES (? , ? , ? , ? )";
 	
 	if ($stmt = $db->prepare($query)) {
-		$stmt->bind_param("ssss", $newly['UID'],$newly['Habit'],
+		$stmt->bind_param("isss", $newly['UID'],$newly['Habit'],
 			$newly['Location'],$newly['BOD']);
 	
 		if($stmt->execute()){
@@ -548,6 +564,39 @@ function WithdrawVoteDown($AID, $UID){
 	}
 	return -1;
 }
+
+//get questions by user ID
+function GetQuestionsByUID($UID, $LIMITION){
+	//$LIMITION = 10;
+	$db = new database();
+	$db->connect();
+	$query = "SELECT `Questions`.`Content`, `Title`, `Name`, `Time`
+			FROM `Questions`, `User` 
+			where `User`.`UID` = `Questions`.`UID`
+			and `User`.`UID` = ?
+			limit $LIMITION";
+	
+	if ($stmt = $db->prepare($query)) {
+		$stmt->bind_param("i", $UID);
+	
+		if($stmt->execute()){
+	
+			$result = $stmt->get_result();
+	
+			$results = array();
+			foreach ($result as $keys => $values) {
+				$element;
+				foreach ($values as $key => $value) {
+					$element[$key] = $value;
+				}
+				array_push($results, $element);
+			}
+			return $results;
+		}
+	}
+	return -1;
+}
+
 
 
 function GetQuestion(){
