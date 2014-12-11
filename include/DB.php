@@ -141,6 +141,7 @@ function Upgrade($userID){
 	//$db->connect();
 	
 }
+
 //validate email;
 function emailValidate($email){
 	$res = filter_var($email, FILTER_VALIDATE_EMAIL);
@@ -207,7 +208,7 @@ function GetProfile($userID){
 	
 		$db = new database();
 		$db->connect();
-		$query = "Select `Location`, `Name`,`Habit`, `BOD`, `
+		$query = "Select `Location`, `Name`,`Habit`, `BOD`, `Email`, `group`, `credits`
 				 from `Profiles`, `User` 
 				where `User`.`UID` = ? 
 				and `Profiles`.`UID` = `User`.`UID`";
@@ -247,7 +248,6 @@ function GetProfile($userID){
 // 		else {
 // 			$res['getProfile'] = -1;
 // 		}
-	
 // 		$db->disconnect();
 // 		return $res;
 }
