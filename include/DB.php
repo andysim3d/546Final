@@ -207,7 +207,7 @@ function GetProfile($userID){
 		}
 		$db = new database();
 		$db->connect();
-		$query = "Select `Location`, `Name`,`Habit`, `BOD`, `Email`, `group`, `credits`
+		$query = "Select `Location`, `Name`,`Habit`, `BOD`, `Email`, `group`, `credits`, `PID`
 				 from `Profiles`, `User` 
 				where `User`.`UID` = ? 
 				and `Profiles`.`UID` = `User`.`UID`";
