@@ -285,6 +285,10 @@ function GetQuestion_ByID($QID){
 	}
 	return -1;
 }
+
+/*
+ * return 1 when success, otherwise failed
+ * */
 function UpdateProfile($newly){
 	$db = new database();
 	$db->connect();
@@ -309,13 +313,13 @@ function UpdateProfile($newly){
 	/*
 	if(!$res = $db->send_sql($query)){
 			$db->disconnect();
-			return -1;
 		}
 	
 	echo"Update success!<br/>\n";
 
 	$db->disconnect();
 	*/
+	return -1;
 }
 
 function InsertProfile($newly){
