@@ -221,6 +221,8 @@ function GetProfile($userID){
 				$result = $stmt->get_result();
 			
 				$results = array();
+
+				$results[0]['getProfile'] = -1;
 				foreach ($result as $keys => $values) {
 					$element;
 					foreach ($values as $key => $value) {
@@ -228,10 +230,12 @@ function GetProfile($userID){
 					}
 					array_push($results, $element);
 				}
+				$results[0]['getProfile'] = 1;
 				return $results[0];
 			}
 		}
-		return -1;
+		$resultss['getProfile'] = -1;
+		return $resultss;
 }
 function GetQuestion_Answer($Qid){
 	$db = new database();
@@ -339,7 +343,7 @@ function GetArticlesByUID($UID){
 	
 	$db = new database();
 	$db->connect();
-	$query = "SELECT `Title`, `Content`, `Time`, `Up_Vote`, `Down_Vote`,`Name` 
+	$query = "SELECT `Title`, `Content`, `Time`, `Up_Vote`, `Down_Vote`,`Name` ,`ArtID`
 			FROM `Article`, `User` WHERE `User`.`UID` = `Article`.`UID` and `User`.`UID` = ? ";
 
 	if ($stmt = $db->prepare($query)) {
@@ -368,7 +372,7 @@ function GetArticle($Artid){
 
 	$db = new database();
 	$db->connect();
-	$query = "SELECT `Title`, `Content`, `Time`, `Up_Vote`, `Down_Vote`,`Name` 
+	$query = "SELECT `Title`, `Content`, `Time`, `Up_Vote`, `Down_Vote`,`Name`
 			FROM `Article`, `User` WHERE `User`.`UID` = `Article`.`UID` and `ArtID` = ? ";
 	
 	
@@ -562,8 +566,6 @@ function GetQuestionsByUID($UID, $LIMITION){
 	}
 	return -1;
 }
-
-
 
 function GetQuestion(){
 	$LIMITION = 10;
