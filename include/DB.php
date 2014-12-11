@@ -310,15 +310,7 @@ function UpdateProfile($newly){
 			return $results;
 		}
 	}
-	/*
-	if(!$res = $db->send_sql($query)){
-			$db->disconnect();
-		}
 	
-	echo"Update success!<br/>\n";
-
-	$db->disconnect();
-	*/
 	return -1;
 }
 
