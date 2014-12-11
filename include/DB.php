@@ -205,7 +205,6 @@ function GetProfile($userID){
 		echo "User Invalidate<br/>";
 		return -1;
 		}
-	
 		$db = new database();
 		$db->connect();
 		$query = "Select `Location`, `Name`,`Habit`, `BOD`, `Email`, `group`, `credits`
@@ -222,7 +221,6 @@ function GetProfile($userID){
 			
 				$results = array();
 
-				$results[0]['getProfile'] = -1;
 				foreach ($result as $keys => $values) {
 					$element;
 					foreach ($values as $key => $value) {
