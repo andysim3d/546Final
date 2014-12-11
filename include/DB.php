@@ -536,7 +536,7 @@ function GetQuestionsByUID($UID, $LIMITION){
 	//$LIMITION = 10;
 	$db = new database();
 	$db->connect();
-	$query = "SELECT `Questions`.`Content`, `Title`, `Name`, `Time`
+	$query = "SELECT `Questions`.`Content`, `Title`, `Name`, `Time`, `QID`
 			FROM `Questions`, `User` 
 			where `User`.`UID` = `Questions`.`UID`
 			and `User`.`UID` = ?
