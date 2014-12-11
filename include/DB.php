@@ -232,24 +232,6 @@ function GetProfile($userID){
 			}
 		}
 		return -1;
-		//$num = mysqli_num_rows($row);
-	
-// 		//if $num == 0, means this user has not edit profile
-// 		if($num != 0){
-// 			$row = $db->next_row();
-	
-// 			$res['getProfile'] = 1;
-// 			$res['UID'] = $row['UID'];
-// 			$res['PID'] = $row['PID'];
-// 			$res['Location'] = $row['Location'];
-// 			$res['Habit'] = $row['Habit'];
-// 			$res['BOD'] = $row['BOD'];
-// 		}
-// 		else {
-// 			$res['getProfile'] = -1;
-// 		}
-// 		$db->disconnect();
-// 		return $res;
 }
 function GetQuestion_Answer($Qid){
 	$db = new database();
@@ -351,22 +333,6 @@ function InsertProfile($newly){
 			return $results;
 		}
 	}
-	
-	/*$query = "INSERT INTO `Profiles`(`UID`, `Habit`, `Location`, `BOD`) 
-			VALUES (". $newly['UID']."
-			,\"". $newly['Habit'] ."\"
-			,\"". $newly['Location'] ."\"
-			,\"". $newly['BOD'] ."\")";
-	
-	if(!$res = $db->send_sql($query)){
-			$db->disconnect();
-			echo "Insert failed!<br/>\n";
-			return -1;
-	}
-	echo "Insert Succeed!<br/>\n";
-	
-	$db->disconnect();
-	*/
 }
 
 function GetArticlesByUID($UID){
