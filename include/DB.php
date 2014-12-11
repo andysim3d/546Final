@@ -228,9 +228,9 @@ function GetProfile($userID){
 					foreach ($values as $key => $value) {
 						$element[$key] = $value;
 					}
+					$element['getProfile'] = 1;
 					array_push($results, $element);
 				}
-				$results[0]['getProfile'] = 1;
 				return $results[0];
 			}
 		}
