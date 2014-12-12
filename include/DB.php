@@ -365,7 +365,7 @@ function GetArticle($Artid){
 
 	$db = new database();
 	$db->connect();
-	$query = "SELECT `Title`, `Content`, `Time`, `Up_Vote`, `Down_Vote`,`Name`
+	$query = "SELECT `Title`, `Content`, `Time`, `Up_Vote`, `Down_Vote`,`Name`,`User`.`UID`
 			FROM `Article`, `User` WHERE `User`.`UID` = `Article`.`UID` and `ArtID` = ? ";
 	
 	
