@@ -1,4 +1,4 @@
-<?php
+<?PHP
 if((isset($_SESSION['login']))&&($_SESSION['login']==true))
 {
 echo "
@@ -53,6 +53,7 @@ echo "
 else
 {
 echo "
+
 <body>
 <nav class=\"navbar navbar-default navbar-fixed-top\" role=\"navigation\"
 		id=\"nav_bar\">
@@ -69,7 +70,7 @@ echo "
 			</div>
 			<div id=\"navbar\" class=\"navbar-collapse collapse\">
 				<ul class=\"nav navbar-nav\">
-		          <li><form class=\"navbar-form \" action=\"search.php\" method=\"post\">
+			             <li><form class=\"navbar-form \" action=\"search.php\" method=\"post\">
 							<input type=\"search\" class=\"form-control\" placeholder=\"Search...\" name=\"search_input\"></input>
 							<button type=\"submit\" class=\"btn btn-primary\">Search</button>
 						</form></li>
@@ -78,7 +79,7 @@ echo "
 					<li class=\"dropdown\"><a href=\"#\" class=\"dropdown-toggle\"
 						data-toggle=\"dropdown\">Settings <span class=\"caret\"></span></a>
 						<ul class=\"dropdown-menu\" role=\"menu\">
-							<li><a href=\"../pages/profile.php\">Profile</a></li>
+							<li><a href=\"../pages/profile.php\" >Profile</a></li>
 							<li><a href=\"#\">Another action</a></li>
 							<li><a href=\"#\">Something else here</a></li>
 							<li class=\"divider\"></li>

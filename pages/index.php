@@ -1,6 +1,6 @@
-<?php session_start(); 
-?>
+<?php session_start();
 
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,8 +16,9 @@
 <link href="../css/index_site.css" rel="stylesheet">
 
 </head>
-
-<?php  include '../include/page_title.php'; ?>
+<?PHP
+  include '../include/page_title.php';
+?>	
 	<div class="container" id="dialog_container">
 		<div id="dialog" title="LOGIN">
 			<form action="../include/AJAXLOGIN.php" method="post" id="login_form" novalidate="novalidate">
@@ -86,7 +87,7 @@ $LIMITATION=10;
                     ON user.UID=answers.UID and answers.QID=$question_id;
 	 ";
 	 echo "<div class=\"jumbotron\">\n";
-     echo "<h4><a href=\"question_view.php?var=".$content_question[$i][3]."\">".$content_question[$i][1]."</a></h4>\n";
+	 echo "<h4><a href=\"edit_answer.php?var=".$content_question[$i][3]."\">".$content_question[$i][1]."</a></h4>\n";
 	 echo "<h6>Poster:".$content_question[$i][0]."</h6>\n";
      echo "<h6>Time:".$content_question[$i][2]."</h6>\n";	
 	 
@@ -97,6 +98,8 @@ $LIMITATION=10;
 	}
 	$answer_content=$res_answer->fetch_assoc();
 	 $len=strlen($answer_content['Content']);
+	 $up_count=GetUpCount($answer_content['AID']);
+	 $down_count=GetDownCount($answer_content['AID']);
 	 if($len>150)
 	 //If the length of the answer is too long, cut it 
 	 {
@@ -106,12 +109,12 @@ $LIMITATION=10;
 	 echo "<div class=\"answer_wrapper\" style=\"cursor:pointer;\">";
 	 echo "<div class=\"answer_summary\" style=\"display: block;\">".$answer_short."......</div>";
 	 echo "<div class=\"answer_rich\" style=\"display: none;\">".$answer_content['Content']."</div>";
-     echo "<h6>".$answer_content['Name']."<h6>";
-     echo "</div>";
+     echo "<h6>".$answer_content['Name']."</h6>";
+	 echo "</div>";
 	 echo "<h4></h4>";
-	 echo "<a href=\"#\" ><span class=\"glyphicon glyphicon-thumbs-up\" aria-hidden=\"true\"></span><span class=\"count\">&nbsp".$answer_content['Up_Vote']."</span>&nbspUp</a>";
+	 echo "<a href=\"#\" class=\"up_count_btn\" id=\"up_count_".answer_content['AID']."\"><span class=\"glyphicon glyphicon-thumbs-up\" aria-hidden=\"true\"></span><span class=\"count\">&nbsp".$up_count[0]['Count']."</span>&nbspUp</a>";
 	 echo "<span>&nbsp &nbsp &nbsp</span>";
-	 echo "<a padding-left:10px><span class=\"glyphicon glyphicon-thumbs-down\" aria-hidden=\"true\"></span></span><span class=\"count\">&nbsp-".$answer_content['Down_Vote']."</span>&nbspDown</a>";
+	 echo "<a padding-left:10px href=\"#\" class=\"down_count_btn\" id=\"down_count_".answer_content['AID']."\"><span class=\"glyphicon glyphicon-thumbs-down\" aria-hidden=\"true\"></span></span><span class=\"count\">&nbsp-".$down_count[0]['Count']."</span>&nbspDown</a>";
      echo "</div>";
 	 }
 	 else
@@ -119,6 +122,10 @@ $LIMITATION=10;
 	 {
 	 echo "<p>".$answer_content['Content']."</p>";
 	 echo "<p>".$answer_content['Name']."</p>";
+	  echo "<h4></h4>";
+	 echo "<a href=\"#\" ><span class=\"glyphicon glyphicon-thumbs-up\" aria-hidden=\"true\"></span><span class=\"count\">&nbsp".$up_count[0]['Count']."</span>&nbspUp</a>";
+	 echo "<span>&nbsp &nbsp &nbsp</span>";
+	 echo "<a padding-left:10px href=\"#\"><span class=\"glyphicon glyphicon-thumbs-down\" aria-hidden=\"true\"></span></span><span class=\"count\">&nbsp-".$down_count[0]['Count']."</span>&nbspDown</a>";
 	 echo "</div>";
 	 }
 	 $i++;
@@ -139,5 +146,7 @@ $LIMITATION=10;
 	<script src="../js/bootstrap.min.js"></script>
 	<script src="../js/index.js"></script>
 	<script src="../js/jquery.validate.min.js"></script>
+	
+	
 	</body>
 </html>
