@@ -112,9 +112,9 @@ $LIMITATION=10;
      echo "<h6>".$answer_content['Name']."</h6>";
 	 echo "</div>";
 	 echo "<h4></h4>";
-	 echo "<a href=\"#\" class=\"up_count_btn\" id=\"up_count_".answer_content['AID']."\"><span class=\"glyphicon glyphicon-thumbs-up\" aria-hidden=\"true\"></span><span class=\"count\">&nbsp".$up_count[0]['Count']."</span>&nbspUp</a>";
+	 echo "<a href=\"#\" class=\"up_count_btn\" id=\"up_count_".$answer_content['AID']."\"><span class=\"glyphicon glyphicon-thumbs-up\" aria-hidden=\"true\"></span><span class=\"count\">&nbsp".$up_count[0]['Count']."</span>&nbspUp</a>";
 	 echo "<span>&nbsp &nbsp &nbsp</span>";
-	 echo "<a padding-left:10px href=\"#\" class=\"down_count_btn\" id=\"down_count_".answer_content['AID']."\"><span class=\"glyphicon glyphicon-thumbs-down\" aria-hidden=\"true\"></span></span><span class=\"count\">&nbsp-".$down_count[0]['Count']."</span>&nbspDown</a>";
+	 echo "<a padding-left:10px href=\"#\" class=\"down_count_btn\" id=\"down_count_".$answer_content['AID']."\"><span class=\"glyphicon glyphicon-thumbs-down\" aria-hidden=\"true\"></span></span><span class=\"count\">&nbsp-".$down_count[0]['Count']."</span>&nbspDown</a>";
      echo "</div>";
 	 }
 	 else

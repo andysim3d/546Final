@@ -59,7 +59,6 @@ function post_question() {
   $.post("../include/AJAXpostQuestion.php",{Content:_Content, Title:_Title},
   function(xml){
   res=$("Content",xml).text();
-  alert(res);
   
   if(res=="true"){
   //post question success
@@ -69,7 +68,6 @@ function post_question() {
   else
   {
   alert("Post question failed");
-  window.location.assign("../pages/index.php");
   }
   });
 }
