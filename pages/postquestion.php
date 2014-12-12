@@ -18,7 +18,7 @@
 
 	<div class="container" id="dialog_container">
 		<div id="dialog" title="LOGIN">
-			<form action="../include/AJAXLOGIN.php" method="post" id="login_form" novalidate="novalidate">
+			<form method="post" id="login_form" novalidate="novalidate">
 				<div class="form-group">
 					<div class="row">
 						<div class="col-md-4">
@@ -44,14 +44,14 @@
 
 	<div class="container">
 
-	<form role="form" action="../include/AJAXpostQuestion.php" method="post" enctype="multipart/form-data">
+	<form role="form" enctype="multipart/form-data">
 			<fieldset>
 				<legend>Post Question</legend>
 				<div class="form-group">
 					<div class="row">
 						<div class="col-md-6">
 							<label for="Title">Title:</label> 
-							  <input type="text" name="Title" placeholder="Input your question's title" size="50">
+							  <input type="text" id="Title" placeholder="Input your question's title" size="50">
 						</div>
 					</div>
 				</div>
@@ -59,11 +59,11 @@
 					<div class="row">
 						<div class="col-md-4">
 							<label for="Content">Content:</label> 
-							 <textarea name="Content" rows="5" cols="40"></textarea>
+							 <textarea id="Content" rows="5" cols="40"></textarea>
 						</div>
 					</div>
 				</div>
-				<button type="submit" class="btn btn-default" name="question_submit" id="question_submit">Submit</button>
+				<button type="button" class="btn btn-default" name="question_submit" id="question_submit">Submit</button>
 			</fieldset>
 		</form>
 

@@ -327,7 +327,6 @@ function InsertProfile($newly){
 		if($stmt->execute()){
 	
 			$result = $stmt->$insert_id;
-	
 			return $results;
 		}
 	}
