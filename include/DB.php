@@ -120,6 +120,7 @@ function regist($email, $username, $password){
 	return -1;
 }
 
+
 function AddCreadits($UID){
 
 
@@ -305,12 +306,15 @@ function AddAnswer($UID, $QID, $Content){
 	$db = new database();
 	$db->connect();
 
-	$query = "INSERT INTO `Answers`(, `QID`, `UID`, `Anonymity`, `Content`, `Time`, `Up_Vote`, `Down_Vote`, `comment`) 
-	VALUES ( ? , ? , 0 , ? , ? ,0,0, NULL)";
+	$query = "INSERT INTO `Answers`( `QID`, `UID`, `Anonymity`, `Content`, `Time`, `Up_Vote`, `Down_Vote`, `comment`) 
+	VALUES ( ? , ? , 0 , ? , ? ,0,0, \"\")";
 	$Content_proceed = nl2br(htmlentities($Content));
+
+	date_default_timezone_set('UTC');
+	 
 	$time =  date("Y-m-d H:i:s");
 
-
+	echo "$time";
 	if ($stmt = $db->prepare($query)) {
 		$stmt->bind_param("iiss", $QID, $UID, $Content_proceed, $time);
 
