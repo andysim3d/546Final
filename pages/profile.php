@@ -2,6 +2,7 @@
 session_start(); 
 if((isset($_SESSION['login']))&&($_SESSION['login']==true))
 {
+//print_r($_SESSION);
 }
 else{
 header("Location: http://localhost/546Final/pages/index.php");
@@ -11,11 +12,7 @@ if((isset($_SESSION['login']))&&($_SESSION['login']==true))
 {
 $user_id=$_SESSION['UID'];
 $profile=GetProfile($user_id);
-$_SESSION['Email']=$profile['Email'];
-$_SESSION['Location']=$profile['Location'];
-$_SESSION['Habit']=$profile['Habit'];
-$_SESSION['BOD']=$profile['BOD'];
-$_SESSION['Name']=$profile['Name'];
+
 }
 
 
@@ -83,7 +80,12 @@ $_SESSION['Name']=$profile['Name'];
 					<div class="row">
 						<div class="col-md-4">
 							<label for="Name">Name:</label> <input type="text"
-								class="form-control" id="Name" name="Name" readonly value="<?PHP if(isset($_SESSION['Name'])){ echo $_SESSION['Name'];} ?>"></input>
+								class="form-control" id="Name" name="Name" readonly value="<?PHP 
+								if(isset($_SESSION['Name']))
+								{
+								echo $_SESSION['Name'];
+								}
+								?>"></input>
 						</div>
 					</div>
 				</div>
@@ -91,7 +93,12 @@ $_SESSION['Name']=$profile['Name'];
 					<div class="row">
 						<div class="col-md-4">
 							<label for="email">Email:</label> <input type="email"
-								class="form-control" id="email" name="email" readonly value="<?PHP if(isset($_SESSION['Email'])) { echo $_SESSION['Email'];}  ?>"></input>
+								class="form-control" id="email" name="email" readonly value="<?PHP 
+								if(isset($_SESSION['Email']))
+								{
+								echo $_SESSION['Email'];
+								}
+								?>"></input>
 						</div>
 					</div>
 				</div>
@@ -99,7 +106,7 @@ $_SESSION['Name']=$profile['Name'];
 					<div class="row">
 						<div class="col-md-4">
 							<label for="location">Location:</label> <input type="text"
-								class="form-control" id="locaction" name="location" readonly value="<?PHP  if(isset($_SESSION['Location'])) {echo $_SESSION['Location'];} ?>"></input>
+								class="form-control" id="locaction" name="location" readonly value="<?PHP  if($profile['getProfile']==-1){}else {echo $profile['Location'];} ?>"></input>
 						</div>
 					</div>
 				</div>
@@ -107,7 +114,7 @@ $_SESSION['Name']=$profile['Name'];
 					<div class="row">
 						<div class="col-md-4">
 							<label for="bod">Date of Birth:</label> <input type="date"
-								class="form-control" id="bod" name="bod" readonly value="<?PHP if(isset($_SESSION['BOD'])) {echo $_SESSION['BOD'];  } ?>"></input>
+								class="form-control" id="bod" name="bod" readonly value="<?PHP if($profile['getProfile']==-1){} else {echo $profile['BOD'];  } ?>"></input>
 						</div>
 					</div>
 				</div>
@@ -115,7 +122,7 @@ $_SESSION['Name']=$profile['Name'];
 					<div class="row">
 						<div class="col-md-4">
 							<label for="habits">Habits:</label> <input type="text"
-								class="form-control" id="habits" name="habits" readonly value="<?PHP if(isset($_SESSION['Habit'])){ echo $_SESSION['Habit']; }?>"></input>
+								class="form-control" id="habits" name="habits" readonly value="<?PHP if($profile['getProfile']==-1){} else { echo $profile['Habit']; }?>"></input>
 						</div>
 					</div>
 				</div>
