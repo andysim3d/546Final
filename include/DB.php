@@ -11,8 +11,8 @@ function LogIN($email, $password){
 	}
 	$db = new database();
 	$db->connect();
-	$pass = htmlentities($password);
-	$email = htmlentities($email);
+	$pass = htmlspecialchars($password);
+	$email = htmlspecialchars($email);
 
 	$query = "SELECT * 
 			FROM `User` 
@@ -56,21 +56,25 @@ function LogIN($email, $password){
 function checkEmailExist($email){
 	$db = new database();
 	$db->connect();
+	
 	if(emailValidate($email) != false)
-	$query = "SELECT
-				* FROM `User`
-				 where `email` = ? ";
-	//echo $query;
-	if ($stmt = $db->prepare($query)) {
-		$stmt->bind_param("s", $email);
-		if($stmt->execute()){
-
-			$stmt->store_result();
-			$affectrows = $stmt->affected_rows;
-			
-			if($affectrows == 0){
-				$db->disconnect();
-				return 1;
+	{
+		$mail = htmlspecialchars($email);
+		$query = "SELECT
+					* FROM `User`
+					 where `email` = ? ";
+		//echo $query;
+		if ($stmt = $db->prepare($query)) {
+			$stmt->bind_param("s", $mail);
+			if($stmt->execute()){
+	
+				$stmt->store_result();
+				$affectrows = $stmt->affected_rows;
+				
+				if($affectrows == 0){
+					$db->disconnect();
+					return 1;
+				}
 			}
 		}
 	}
@@ -90,12 +94,14 @@ function regist($email, $username, $password){
 	$query = "Insert into `User`(`email`, `Name`, `passwd`, `group`, `credits`)
 				Values (\"$email\", \"$username\",\"". SHA1($password) ."\",1,0)";
 	*/
-
+	$mail = htmlspecialchars($email);
+	$name = htmlspecialchars($username);
+	$pass = htmlspecialchars($password);
 	$query = "Insert into `User`(`email`, `Name`, `passwd`, `group`, `credits`)
 	Values ( ? , ? , ? , 1 , 0 )";
 	
 	if ($stmt = $db->prepare($query)) {
-		$stmt->bind_param("sss", $email, $username, sha1($password));
+		$stmt->bind_param("sss", $mail, $name, sha1($pass));
 		//here
 		if($stmt->execute()){
 	
@@ -152,8 +158,8 @@ function postquestion($userID, $title, $content){
 	if(IDValidate($userID) == -1){
 		return -1;
 	}
-	$ProcceedContent = htmlentities($content);
-	$ProcceedTitle = htmlentities($title);
+	$ProcceedContent = htmlspecialchars($content);
+	$ProcceedTitle = htmlspecialchars($title);
 	$db = new database();
 	$db->connect();
 	date_default_timezone_set('UTC');
@@ -311,8 +317,8 @@ function UpdateProfile($newly){
 			WHERE `PID` =?" ;
 			
 	if ($stmt = $db->prepare($query)) {
-		$stmt->bind_param("sssi", $newly['Habit'],
-			$newly['Location'],$newly['BOD'],$newly['PID']);
+		$stmt->bind_param("sssi", htmlspecialchars($newly['Habit']),
+			htmlspecialchars($newly['Location']),htmlspecialchars($newly['BOD']),$newly['PID']);
 	
 		if($stmt->execute()){
 			$stmt->store_result();
@@ -356,11 +362,11 @@ function InsertProfile($newly){
 			VALUES (? , ? , ? , ? )";
 	foreach ($newly as $key => $value) {
 		# code...
-		echo "$key => $value <br/>";
+		//echo "$key => $value <br/>";
 	}
 	if ($stmt = $db->prepare($query)) {
-		$stmt->bind_param("isss", $newly['UID'],$newly['Habit'],
-			$newly['Location'],$newly['BOD']);
+		$stmt->bind_param("isss", $newly['UID'],htmlspecialchars($newly['Habit']),
+			htmlspecialchars($newly['Location']),htmlspecialchars($newly['BOD']));
 	
 		if($stmt->execute()){
 	

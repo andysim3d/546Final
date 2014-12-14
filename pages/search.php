@@ -57,6 +57,9 @@ if(empty($search_word))
 }
 else
 {
+	$search_word2 = (addslashes($search_word));
+	//echo $search_word2;
+
 	include("../include/DB.php");
 	$db=new database();
 	$db->connect();
@@ -64,13 +67,13 @@ else
 	               From `user`
 				   INNER JOIN `questions`
 				   ON user.UID=questions.UID
-				   where Title Like '%$search_word%'
+				   where Title Like '%$search_word2%'
 	";
 	$query_search_content="SELECT user.Name,questions.Content,questions.time,questions.QID,questions.Title
 	                       From `user`
 						   INNER JOIN `questions`
 						   ON user.UID=questions.UID
-						   where Content LIKE '%$search_word%'
+						   where Content LIKE '%$search_word2%'
 	";					 
 	if(!$res_search=$db->send_sql($query_search_title)){
 	$db->disconnect();
