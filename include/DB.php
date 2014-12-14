@@ -560,7 +560,7 @@ function GetUpCount($AID) {
 				}
 				array_push ( $results, $element );
 			}
-			return $results;
+			return $results[0]['Count'];
 		}
 	}
 	return - 1;
@@ -640,7 +640,7 @@ function GetDownCount($AID) {
 				}
 				array_push ( $results, $element );
 			}
-			return $results;
+			return $results[0]['Count'];
 		}
 	}
 	return - 1;
