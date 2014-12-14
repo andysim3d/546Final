@@ -148,6 +148,86 @@ function Upgrade($userID){
 	
 }
 
+function AddCreadits($UID){
+
+
+	$db = new database();
+	$db->connect();
+	$query = "Update `credits` = `credits` + 1
+				from `User` 
+				where `UID` = ?";
+	
+
+	if ($stmt = $db->prepare($query)) {
+		$stmt->bind_param("i", $userID);
+		if($stmt->execute()){
+	
+			$stmt->store_result();
+			$affectrows = $stmt->affected_rows;
+				
+			if($affectrows != 0){
+				$db->disconnect();
+				return 1;
+			}
+		}
+	}
+	return  -1;
+}
+
+function SetCreadits($UID, $credits){
+
+
+	$db = new database();
+	$db->connect();
+	$query = "Update `credits` = ?
+				from `User` 
+				where `UID` = ?";
+	
+
+	if ($stmt = $db->prepare($query)) {
+		$stmt->bind_param("ii",$credits, $userID);
+		if($stmt->execute()){
+	
+			$stmt->store_result();
+			$affectrows = $stmt->affected_rows;
+				
+			if($affectrows != 0){
+				$db->disconnect();
+				return 1;
+			}
+		}
+	}
+	return  -1;
+}
+
+//user could upgrade when they have enough credits
+function Upgrade($userID){
+
+	$db = new database();
+	$db->connect();
+	$query = "Update `group` = `group` +1
+				from `User` 
+				where `UID` = ?";
+	
+
+	if ($stmt = $db->prepare($query)) {
+		$stmt->bind_param("i", $userID);
+		if($stmt->execute()){
+	
+			$stmt->store_result();
+			$affectrows = $stmt->affected_rows;
+				
+			if($affectrows != 0){
+				$db->disconnect();
+				return 1;
+			}
+		}
+	}
+	return  -1;
+	//$db->connect();
+	
+}
+
 //validate email;
 function emailValidate($email){
 	$res = filter_var($email, FILTER_VALIDATE_EMAIL);
@@ -158,7 +238,7 @@ function postquestion($userID, $title, $content){
 	if(IDValidate($userID) == -1){
 		return -1;
 	}
-	$ProcceedContent = htmlentities(nl2br($content));
+	$ProcceedContent = nl2br(htmlentities($content));
 	$ProcceedTitle = htmlspecialchars($title);
 	$db = new database();
 	$db->connect();
@@ -247,6 +327,33 @@ function GetProfile($userID){
 		$resultss['getProfile'] = -1;
 		return $resultss;
 }
+
+function AddAnswer($UID, $QID, $Content){
+
+	$db = new database();
+	$db->connect();
+
+	$query = "INSERT INTO `Answers`(, `QID`, `UID`, `Anonymity`, `Content`, `Time`, `Up_Vote`, `Down_Vote`, `comment`) 
+	VALUES ( ? , ? , 0 , ? , ? ,0,0, NULL)";
+	$Content_proceed = nl2br(htmlentities($Content));
+	$time =  date("Y-m-d H:i:s");
+
+
+	if ($stmt = $db->prepare($query)) {
+		$stmt->bind_param("iiss", $QID, $UID, $Content_proceed, $time);
+
+		if($stmt->execute()){
+			$stmt->store_result();
+			$result = $stmt->affected_rows;
+
+			AddCreadits($UID);
+			
+			return $result;
+		}
+	}
+	return -1;
+}
+
 function GetQuestion_Answer($Qid){
 	$db = new database();
 	$db->connect();
@@ -261,7 +368,15 @@ function GetQuestion_Answer($Qid){
 		if($stmt->execute()){
 		$results = array();
 		$result = $stmt->get_result();
-		return $result;
+
+			foreach ($result as $keys => $values) {
+				$element;
+				foreach ($values as $key => $value) {
+					$element[$key] = $value;
+				}
+				array_push($results, $element);
+			}
+			return $results;
 		}
 	}
 	return -1;
@@ -357,7 +472,6 @@ function InsertProfile($newly){
 
 	$db = new database();
 	$db->connect();
-	print_r($newly);
 	$query = "INSERT INTO `Profiles`(`UID`, `Habit`, `Location`, `BOD`)
 			VALUES (? , ? , ? , ? )";
 	foreach ($newly as $key => $value) {
