@@ -1,3 +1,6 @@
+/**
+ * 
+ */
 function newDoc() {
     window.location.assign("../pages/register.php")
 }
@@ -58,20 +61,29 @@ function post_question() {
 	}
   $.post("../include/AJAXpostQuestion.php",{Content:_Content, Title:_Title},
   function(xml){
+
   res=$("Content",xml).text();
+
   
   if(res=="true"){
+  //alert(res);
   //post question success
   alert("Post question succeed");
   window.location.assign("../pages/index.php");
   }
   else
   {
-  alert("Post question failed");
+ alert("Post question failed");
+
   }
   });
 }
 
+
+function Upvote() {
+   _AID=$("#answer_info").text();
+   alert(_AID);
+}
 
 $(document).ready(function() {
 
@@ -100,6 +112,8 @@ $(document).ready(function() {
 		$(this).children(".answer_rich").css("display","none");
 	  }
 	  });
+	  
+	$(".up_count_btn").on ("click",Upvote); 
 });
 
 
@@ -136,4 +150,17 @@ $(function() {
           form.submit();
       }
   });
+  $("#addAnswer_form").validate({
+  
+     rules: {
+	    Content: {
+		required: true
+		}
+	 },
+  submitHandler: function(form){
+      form.submit();
+  }
+  
+  });
+  
 });
