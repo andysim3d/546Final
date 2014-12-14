@@ -178,7 +178,7 @@ function postquestion($userID, $title, $content){
 function IDValidate($userID){
 	$reg = "/[0-9]+/";
 	if(!preg_match($reg, $userID)){
-		echo "Not match";
+		echo "Not match<br/>";
 		return -1;
 	}
 	$db = new database();
@@ -228,6 +228,12 @@ function GetProfile($userID){
 					}
 					$element['getProfile'] = 1;
 					array_push($results, $element);
+				}
+				//print_r($reuslts);
+				if (count($results) == 0) {
+					
+					$resultsss['getProfile'] = -1;
+					return $resultsss;
 				}
 				return $results[0];
 			}
@@ -290,43 +296,75 @@ function GetQuestion_ByID($QID){
 function UpdateProfile($newly){
 	$db = new database();
 	$db->connect();
+
+	// if ((CheckProfileExist($newly['UID']) == false)|| (CheckProfileExist($newly['UID']) == -1)) {
+	// 	echo "here";
+	// 	return InsertProfile($newly);
+
+	// }
+
 	$query = "UPDATE `Profiles` 
 			SET
 			`Habit`= ? ,
 			`Location`= ? ,
 			`BOD`= ?  
 			WHERE `PID` =?" ;
-	
+			
 	if ($stmt = $db->prepare($query)) {
-		$stmt->bind_param("ssss", $newly['UID'],$newly['Habit'],
-			$newly['Location'],$newly['BOD']);
+		$stmt->bind_param("sssi", $newly['Habit'],
+			$newly['Location'],$newly['BOD'],$newly['PID']);
 	
 		if($stmt->execute()){
+			$stmt->store_result();
+			$result = $stmt->affected_rows;
 	
-			$result = $stmt->$affected_rows;
-	
-			return $results;
+			return $result;
 		}
 	}
 	
 	return -1;
 }
 
-function InsertProfile($newly){
+function CheckProfileExist($UID){
 
 	$db = new database();
 	$db->connect();
 	
+	$query = "SELECT * from `Profiles` where `UID` = ?";
+	
+	if ($stmt = $db->prepare($query)) {
+		$stmt->bind_param("i",$UID);
+	
+		if($stmt->execute()){
+	
+			//$stmt->store_result();
+			$result = $stmt->affected_rows;
+			echo "ha<br/>";
+			echo $result;
+			return $results;
+		}
+	}
+	return false;
+}
+
+function InsertProfile($newly){
+
+	$db = new database();
+	$db->connect();
+	print_r($newly);
 	$query = "INSERT INTO `Profiles`(`UID`, `Habit`, `Location`, `BOD`)
 			VALUES (? , ? , ? , ? )";
-	
+	foreach ($newly as $key => $value) {
+		# code...
+		echo "$key => $value <br/>";
+	}
 	if ($stmt = $db->prepare($query)) {
 		$stmt->bind_param("isss", $newly['UID'],$newly['Habit'],
 			$newly['Location'],$newly['BOD']);
 	
 		if($stmt->execute()){
 	
-			$result = $stmt->$insert_id;
+			$result = $stmt->insert_id;
 			return $results;
 		}
 	}
