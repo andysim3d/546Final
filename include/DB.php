@@ -82,6 +82,7 @@ function checkEmailExist($email){
 	return -1;
 
 }
+//Regist 
 function regist($email, $username, $password){
 	
 	$db = new database();
@@ -90,10 +91,6 @@ function regist($email, $username, $password){
 	if(checkEmailExist($email) == -1){
 		return -1;
 	}
-/*
-	$query = "Insert into `User`(`email`, `Name`, `passwd`, `group`, `credits`)
-				Values (\"$email\", \"$username\",\"". SHA1($password) ."\",1,0)";
-	*/
 	$mail = htmlspecialchars($email);
 	$name = htmlspecialchars($username);
 	$pass = htmlspecialchars($password);
@@ -126,21 +123,21 @@ function AddCreadits($UID){
 
 	$db = new database();
 	$db->connect();
-	$query = "Update `credits` = `credits` + 1
-				from `User` 
+	$query = "UPDATE `User` SET `credits` = `credits` + 1
 				where `UID` = ?";
-	
 
 	if ($stmt = $db->prepare($query)) {
-		$stmt->bind_param("i", $userID);
+		$stmt->bind_param("i", $UID);
 		if($stmt->execute()){
 	
 			$stmt->store_result();
 			$affectrows = $stmt->affected_rows;
-				
 			if($affectrows != 0){
 				$db->disconnect();
-				return 1;
+				$currentCredit = GetCredit($UID);
+
+
+
 			}
 		}
 	}
@@ -301,6 +298,69 @@ function GetProfile($userID){
 		return $resultss;
 }
 
+//get current group 
+function GetGroup($UID){
+
+	$db = new database();
+	$db->connect();
+
+	$query = "SELECT `group` FROM `User` 
+				where `UID` = ?";
+	if ($stmt = $db->prepare($query)) {
+		$stmt->bind_param("i", $UID);
+
+		if($stmt->execute()){
+			$results = array();
+			$result = $stmt->get_result();
+			
+			foreach ($result as $keys => $values) {
+				$element;
+				foreach ($values as $key => $value) {
+					$element[$key] = $value;
+				}
+				array_push($results, $element);
+			}
+			if (count($results) == 0) {
+				return -1;
+			}
+			return $results[0]['group'];
+		}
+	}
+	return -1;
+}
+
+//get current credit
+function GetCredit($UID){
+
+	$db = new database();
+	$db->connect();
+
+	$query = "SELECT `credits` FROM `User` 
+				where `UID` = ?";
+	if ($stmt = $db->prepare($query)) {
+		$stmt->bind_param("i", $UID);
+
+		if($stmt->execute()){
+			$results = array();
+			$result = $stmt->get_result();
+			
+			foreach ($result as $keys => $values) {
+				$element;
+				foreach ($values as $key => $value) {
+					$element[$key] = $value;
+				}
+				array_push($results, $element);
+			}
+			if (count($results) == 0) {
+				return -1;
+			}
+			return $results[0]['credits'];
+		}
+	}
+	return -1;
+}
+
+
 function AddAnswer($UID, $QID, $Content){
 
 	$db = new database();
@@ -314,7 +374,7 @@ function AddAnswer($UID, $QID, $Content){
 	 
 	$time =  date("Y-m-d H:i:s");
 
-	echo "$time";
+	//echo "$time";
 	if ($stmt = $db->prepare($query)) {
 		$stmt->bind_param("iiss", $QID, $UID, $Content_proceed, $time);
 
