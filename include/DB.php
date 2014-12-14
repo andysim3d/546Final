@@ -120,34 +120,6 @@ function regist($email, $username, $password){
 	return -1;
 }
 
-//user could upgrade when they have enough credits
-function Upgrade($userID){
-
-	$db = new database();
-	$db->connect();
-	$query = "Update `group` = `group` +1
-				from `User` 
-				where `UID` = ?";
-	
-
-	if ($stmt = $db->prepare($query)) {
-		$stmt->bind_param("i", $userID);
-		if($stmt->execute()){
-	
-			$stmt->store_result();
-			$affectrows = $stmt->affected_rows;
-				
-			if($affectrows != 0){
-				$db->disconnect();
-				return 1;
-			}
-		}
-	}
-	return  -1;
-	//$db->connect();
-	
-}
-
 function AddCreadits($UID){
 
 
