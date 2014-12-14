@@ -158,7 +158,7 @@ function postquestion($userID, $title, $content){
 	if(IDValidate($userID) == -1){
 		return -1;
 	}
-	$ProcceedContent = htmlspecialchars($content);
+	$ProcceedContent = htmlentities(nl2br($content));
 	$ProcceedTitle = htmlspecialchars($title);
 	$db = new database();
 	$db->connect();
