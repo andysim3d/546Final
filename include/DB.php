@@ -303,7 +303,7 @@ function UpdateProfile($newly){
 	
 		if($stmt->execute()){
 	
-			$result = $stmt->$affect_rows;
+			$result = $stmt->$affected_rows;
 	
 			return $results;
 		}

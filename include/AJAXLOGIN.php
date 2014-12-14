@@ -94,6 +94,7 @@ $_SESSION['UID'] = $userinfo['UID'];
 $_SESSION['Name'] = $userinfo['Name'];
 $_SESSION['GRP'] = $userinfo['group'];
 $_SESSION['CRD'] = $userinfo['credits'];
+$_SESSION['Email'] = $userinfo['email'];
 
 $xmlString = $dom->saveXML();
 echo $xmlString;
