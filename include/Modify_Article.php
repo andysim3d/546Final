@@ -13,8 +13,8 @@ $UID = $_SESSION['UID'];
 $GRP = GetGroup($UID);
 //echo $UID;
 //print_r($_POST);
-$header = "Location: http://localhost/546final/pages/edit_answer.php?var=". $_POST['QID'];
-
+// $header = "Location: http://localhost/546final/pages/edit_answer.php?var=". $_POST['QID'];
+$header = "Location: http://localhost/546Final/pages/index.php";
 //Permission Denied
 if ($GRP <= 1) {
 	header($header);
