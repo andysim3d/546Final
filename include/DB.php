@@ -133,7 +133,13 @@ function AddCreadits($UID) {
 	}
 	return - 1;
 }
-//user could upgrade when they have enough credits
+
+/**
+ * user could upgrade when they have enough credits
+ * @param int $userID
+ * @param int $GRP
+ * @return sucess on 1, else on -1
+ */
 function Upgrade($userID, $GRP){
 
 	$db = new database();
@@ -172,15 +178,23 @@ function CheckUpdate($UID, $credits) {
 	} elseif ($credits < 30) {
 		Upgrade ( $UID, 3 );
 	} else {
-		Upgrade ( $UID, 4 );
+		Upgrade ( $UID, 5 );
 	}
 }
 
 // validate email;
+
 function emailValidate($email) {
 	$res = filter_var ( $email, FILTER_VALIDATE_EMAIL );
 	return $res;
 }
+/**
+ * add question in DB
+ * @param int $userID
+ * @param string $title
+ * @param string $content
+ * @return 1 on success, else -1
+ */
 function postquestion($userID, $title, $content) {
 	if (IDValidate ( $userID ) == - 1) {
 		return - 1;
@@ -207,6 +221,12 @@ function postquestion($userID, $title, $content) {
 	}
 	return - 1;
 }
+/**
+ * check if UID is validate
+ * @param int $userID
+ * @return success return 1, else -1;
+ */
+
 function IDValidate($userID) {
 	$reg = "/[0-9]+/";
 	if (! preg_match ( $reg, $userID )) {
@@ -230,7 +250,11 @@ function IDValidate($userID) {
 	}
 	return - 1;
 }
-// TODO:
+/**
+ * Get user's Profile
+ * @param int $userID
+ * @return success return profile, else return -1
+ */
 function GetProfile($userID) {
 	if (IDValidate ( $userID ) == - 1) {
 		echo "User Invalidate<br/>";
@@ -274,6 +298,11 @@ function GetProfile($userID) {
 }
 
 // get current group
+/**
+ * Get user's GRP num
+ * @param int $UID
+ * @return GRP num
+ */
 function GetGroup($UID) {
 	$db = new database ();
 	$db->connect ();
@@ -304,6 +333,11 @@ function GetGroup($UID) {
 }
 
 // get current credit
+/**
+ * Get user's credit
+ * @param int $UID
+ * @return int user's credit
+ */
 function GetCredit($UID) {
 	$db = new database ();
 	$db->connect ();
@@ -332,6 +366,13 @@ function GetCredit($UID) {
 	}
 	return - 1;
 }
+/**
+ * Add Answer in Database
+ * @param int $UID
+ * @param int $QID
+ * @param string $Content
+ * @return success, return 1, else -1
+ */
 function AddAnswer($UID, $QID, $Content) {
 	$db = new database ();
 	$db->connect ();
@@ -360,6 +401,11 @@ function AddAnswer($UID, $QID, $Content) {
 	return - 1;
 }
 
+/**
+ * Convert GRP from number to string
+ * @param GRP number
+ * @return GRP name in string
+ */
 function GetGRPName($GRP){
 	if ($GRP < 1) {
 		return "Guest";
@@ -379,6 +425,155 @@ function GetGRPName($GRP){
 	if ($GRP >= 5) {
 		return "Admin";
 	}
+}
+
+function Delete_Answer($AID){
+
+	$db = new database ();
+	$db->connect ();
+	
+	// if ((CheckProfileExist($newly['UID']) == false)|| (CheckProfileExist($newly['UID']) == -1)) {
+	// echo "here";
+	// return InsertProfile($newly);
+	
+	// }
+	
+	$query = "DELETE FROM `Answers` WHERE `AID` =  ? ";
+	
+	
+	if ($stmt = $db->prepare ( $query )) {
+		$stmt->bind_param ( "i", $AID);
+		
+		if ($stmt->execute ()) {
+			$stmt->store_result ();
+			$result = $stmt->affected_rows;
+			
+			return $result;
+		}
+	}
+	
+	return - 1;
+}
+
+function Delete_Answers_By_QID($QID){
+
+	$db = new database ();
+	$db->connect ();
+	
+	// if ((CheckProfileExist($newly['UID']) == false)|| (CheckProfileExist($newly['UID']) == -1)) {
+	// echo "here";
+	// return InsertProfile($newly);
+	
+	// }
+	
+	$query = "DELETE FROM `Answers` WHERE `QID` =  ? ";
+	
+	
+	if ($stmt = $db->prepare ( $query )) {
+		$stmt->bind_param ( "i", $QID);
+		
+		if ($stmt->execute ()) {
+			$stmt->store_result ();
+			$result = $stmt->affected_rows;
+			
+			return $result;
+		}
+	}
+	
+	return - 1;
+}
+function Delete_UP($AID){
+	
+	$db = new database ();
+	$db->connect ();
+	
+	// if ((CheckProfileExist($newly['UID']) == false)|| (CheckProfileExist($newly['UID']) == -1)) {
+	// echo "here";
+	// return InsertProfile($newly);
+	
+	// }
+	
+	$query = "DELETE FROM `UP_Table` WHERE `AID` =  ? ";
+	
+	
+	if ($stmt = $db->prepare ( $query )) {
+		$stmt->bind_param ( "i", $AID);
+		
+		if ($stmt->execute ()) {
+			$stmt->store_result ();
+			$result = $stmt->affected_rows;
+			
+			return $result;
+		}
+	}
+	
+	return - 1;
+}
+function Delete_Down($AID){
+	
+	$db = new database ();
+	$db->connect ();
+	
+	$query = "DELETE FROM `DOWN_Table` WHERE `AID` =  ? ";
+	
+	
+	if ($stmt = $db->prepare ( $query )) {
+		$stmt->bind_param ( "i", $AID);
+		
+		if ($stmt->execute ()) {
+			$stmt->store_result ();
+			$result = $stmt->affected_rows;
+			
+			return $result;
+		}
+	}
+	
+	return - 1;
+}
+
+function Delete_Article($ArtID){
+
+	$db = new database ();
+	$db->connect ();
+	
+	$query = "DELETE FROM `Article` WHERE `ArtID` =  ? ";
+	
+	
+	if ($stmt = $db->prepare ( $query )) {
+		$stmt->bind_param ( "i", $ArtID);
+		
+		if ($stmt->execute ()) {
+			$stmt->store_result ();
+			$result = $stmt->affected_rows;
+			
+			return $result;
+		}
+	}
+	
+	return - 1;
+}
+
+function Delete_Question($QID){
+
+	
+	$db = new database ();
+	$db->connect ();
+	
+	$query = "DELETE FROM `Questions` WHERE `QID` =  ? ";
+	
+	
+	if ($stmt = $db->prepare ( $query )) {
+		$stmt->bind_param ( "i", $QID);
+		
+		if ($stmt->execute ()) {
+			$stmt->store_result ();
+			$result = $stmt->affected_rows;
+			
+			return $result;
+		}
+	}
+	
+	return - 1;
 }
 
 function GetQuestion_Answer($Qid) {
