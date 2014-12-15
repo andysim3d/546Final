@@ -387,6 +387,26 @@ function Modify_Article($ArtID, $Title, $Content){
 	return - 1;
 }
 
+function Modify_Answer($AID, $Content){
+
+	$db = new database ();
+	$db->connect ();
+
+	$query = "UPDATE `Answers` SET `Content`= ? WHERE `AID` = ? ";
+	$content_Processed = nl2br(htmlspecialchars($Content));
+	if ($stmt = $db->prepare ( $query )) {
+		$stmt->bind_param ( "si", $content_Processed, $ArtID );
+
+		if ($stmt->execute ()) {
+			$stmt->store_result ();
+			$result = $stmt->affected_rows;
+			return $result;
+		}
+	}
+	return - 1;
+}
+
+
 
 function Modify_Question($QID, $Title, $Content){
 

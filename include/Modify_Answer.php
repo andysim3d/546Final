@@ -10,7 +10,7 @@ else{
 }
 
 $UID = $_SESSION['UID'];
-$WriterUID = Get_UID_By_AID($_POST['ArtID']);
+$WriterUID = Get_UID_By_AID($_POST['AID']);
 $GRP = GetGroup($UID);
 //echo $UID;
 //print_r($_POST);
@@ -21,8 +21,8 @@ if ($GRP <= 1) {
 	header($header);
 	return ;
 }
-if(isset($_POST['ArtID']) && isset($_POST['Title']) && isset($_POST['Content'])){
-	Modify_Article($_POST['ArtID'], $_POST['Title'], $_POST['Content']);	
+if(isset($_POST['AID']) && isset($_POST['Title']) && isset($_POST['Content'])){
+	Modify_Answer($_POST['AID'], $_POST['Content']);	
 	header($header);	
 }
 header($header);
