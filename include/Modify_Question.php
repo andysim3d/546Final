@@ -11,13 +11,18 @@ else{
 
 $UID = $_SESSION['UID'];
 $GRP = GetGroup($UID);
+//echo $UID;
+//print_r($_POST);
+$header = "Location: http://localhost/546final/pages/edit_answer.php?var=". $_POST['QID'];
+
 //Permission Denied
 if ($GRP <= 1) {
-	header("Location: http://localhost/546Final/pages/index.php");
+	header($header);
 	return ;
 }
 if(isset($_POST['QID']) && isset($_POST['Title']) && isset($_POST['Content'])){
 	Modify_Question($_POST['QID'], $_POST['Title'], $_POST['Content']);	
+	header($header);	
 }
-header("Location: http://localhost/546Final/pages/index.php");
+header($header);
 ?>

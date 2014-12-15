@@ -69,7 +69,7 @@ header("Location: http://localhost/546Final/pages/index.php");
 					<div class="row">
 						<div class="col-md-4">
 							 <input type="hidden" id="QID" name="QID" size="50" value="<?PHP 
-							 echo $question_content[0]['QID'];
+							 echo $question_id;
 							 ?>" >
 							 </input>
 						</div>
@@ -97,7 +97,7 @@ header("Location: http://localhost/546Final/pages/index.php");
 						</div>
 					</div>
 				</div>
-				<button type="button" class="btn btn-primary" name="question_edit" id="question_edit">Edit</button>
+				<button type="submit" class="btn btn-primary" name="question_edit" id="question_edit">Edit</button>
 			</fieldset>
 		</form>
 
