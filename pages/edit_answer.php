@@ -154,6 +154,11 @@ else{
 	 echo "<span>&nbsp &nbsp &nbsp</span>";
 	   echo "<div id=\"answer_info\" style=\"display: none;\">".$answer_content[$i]['AID']."</div>";
 	 echo "<a padding-left:10px href=\"#\" class=\"down_count_btn\" id=\"down_count_".$answer_content[$i]['AID']."\"><span class=\"glyphicon glyphicon-thumbs-down\" aria-hidden=\"true\"></span></span><span class=\"count\">&nbsp-".$down_count."</span>&nbspDown</a>";
+		     		if((isset($group))&&($group>=5))
+		{
+		echo "<br></br>";
+		echo "<a padding-left:10px href=\"../include/Delete_Answer.php?AID=".$answer_content[$i]['AID']."\" class=\"btn btn-primary\" role=\"button\" >Delete</a>";
+		}
 		    }
 		    else
 		    {
