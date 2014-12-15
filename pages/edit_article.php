@@ -54,12 +54,26 @@ header("Location: http://localhost/546Final/pages/index.php");
 	<div class="container">
        <fieldset>
 	   <legend>Article Editing</legend>
-	   <form role="form">
-	      <div class="form-group" enctype="multipart/form-data">
+	   <form role="form" action="../include/Modify_Artcle.php" method="post" id="edit_article_form" novalidate="novalidate">
+	      
+		  <div class="form-group" enctype="multipart/form-data">
 	         <div class="row">
 	             <div class="col-md-8">
-	             <label for="article_title">Title</label>
-				 <input type="text" class="form-control" id="article_title" name="article_title" value="<?PHP
+				 <input type="hidden" class="form-control" id="ArtID" name="ArtID" value="<?PHP
+				 if(isset($_GET['var']))
+				 {
+	            $article_id=$_GET['var'];
+			     echo $article_id;
+				 }
+				 ?>" ></input>
+	             </div>
+	           </div>
+	        </div>
+		  <div class="form-group" enctype="multipart/form-data">
+	         <div class="row">
+	             <div class="col-md-8">
+	             <label for="Title">Title</label>
+				 <input type="text" class="form-control" id="Title" name="Title" value="<?PHP
 				 if(isset($_GET['var']))
 				 {
 				 $article_id=$_GET['var'];
@@ -73,21 +87,21 @@ header("Location: http://localhost/546Final/pages/index.php");
 		<div class="form-group" >
 	         <div class="row">
 	             <div class="col-md-4">
-	             <label for="article_content">Content:</label>
-				 <textarea  id="article_content" name="article_content" rows="40" cols="100">
+	             <label for="Content">Content:</label>
+				 <textarea  id="Content" name="Content" rows="40" cols="100">
 				 <?PHP
 				 if(isset($_GET['var']))
 				 {
 			     $articleq_id=$_GET['var'];
 				 $res_art=GetArticle($article_id);
-				 echo (str_replace("<br />", "", $res_art[0]['Content']));
+				 echo $res_art[0]['Content'];
 				 }
 				 ?>
 				 </textarea>
 	             </div>
 	           </div>
 	        </div>
-			<button type="button" class="btn btn-primary" name="article_submit" id="article_submit">Submit</button>
+			<button type="submit" class="btn btn-primary" name="article_submit" id="article_submit">Submit</button>
 	      </div>
 	   </form>
 	   </fieldset>
