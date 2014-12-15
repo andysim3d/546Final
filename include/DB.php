@@ -359,6 +359,28 @@ function AddAnswer($UID, $QID, $Content) {
 	}
 	return - 1;
 }
+
+function GetGRPName($GRP){
+	if ($GRP < 1) {
+		return "Guest";
+	}
+	if ($GRP == 1) {
+		return "Registed";
+	}
+	if ($GRP == 2) {
+		return "Trusted";
+	}
+	if ($GRP == 3) {
+		return "Writer";
+	}
+	if ($GRP == 4) {
+		return "VIP";
+	}
+	if ($GRP >= 5) {
+		return "Admin";
+	}
+}
+
 function GetQuestion_Answer($Qid) {
 	$db = new database ();
 	$db->connect ();
