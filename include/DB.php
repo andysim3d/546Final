@@ -221,6 +221,38 @@ function postquestion($userID, $title, $content) {
 	}
 	return - 1;
 }
+
+
+
+
+
+function Post_Article($UID, $Title, $Content) {
+	if (IDValidate( $UID ) == - 1) {
+		return - 1;
+	}
+	$ProcceedContent = nl2br ( htmlentities ( $Content ) );
+	$ProcceedTitle = htmlspecialchars ( $Title );
+	$db = new database ();
+	$db->connect ();
+	date_default_timezone_set ( 'UTC' );
+
+	$query = "INSERT INTO `Article`(`UID`, `Title`, `Content`, `Time`, `Up_Vote`, `Down_Vote`)
+	VALUES ( ? , ? , ? , ? ,0,0)";
+
+	if ($stmt = $db->prepare ( $query )) {
+		$stmt->bind_param ( "isss", $UID, $ProcceedTitle, $ProcceedContent, date ( "Y-m-d H:i:s" ) );
+		if ($stmt->execute ()) {
+				
+			$stmt->store_result();
+			$affectrows = $stmt->affected_rows;
+				
+			if ($affectrows != 0) {
+				return $stmt->insert_id;
+			}
+		}
+	}
+	return - 1;
+}
 /**
  * check if UID is validate
  * @param int $userID
@@ -229,10 +261,10 @@ function postquestion($userID, $title, $content) {
 
 function IDValidate($userID) {
 	$reg = "/[0-9]+/";
-	if (! preg_match ( $reg, $userID )) {
-		echo "Not match<br/>";
-		return - 1;
-	}
+	//if (! preg_match ( $reg, $userID )) {
+	// 	echo "Not match<br/>";
+	// 	return - 1;
+	// }
 	$db = new database ();
 	$db->connect ();
 	$query = "Select * from `User` where `UID` = ? ";
@@ -242,7 +274,7 @@ function IDValidate($userID) {
 		if ($stmt->execute ()) {
 			$stmt->store_result ();
 			$affectrows = $stmt->affected_rows;
-			
+			// echo $affectrows;
 			if ($affectrows != 0) {
 				return 1;
 			}
@@ -327,6 +359,29 @@ function GetGroup($UID) {
 				return - 1;
 			}
 			return $results [0] ['group'];
+		}
+	}
+	return - 1;
+}
+
+
+function Modify_Article($ArtID, $Title, $Content){
+
+	$db = new database ();
+	$db->connect ();
+
+	$query = "UPDATE `Article`
+				SET `Title`= ? ,`Content`= ?
+				WHERE `ArtID` = ? ";
+	$title_Processed = nl2br(htmlspecialchars($Title));
+	$content_Processed = nl2br(htmlspecialchars($Content));
+	if ($stmt = $db->prepare ( $query )) {
+		$stmt->bind_param ( "ssi", $title_Processed, $content_Processed, $ArtID );
+
+		if ($stmt->execute ()) {
+			$stmt->store_result ();
+			$result = $stmt->affected_rows;
+			return $result;
 		}
 	}
 	return - 1;
@@ -760,6 +815,7 @@ function InsertProfile($newly) {
 		}
 	}
 }
+
 function GetArticlesByUID($UID) {
 	$db = new database ();
 	$db->connect ();
@@ -786,6 +842,7 @@ function GetArticlesByUID($UID) {
 	}
 	return - 1;
 }
+
 function GetArticle($Artid) {
 	$db = new database ();
 	$db->connect ();
@@ -803,7 +860,7 @@ function GetArticle($Artid) {
 			foreach ( $result as $keys => $values ) {
 				$element;
 				foreach ( $values as $key => $value ) {
-					$element [$key] = $value;
+					$element [$key] = (html_entity_decode($value));
 				}
 				array_push ( $results, $element );
 			}
