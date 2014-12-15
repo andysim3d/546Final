@@ -618,7 +618,8 @@ function Delete_Article($ArtID){
 }
 
 function Delete_Question($QID){
-
+	Delete_UP_By_QID($QID);
+	Delete_Down_By_QID($QID);
 	Delete_Answers_By_QID($QID);
 	$db = new database ();
 	$db->connect ();
@@ -837,8 +838,43 @@ function GetUpCount($AID) {
 	}
 	return - 1;
 }
+
+function Get_UID_By_AID($AID){
+
+	$db = new database ();
+	$db->connect ();
+	$query = "SELECT `UID` from `Answers`
+	where `AID` = ?";
+	
+	if ($stmt = $db->prepare ( $query )) {
+		$stmt->bind_param ( "i", $AID );
+	
+		if ($stmt->execute ()) {
+			$result = $stmt->get_result ();
+			// return $result;
+				
+			$results = array ();
+			foreach ( $result as $keys => $values ) {
+				$element;
+				foreach ( $values as $key => $value ) {
+					$element [$key] = $value;
+				}
+				array_push ( $results, $element );
+			}
+			return $results[0]['UID'];
+		}
+	}
+	return - 1;
+}
+
+
 function VoteUp($AID, $UID) {
 	
+	$WriterUID = Get_UID_By_AID($AID);
+	if($WriterUID != -1){
+		AddCreadits($WriterUID);
+	}
+	//AddCreadits($UID);
 	$db = new database ();
 	$db->connect ();
 	$query = "INSERT INTO `UP_Table`(`AID`, `UID`) 
