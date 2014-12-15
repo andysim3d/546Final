@@ -535,11 +535,11 @@ function Delete_UP_By_QID($QID){
 				}
 				//array_push ( $results, $element );
 			}	
-			return $result;
+			return 1;
 		}
 	}
 	
-	return - 1;
+	return -1;
 }
 
 function Delete_Down_By_QID($QID){
@@ -562,11 +562,11 @@ function Delete_Down_By_QID($QID){
 				}
 				//array_push ( $results, $element );
 			}	
-			return $result;
+			return 1;
 		}
 	}
 	
-	return - 1;
+	return -1;
 
 }
 
@@ -616,8 +616,6 @@ function Delete_Article($ArtID){
 
 function Delete_Question($QID){
 
-	Delete_UP_By_QID($QID);
-	Delete_Down_By_QID($QID);
 	Delete_Answers_By_QID($QID);
 	$db = new database ();
 	$db->connect ();
