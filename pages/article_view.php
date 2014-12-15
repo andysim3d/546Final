@@ -50,8 +50,8 @@
 	$article_id=$_GET['var'];
 	include("../include/DB.php");
 	$res_art=GetArticle($article_id);
-	print_r($res_art);
-	print_r($_SESSION);
+// 	print_r($res_art);
+// 	print_r($_SESSION);
 	echo "<div class=\"jumbotron\">\n";
 	echo "<h4>".$res_art[0]['Title']."</h4>";
 	echo "<h6>Author:".$res_art[0]['Name']."</h6>\n";
