@@ -9,6 +9,7 @@
 <meta name="author" content="">
 <title>Article</title>
 
+<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css" rel="stylesheet">
 <link href="../css/bootstrap.min.css" rel="stylesheet">
 <link href="../css/article_site.css" rel="stylesheet">
 
@@ -43,12 +44,56 @@
 	</div>
 
 	<!-- /container -->
+	
+	
+	<?PHP
+	include("../include/DB.php");
+	if((isset($_SESSION['login']))&&($_SESSION['login']==true))
+	{
+  $user_id=$_SESSION['UID'];
+  $group=GetGroup($user_id);
+  if($group>3)
+  {
+    echo"<div class=\"container\">
+	<fieldset>
+	<legend>Post Your Article here</legend>";
+	echo "<form role=\"form\" action=\"../include/PostArticle.php\" method=\"post\" id=\"post_article_form\" novalidate=\"novalidate\" >";
+    echo "		<div class=\"form-group\">
+					<div class=\"row\">
+						<div class=\"col-md-6\">
+							<label for=\"Title\">Title:</label> 
+							  <input type=\"text\" id=\"Title\" name=\"Title\"  placeholder=\"Input your article's title\" size=\"50\">
+						</div>
+					</div>
+				</div>";
+	echo "
+				<div class=\"form-group\">
+					<div class=\"row\">
+						<div class=\"col-md-4\">
+							<label for=\"Content\">Content:</label> 
+							 <textarea id=\"Content\" name=\"Content\" rows=\"5\" cols=\"40\"  placeholder=\"Input your article's content\"></textarea>
+						</div>
+					</div>
+				</div>
+	";
+	echo"
+	<button type=\"submit\" class=\"btn btn-primary\" name=\"article_submit\" id=\"article_submit\">Submit</button>
+	";
+	echo "</form>";
+	echo "</fieldset>
+	</div>";
+	}
+	}
+	?>
+	
+	
+	
+	
 	<div class="container">
 
 		<fieldset>
 			<legend>Articles</legend>
 <?PHP
-include("../include/DB.php");
 $db=new database();
 $db->connect();
 $query_article="SELECT user.Name,article.*,user.UID
