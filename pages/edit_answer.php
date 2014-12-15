@@ -80,6 +80,11 @@ else{
 			echo "</form>";
 			
 		}
+		if((isset($group))&&($group>=5))
+		{
+		echo "<br></br>";
+		echo "<a padding-left:10px href=\"../include/Delete_Question.php?QID=".$question_id."\" class=\"btn btn-primary\" role=\"button\" >Delete</a>";
+		}
 	    echo "<h6>Poster:".$question_content[0]['Name']."</h6>\n";
         echo "<h6>Time:".$question_content[0]['Time']."</h6>\n";
 		echo "</fieldset>";
