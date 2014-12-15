@@ -363,7 +363,7 @@ function GetQuestion_Answer($Qid) {
 	$db = new database ();
 	$db->connect ();
 	
-	$query = "SELECT `Answers`.`Content`, `Time`, `Name` 
+	$query = "SELECT `Answers`.`Content`, `Time`, `Name` , `Answers`.`AID`
 	FROM `Answers`, `User` 
 	where `User`.`UID` = `Answers`.`UID`
 	and `QID` = ?";
