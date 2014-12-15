@@ -332,6 +332,30 @@ function GetGroup($UID) {
 	return - 1;
 }
 
+
+function Modify_Question($QID, $Title, $Content){
+
+	$db = new database ();
+	$db->connect ();
+
+	$query = "UPDATE `Questions` 
+				SET `Title`= ? ,`Content`= ?
+				WHERE `QID` = ? ";
+	$title_Processed = nl2br(htmlspecialchars($Title));
+	$content_Processed = nl2br(htmlspecialchars($Content));
+	if ($stmt = $db->prepare ( $query )) {
+		$stmt->bind_param ( "ssi", $title_Processed, $content_Processed, $QID );
+		
+		if ($stmt->execute ()) {
+			$stmt->store_result ();
+			$result = $stmt->affected_rows;
+			
+			return $result;
+		}
+	}
+	return - 1;
+}
+
 // get current credit
 /**
  * Get user's credit
