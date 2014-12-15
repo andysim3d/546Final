@@ -432,12 +432,6 @@ function Delete_Answer($AID){
 	$db = new database ();
 	$db->connect ();
 	
-	// if ((CheckProfileExist($newly['UID']) == false)|| (CheckProfileExist($newly['UID']) == -1)) {
-	// echo "here";
-	// return InsertProfile($newly);
-	
-	// }
-	
 	$query = "DELETE FROM `Answers` WHERE `AID` =  ? ";
 	
 	
@@ -460,12 +454,6 @@ function Delete_Answers_By_QID($QID){
 	$db = new database ();
 	$db->connect ();
 	
-	// if ((CheckProfileExist($newly['UID']) == false)|| (CheckProfileExist($newly['UID']) == -1)) {
-	// echo "here";
-	// return InsertProfile($newly);
-	
-	// }
-	
 	$query = "DELETE FROM `Answers` WHERE `QID` =  ? ";
 	
 	
@@ -486,12 +474,6 @@ function Delete_UP($AID){
 	
 	$db = new database ();
 	$db->connect ();
-	
-	// if ((CheckProfileExist($newly['UID']) == false)|| (CheckProfileExist($newly['UID']) == -1)) {
-	// echo "here";
-	// return InsertProfile($newly);
-	
-	// }
 	
 	$query = "DELETE FROM `UP_Table` WHERE `AID` =  ? ";
 	
@@ -555,7 +537,7 @@ function Delete_Article($ArtID){
 
 function Delete_Question($QID){
 
-	
+
 	$db = new database ();
 	$db->connect ();
 	
@@ -638,13 +620,7 @@ function GetQuestion_ByID($QID) {
 function UpdateProfile($newly) {
 	$db = new database ();
 	$db->connect ();
-	
-	// if ((CheckProfileExist($newly['UID']) == false)|| (CheckProfileExist($newly['UID']) == -1)) {
-	// echo "here";
-	// return InsertProfile($newly);
-	
-	// }
-	
+
 	$query = "UPDATE `Profiles` 
 	SET
 	`Habit`= ? ,
@@ -690,10 +666,7 @@ function InsertProfile($newly) {
 	$db->connect ();
 	$query = "INSERT INTO `Profiles`(`UID`, `Habit`, `Location`, `BOD`)
 	VALUES (? , ? , ? , ? )";
-	foreach ( $newly as $key => $value ) {
-		// code...
-		// echo "$key => $value <br/>";
-	}
+
 	if ($stmt = $db->prepare ( $query )) {
 		$stmt->bind_param ( "isss", $newly ['UID'], htmlspecialchars ( $newly ['Habit'] ), htmlspecialchars ( $newly ['Location'] ), htmlspecialchars ( $newly ['BOD'] ) );
 		
@@ -784,7 +757,6 @@ function GetUpCount($AID) {
 }
 function VoteUp($AID, $UID) {
 	
-	// WithDrawVoteDown($AID,$UID);
 	$db = new database ();
 	$db->connect ();
 	$query = "INSERT INTO `UP_Table`(`AID`, `UID`) 
@@ -819,7 +791,6 @@ function WithdrawVoteUp($AID, $UID) {
 }
 function VoteDown($AID, $UID) {
 	
-	// WithDrawVoteUp($AID,$UID);
 	$db = new database ();
 	$db->connect ();
 	$query = "INSERT INTO `DOWN_Table`(`AID`, `UID`) 
@@ -847,8 +818,6 @@ function GetDownCount($AID) {
 		
 		if ($stmt->execute ()) {
 			$result = $stmt->get_result ();
-			// return $result;
-			
 			$results = array ();
 			foreach ( $result as $keys => $values ) {
 				$element;
@@ -882,7 +851,7 @@ function WithdrawVoteDown($AID, $UID) {
 
 // get questions by user ID
 function GetQuestionsByUID($UID, $LIMITION) {
-	// $LIMITION = 10;
+	$LIMITION = 10;
 	$db = new database ();
 	$db->connect ();
 	$query = "SELECT `Questions`.`Content`, `Title`, `Name`, `Time`, `QID`
