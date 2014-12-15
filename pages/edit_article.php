@@ -54,7 +54,7 @@ header("Location: http://localhost/546Final/pages/index.php");
 	<div class="container">
        <fieldset>
 	   <legend>Article Editing</legend>
-	   <form role="form" action="../include/Modify_Artcle.php" method="post" id="edit_article_form" novalidate="novalidate">
+	   <form role="form" action="../include/Modify_Article.php" method="post" id="edit_article_form" novalidate="novalidate">
 	      
 		  <div class="form-group" enctype="multipart/form-data">
 	         <div class="row">
@@ -78,7 +78,7 @@ header("Location: http://localhost/546Final/pages/index.php");
 				 {
 				 $article_id=$_GET['var'];
 				 $res_art=GetArticle($article_id);
-			     echo $res_art[0]['Title'];
+				 echo (str_replace("<br />", "", $res_art[0]['Content']));
 				 }
 				 ?>" ></input>
 	             </div>
