@@ -456,6 +456,9 @@ function Delete_Answer($AID){
 	$db = new database ();
 	$db->connect ();
 	
+	Delete_UP($AID);
+	Delete_Down($AID);
+	
 	$query = "DELETE FROM `Answers` WHERE `AID` =  ? ";
 	
 	
