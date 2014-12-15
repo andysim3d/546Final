@@ -217,4 +217,19 @@ $(function() {
 	  }
 	  });
   
+  $("#edit_article_form").validate({
+	  rules: {
+	      
+		 Title: {
+	     required: true   	 
+		 },
+		 Content: {
+		 required: true
+		 }
+	  },
+	  submitHandler: function(form){
+	        from.submit();
+	  }
+	  });
+  
 });
