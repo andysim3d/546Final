@@ -81,7 +81,8 @@ header("Location: http://localhost/546Final/pages/index.php");
 							<label for="Content">Title:</label> 
 							 <input type="text" id="Title" name="Title" size="50" value="<?PHP 
 							 echo $question_content[0]['Title'];
-							 ?>" >
+							 ?>
+							 " >
 							 </input>
 						</div>
 					</div>
@@ -90,10 +91,9 @@ header("Location: http://localhost/546Final/pages/index.php");
 					<div class="row">
 						<div class="col-md-4">
 							<label for="Content">Detail:</label> 
-							 <textarea id="Content" name="Content" rows="8" cols="50" >
-							 <?PHP 
-							 echo $question_content[0]['Content'];
-							 ?></textarea>
+							 <textarea id="Content" name="Content" rows="8" cols="50" 
+							 ><?PHP echo str_replace("<br />", "",$question_content[0]['Content']);?>
+							</textarea>
 						</div>
 					</div>
 				</div>
