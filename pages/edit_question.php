@@ -62,7 +62,7 @@ header("Location: http://localhost/546Final/pages/index.php");
 
 	<div class="container">
 
-	<form role="form" action="../include/modify_question.php" method="Post" enctype="multipart/form-data">
+	<form role="form" action="../include/Modify_Question.php" method="Post" enctype="multipart/form-data">
 			<fieldset>
 				<legend>Edit Question</legend>
 				<div class="form-group">
