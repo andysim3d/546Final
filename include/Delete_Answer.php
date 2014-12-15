@@ -1,9 +1,9 @@
 <?php session_start();
 
+include("DB.php");
+
 $UID = $_SESSION['UID'];
 $GRP = GetGroup($UID);
-
-include("DB.php");
 
 if ($GRP <5) {
 	header("Location: http://localhost/546Final/pages/index.php");
