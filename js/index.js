@@ -81,8 +81,46 @@ function post_question() {
 
 
 function Upvote() {
-   _AID=$("#answer_info").text();
-   alert(_AID);
+
+_AID=$(this).prev().text();
+   tag_id_up="#up_count_"+_AID;
+   tag_id_down="#down_count_"+_AID;
+  // alert(tag_id);
+   $.post("../include/AJAXUpVote.php",{AID:_AID},
+   function(xml){
+   
+   up_count=$("Up_Count",xml).text();
+   down_count=$("Down_Count",xml).text();
+   
+   $(tag_id_up).text("");
+   change_append="<span class=\"glyphicon glyphicon-thumbs-up\" aria-hidden=\"true\">"+up_count+"  UP</span>";
+   $(tag_id_up).append(change_append);
+   $(tag_id_up).removeClass("up_count_btn");
+   $(tag_id_up).addClass("disabled");
+   $(tag_id_down).remove();
+    
+	});
+
+}
+
+function Downvote() {
+ _AID=$(this).prev().text();
+   tag_id_up="#up_count_"+_AID;
+   tag_id_down="#down_count_"+_AID;
+  // alert(tag_id);
+   $.post("../include/AJAXDownVote.php",{AID:_AID},
+   function(xml){
+   
+   up_count=$("Up_Count",xml).text();
+   down_count=$("Down_Count",xml).text();
+   $(tag_id_down).text("");
+   change_append="<span class=\"glyphicon glyphicon-thumbs-down\" aria-hidden=\"true\">-"+down_count+"  Down</span>";
+   $(tag_id_down).append(change_append);
+   $(tag_id_down).removeClass("down_count_btn");
+   $(tag_id_down).addClass("disabled");
+   $(tag_id_up).remove();
+    
+	});   
 }
 
 $(document).ready(function() {
@@ -114,6 +152,7 @@ $(document).ready(function() {
 	  });
 	  
 	$(".up_count_btn").on ("click",Upvote); 
+	$(".down_count_btn").on("click",Downvote);
 });
 
 

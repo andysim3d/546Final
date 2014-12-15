@@ -8,7 +8,7 @@ $Up = -1;
 $Down = -1;
 if (isset ( $_SESSION ['UID'] ) && isset ( $_POST ['AID'] )) {
 	
-	if (VoteUp ( $_SESSION ['UID'], $_POST ['AID'] ) == - 1) {
+	if (VoteUp ( $_POST ['AID'], $_SESSION ['UID'] ) == - 1) {
 		
 		$Up = GetUpCount($_POST ['AID']);
 		$Down = GetDownCount($_POST ['AID']);

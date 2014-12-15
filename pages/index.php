@@ -96,7 +96,11 @@ $LIMITATION=10;
 		echo "Get Questions failed!<br>\n";
 		return -1;
 	}
+	$answer_count=mysqli_num_rows($res_answer);
+	if($answer_count!=0)
+	{
 	$answer_content=$res_answer->fetch_assoc();
+	 
 	 $len=strlen($answer_content['Content']);
 	 $up_count=GetUpCount($answer_content['AID']);
 	 $down_count=GetDownCount($answer_content['AID']);
@@ -105,27 +109,55 @@ $LIMITATION=10;
 	 {
 	 $answer_str=$answer_content['Content'];
 	 $answer_short=substr($answer_str,0,150);
-	 echo "<p>".$answer_content['AID']."</p>";
 	 echo "<div class=\"answer_wrapper\" style=\"cursor:pointer;\">";
 	 echo "<div class=\"answer_summary\" style=\"display: block;\">".$answer_short."......</div>";
 	 echo "<div class=\"answer_rich\" style=\"display: none;\">".$answer_content['Content']."</div>";
      echo "<h6>".$answer_content['Name']."</h6>";
 	 echo "</div>";
 	 echo "<h4></h4>";
-	 echo "<a href=\"#\" class=\"up_count_btn\" id=\"up_count_".$answer_content['AID']."\"><span class=\"glyphicon glyphicon-thumbs-up\" aria-hidden=\"true\"></span><span class=\"count\">&nbsp".$up_count[0]['Count']."</span>&nbspUp</a>";
+	  if(isset($_SESSION['UID']))
+	 {
+	  echo "<div id=\"answer_info\" style=\"display: none;\">".$answer_content['AID']."</div>";
+	 echo "<a href=\"#\" class=\"up_count_btn\" id=\"up_count_".$answer_content['AID']."\"><span class=\"glyphicon glyphicon-thumbs-up\" aria-hidden=\"true\"></span><span class=\"count\">&nbsp".$up_count."</span>&nbspUp</a>";
 	 echo "<span>&nbsp &nbsp &nbsp</span>";
-	 echo "<a padding-left:10px href=\"#\" class=\"down_count_btn\" id=\"down_count_".$answer_content['AID']."\"><span class=\"glyphicon glyphicon-thumbs-down\" aria-hidden=\"true\"></span></span><span class=\"count\">&nbsp-".$down_count[0]['Count']."</span>&nbspDown</a>";
+	   echo "<div id=\"answer_info\" style=\"display: none;\">".$answer_content['AID']."</div>";
+	 echo "<a padding-left:10px href=\"#\" class=\"down_count_btn\" id=\"down_count_".$answer_content['AID']."\"><span class=\"glyphicon glyphicon-thumbs-down\" aria-hidden=\"true\"></span></span><span class=\"count\">&nbsp-".$down_count."</span>&nbspDown</a>";
      echo "</div>";
 	 }
+	 else
+	 {
+	 echo "<span class=\"glyphicon glyphicon-thumbs-up\" aria-hidden=\"true\"></span><span class=\"count\">&nbsp".$up_count."</span>";
+	 echo "<span>&nbsp &nbsp &nbsp</span>";
+	 echo "<span class=\"glyphicon glyphicon-thumbs-down\" aria-hidden=\"true\"></span></span><span class=\"count\">&nbsp-".$down_count."</span>";
+     echo "</div>";
+	 }
+	 }
+	 
 	 else
 	 //If the length of the answer is suitable
 	 {
 	 echo "<p>".$answer_content['Content']."</p>";
 	 echo "<p>".$answer_content['Name']."</p>";
 	  echo "<h4></h4>";
-	 echo "<a href=\"#\" ><span class=\"glyphicon glyphicon-thumbs-up\" aria-hidden=\"true\"></span><span class=\"count\">&nbsp".$up_count[0]['Count']."</span>&nbspUp</a>";
+	  if(isset($_SESSION['UID']))
+	  {
+	  echo "<div id=\"answer_info\" style=\"display: none;\">".$answer_content['AID']."</div>";
+	 echo "<a href=\"#\" class=\"up_count_btn\" id=\"up_count_".$answer_content['AID']."\"><span class=\"glyphicon glyphicon-thumbs-up\" aria-hidden=\"true\"></span><span class=\"count\">&nbsp".$up_count."</span>&nbspUp</a>";
 	 echo "<span>&nbsp &nbsp &nbsp</span>";
-	 echo "<a padding-left:10px href=\"#\"><span class=\"glyphicon glyphicon-thumbs-down\" aria-hidden=\"true\"></span></span><span class=\"count\">&nbsp-".$down_count[0]['Count']."</span>&nbspDown</a>";
+	 echo "<div id=\"answer_info\" style=\"display: none;\">".$answer_content['AID']."</div>";
+	 echo "<a padding-left:10px href=\"#\" class=\"down_count_btn\" id=\"down_count_".$answer_content['AID']."\"><span class=\"glyphicon glyphicon-thumbs-down\" aria-hidden=\"true\"></span></span><span class=\"count\">&nbsp-".$down_count."</span>&nbspDown</a>";
+     echo "</div>";
+	 }
+	 else
+	 {
+	 echo "<span class=\"glyphicon glyphicon-thumbs-up\" aria-hidden=\"true\"></span><span class=\"count\">&nbsp".$up_count."</span>";
+	 echo "<span>&nbsp &nbsp &nbsp</span>";
+	 echo "<span class=\"glyphicon glyphicon-thumbs-down\" aria-hidden=\"true\"></span></span><span class=\"count\">&nbsp-".$down_count."</span>";
+	 echo "</div>";
+	 }
+	 }
+	 }
+	 else{
 	 echo "</div>";
 	 }
 	 $i++;
