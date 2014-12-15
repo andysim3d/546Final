@@ -10,15 +10,14 @@ else{
 }
 
 $UID = $_SESSION['UID'];
-$WriterUID = Get_UID_By_ArtID($_POST['ArtID']);
-
+$WriterUID = Get_UID_By_AID($_POST['ArtID']);
 $GRP = GetGroup($UID);
 //echo $UID;
 //print_r($_POST);
 // $header = "Location: http://localhost/546final/pages/edit_answer.php?var=". $_POST['QID'];
 $header = "Location: http://localhost/546Final/pages/index.php";
 //Permission Denied
-if ($UID != $WriterUID) {
+if ($GRP <= 1) {
 	header($header);
 	return ;
 }

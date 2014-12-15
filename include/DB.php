@@ -896,6 +896,35 @@ function GetUpCount($AID) {
 	return - 1;
 }
 
+
+function Get_UID_By_ArtID($ArtID){
+
+	$db = new database ();
+	$db->connect ();
+	$query = "SELECT `UID` from `Article`
+	where `ArtID` = ?";
+
+	if ($stmt = $db->prepare ( $query )) {
+		$stmt->bind_param ( "i", $AID );
+
+		if ($stmt->execute ()) {
+			$result = $stmt->get_result ();
+			// return $result;
+
+			$results = array ();
+			foreach ( $result as $keys => $values ) {
+				$element;
+				foreach ( $values as $key => $value ) {
+					$element [$key] = $value;
+				}
+				array_push ( $results, $element );
+			}
+			return $results[0]['UID'];
+		}
+	}
+	return - 1;
+}
+
 function Get_UID_By_AID($AID){
 
 	$db = new database ();
