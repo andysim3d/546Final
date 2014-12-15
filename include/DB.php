@@ -469,7 +469,6 @@ function Delete_Answer($AID){
 			return $result;
 		}
 	}
-	
 	return - 1;
 }
 
@@ -494,13 +493,13 @@ function Delete_Answers_By_QID($QID){
 	
 	return - 1;
 }
+
 function Delete_UP($AID){
 	
 	$db = new database ();
 	$db->connect ();
 	
 	$query = "DELETE FROM `UP_Table` WHERE `AID` =  ? ";
-	
 	
 	if ($stmt = $db->prepare ( $query )) {
 		$stmt->bind_param ( "i", $AID);
@@ -511,10 +510,66 @@ function Delete_UP($AID){
 			
 			return $result;
 		}
+	}	
+	return - 1;
+}
+
+function Delete_UP_By_QID($QID){
+	$db = new database ();
+	$db->connect ();
+	
+	$query = "SELECT `AID` FROM `Answers` WHERE `QID` =  ? ";
+	
+	
+	if ($stmt = $db->prepare ( $query )) {
+		$stmt->bind_param ( "i", $QID);
+	
+		if ($stmt->execute ()) {
+			//$results = array ();
+			$result = $stmt->get_result ();
+			
+			foreach ( $result as $keys => $values ) {
+				//$element;
+				foreach ( $values as $key => $value ) {
+					Delete_UP($value);
+				}
+				//array_push ( $results, $element );
+			}	
+			return $result;
+		}
 	}
 	
 	return - 1;
 }
+
+function Delete_Down_By_QID($QID){
+	$db = new database ();
+	$db->connect ();
+	
+	$query = "SELECT `AID` FROM `Answers` WHERE `QID` =  ? ";
+	
+	if ($stmt = $db->prepare ( $query )) {
+		$stmt->bind_param ( "i", $QID);
+	
+		if ($stmt->execute ()) {
+			//$results = array ();
+			$result = $stmt->get_result ();
+			
+			foreach ( $result as $keys => $values ) {
+				//$element;
+				foreach ( $values as $key => $value ) {
+					Delete_Down($value);
+				}
+				//array_push ( $results, $element );
+			}	
+			return $result;
+		}
+	}
+	
+	return - 1;
+
+}
+
 function Delete_Down($AID){
 	
 	$db = new database ();
@@ -561,7 +616,9 @@ function Delete_Article($ArtID){
 
 function Delete_Question($QID){
 
-
+	Delete_UP_By_QID($QID);
+	Delete_Down_By_QID($QID);
+	Delete_Answers_By_QID($QID);
 	$db = new database ();
 	$db->connect ();
 	
