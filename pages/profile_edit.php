@@ -12,7 +12,8 @@ if((isset($_SESSION['login']))&&($_SESSION['login']==true))
 {
 $user_id=$_SESSION['UID'];
 $profile=GetProfile($user_id);
-
+$group=GetGroup($user_id);
+$group_info=GetGRPName($group);
 }
 
 ?>
@@ -73,6 +74,16 @@ $profile=GetProfile($user_id);
 								echo $_SESSION['Email'];
 								}
 								?>" readonly >
+						</div>
+					</div>
+				</div>
+						<div class="form-group">
+					<div class="row">
+						<div class="col-md-4">
+							<label for="group">Group:</label> <input type="text"
+								class="form-control" id="group" name="group" readonly value="<?PHP 
+							if($profile['getProfile']==-1){}else {echo $group_info;}
+								?>"></input>
 						</div>
 					</div>
 				</div>
