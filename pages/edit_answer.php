@@ -1,8 +1,9 @@
-
 <?php session_start();
 if((isset($_SESSION['login']))&&($_SESSION['login']==true))
 {
 //print_r($_SESSION);
+
+
 }
 else{
 //header("Location: http://localhost/546Final/pages/index.php");
@@ -58,14 +59,27 @@ else{
 	    	<fieldset>
 			<legend>Question</legend>
 	<?PHP
-	include("../include/DB.php");
 	if(isset($_GET['var']))
 	{
+	   include("../include/DB.php");
+	   if((isset($_SESSION['login']))&&($_SESSION['login']==true))
+	   {
+	   $user_id=$_SESSION['UID'];
+       $group=GetGroup($user_id);
+	   }
        $question_id=$_GET['var'];
 	   $question_content=GetQuestion_ByID($question_id);
 	  // print_r($question_content);
 		echo "<h3>".$question_content[0]['Title']."</h4>\n";
 		echo "<p>Details:".$question_content[0]['Content']."</p>\n";
+		if((isset($group))&&($group>1))
+		{
+		echo "<form action=\"edit_question.php\" method=\"post\" id=\"edit_question_form\">";
+		echo "<input type=\"hidden\" name=\"QID\" id=\"QID\" value=\"".$question_id."\"></input>"; 
+		    echo "<button type=\"submit\" class=\"btn btn-primary\" name=\"edit_question_title\" id=\"edit_question_info\">Edit</button>";
+			echo "</form>";
+			
+		}
 	    echo "<h6>Poster:".$question_content[0]['Name']."</h6>\n";
         echo "<h6>Time:".$question_content[0]['Time']."</h6>\n";
 		echo "</fieldset>";
@@ -117,15 +131,31 @@ else{
 				<legend>Answers</legend>
 		<?PHP
 		$answer_content=GetQuestion_Answer($question_id);
-		//print_r($answer_content[0]);
+		//print_r($answer_content);
 		$i=0;
 		$num=count($answer_content);
 		while($i<$num)
 		{
+		$up_count=GetUpCount($answer_content[$i]['AID']);
+		$down_count=GetDownCount($answer_content[$i]['AID']);
 		echo "<div class=\"jumbotron\">\n";
-		echo "<h6>Answer by:".$answer_content[0]['Name']."</h6>\n";
-        echo "<h6>Time:".$answer_content[0]['Time']."</h6>\n";	
+		echo "<h6>Answer by:".$answer_content[$i]['Name']."</h6>\n";
+        echo "<h6>Time:".$answer_content[$i]['Time']."</h6>\n";	
 	    echo "<p><font size=\"3\">".$answer_content[$i]['Content']."</font></p>";
+		if((isset($_SESSION['login']))&&($_SESSION['login']==true))
+		    {
+	 echo "<div id=\"answer_info\" style=\"display: none;\">".$answer_content[$i]['AID']."</div>";
+	 echo "<a href=\"#\" class=\"up_count_btn\" id=\"up_count_".$answer_content[$i]['AID']."\"><span class=\"glyphicon glyphicon-thumbs-up\" aria-hidden=\"true\"></span><span class=\"count\">&nbsp".$up_count."</span>&nbspUp</a>";
+	 echo "<span>&nbsp &nbsp &nbsp</span>";
+	   echo "<div id=\"answer_info\" style=\"display: none;\">".$answer_content[$i]['AID']."</div>";
+	 echo "<a padding-left:10px href=\"#\" class=\"down_count_btn\" id=\"down_count_".$answer_content[$i]['AID']."\"><span class=\"glyphicon glyphicon-thumbs-down\" aria-hidden=\"true\"></span></span><span class=\"count\">&nbsp-".$down_count."</span>&nbspDown</a>";
+		    }
+		    else
+		    {
+	 echo "<span class=\"glyphicon glyphicon-thumbs-up\" aria-hidden=\"true\"></span><span class=\"count\">&nbsp".$up_count."</span>";
+	 echo "<span>&nbsp &nbsp &nbsp</span>";
+	 echo "<span class=\"glyphicon glyphicon-thumbs-down\" aria-hidden=\"true\"></span></span><span class=\"count\">&nbsp-".$down_count."</span>";
+		    }
         echo "</div>";		
 		$i++;
 		}
