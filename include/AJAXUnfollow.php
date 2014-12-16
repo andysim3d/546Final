@@ -7,7 +7,7 @@ $unfollowed = false;
 if (isset($_POST['UID']) && isset($_POST['UUID'])) {
 	
 	//already followed
-	if (IsFellowedBy($_POST['UID'],$_POST['UUID']) == 0 ||IsFellowedBy($_POST['UID'],$_POST['UUID']) == 2 ) {
+	if (IsFollowedBy($_POST['UID'],$_POST['UUID']) == 0 ||IsFollowedBy($_POST['UID'],$_POST['UUID']) == 2 ) {
 		$unfollowed = true;
 	}
 	else{

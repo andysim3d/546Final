@@ -7,7 +7,7 @@ $followed = false;
 if (isset($_POST['UID']) && isset($_POST['UUID'])) {
 	
 	//already followed
-	if (IsFellowedBy($_POST['UID'],$_POST['UUID']) == 1 ||IsFellowedBy($_POST['UID'],$_POST['UUID']) == 3 ) {
+	if (IsFollowedBy($_POST['UID'],$_POST['UUID']) == 1 ||IsFollowedBy($_POST['UID'],$_POST['UUID']) == 3 ) {
 		$followed = true;
 	}
 	else{
