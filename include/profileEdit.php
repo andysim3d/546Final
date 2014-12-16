@@ -11,6 +11,7 @@ $userID = $_SESSION['UID'];
 $after = array();
 $profile = GetProfile($userID);
 //print_r($profile);
+
 if($profile['getProfile'] == -1){
 	// echo "No profiles found.<br/>";
 	//return -1;
@@ -70,13 +71,35 @@ else{
 	else{
 		$after['BOD'] =$profile['BOD'];
 	}
+
+	if(isset($_POST['Location_Pri'])){
+		$after['Location_Pri'] = $_POST['Location_Pri'];
+	}
+	else{
+		$after['Location_Pri'] =$profile['Location_Pri'];
+	}
+	
+	if(isset($_POST['Habit_Pri'])){
+		$after['Habit_Pri'] = $_POST['Habit_Pri'];
+	}
+	else{
+		$after['Habit_Pri'] =$profile['Habit_Pri'];
+	}
+	
+	if(isset($_POST['BOD_Pri'])){
+		$after['BOD_Pri'] = $_POST['BOD_Pri'];
+	}
+	else{
+		$after['BOD_Pri'] =$profile['BOD_Pri'];
+	}
+	
 	$after['PID'] = $profile['PID'];
 	//echo " set!!!";
-	UpdateProfile($after);
+	UpdateFullProfile($after);
 }
 // $profile = GetProfile($userID);
 //jump back to profile.php
-header("Location: http://localhost/546Final/pages/profile.php")
+//header("Location: http://localhost/546Final/pages/profile.php")
 
 // print_r($profile);
 /*
@@ -84,4 +107,34 @@ echo "After: Location: ".$profile['Location']."<br/>";
 echo "After: Habit: ".$profile['Habit']."<br/>";
 echo "After: BOD: ".$profile['BOD']."<br/>";
 */
+
+//update image;
+if (isset($_FILES['pic'])) {
+	//error happens
+	if ($_FILES['pic']['error']!= 0) {
+		//header("Location: http://localhost/546Final/pages/profile.php");
+	}
+
+	$allowed =  array('gif','png' ,'jpg', 'bmp');
+	$filename = $_FILES['pic']['name'];
+	$ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+	// echo $ext;
+	if(!in_array($ext,$allowed) ) {
+		//echo "extension name error";
+		//header("Location: http://localhost/546Final/pages/profile.php");
+	}
+
+	$upload_file_name = $userID.".".$ext;
+	$upload_full_file_name = "upload/".$upload_file_name;
+	//echo getcwd().$upload_full_file_name;
+	$pwd = getcwd();
+	chdir("../upload");
+	if (move_uploaded_file($_FILES['pic']['tmp_name'], $upload_file_name)) {
+		UploadImage($userID,$upload_file_name);	
+	}
+	chdir($pwd);
+	
+
+}
+header("Location: http://localhost/546Final/pages/profile.php");
 ?>

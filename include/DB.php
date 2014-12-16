@@ -851,6 +851,56 @@ function GetQuestion_ByID($QID) {
 	}
 	return - 1;
 }
+/**
+ * convert string to int
+ * @param unknown $str_pri
+ * @return pri int
+ */
+function convert_pri_to_int($str_pri){
+	if (strcmp("Public", $str_pri)) {
+		return 0;
+	}if (strcmp("Show Followers", $str_pri)) {
+		return 1;
+	}if (strcmp("Show Mutual Concern", $str_pri)) {
+		return 2;
+	}if (strcmp("Private", $str_pri)) {
+		return 3;
+	}
+	return -1;
+}
+function UpdateFullProfile($newly) {
+	$db = new database ();
+	$db->connect ();
+
+	$query = "UPDATE `Profiles` SET 
+			`Habit`= ? ,
+			`Habit_Pri`= ? ,
+			`Location`= ? ,
+			`Location_Pri`= ? ,
+			`BOD`= ? ,
+			`BOD_Pri`= ? 
+			WHERE  `PID` =?";
+
+	if ($stmt = $db->prepare ( $query )) {
+		$stmt->bind_param ( "sisisii",
+				htmlspecialchars ( $newly ['Habit'] ),
+				convert_pri_to_int($newly ['Habit_Pri']),
+				htmlspecialchars ( $newly ['Location'] ),
+				convert_pri_to_int($newly ['Location_Pri']),
+				htmlspecialchars ( $newly ['BOD'] ),
+				convert_pri_to_int($newly ['BOD_Pri']),
+				$newly ['PID'] );
+
+		if ($stmt->execute ()) {
+			$stmt->store_result ();
+			$result = $stmt->affected_rows;
+				
+			return $result;
+		}
+	}
+
+	return - 1;
+}
 
 /*
  * return 1 when success, otherwise failed
@@ -867,7 +917,11 @@ function UpdateProfile($newly) {
 	WHERE `PID` =?";
 	
 	if ($stmt = $db->prepare ( $query )) {
-		$stmt->bind_param ( "sssi", htmlspecialchars ( $newly ['Habit'] ), htmlspecialchars ( $newly ['Location'] ), htmlspecialchars ( $newly ['BOD'] ), $newly ['PID'] );
+		$stmt->bind_param ( "sssi", 
+				htmlspecialchars ( $newly ['Habit'] ), 
+				htmlspecialchars ( $newly ['Location'] ), 
+				htmlspecialchars ( $newly ['BOD'] ), 
+				$newly ['PID'] );
 		
 		if ($stmt->execute ()) {
 			$stmt->store_result ();
