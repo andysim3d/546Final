@@ -293,9 +293,9 @@ function IDValidate($userID) {
 }
 
 /**
- * Follow
- * @param who is followed $UID
- * @param follower's UID $FUID
+ * Fellow
+ * @param who is fellowed $UID
+ * @param fellower's UID $FUID
  * @return success on insert_id, else -1
  */
 function Follow($UID, $FUID){
@@ -851,56 +851,6 @@ function GetQuestion_ByID($QID) {
 	}
 	return - 1;
 }
-/**
- * convert string to int
- * @param unknown $str_pri
- * @return pri int
- */
-function convert_pri_to_int($str_pri){
-	if (strcmp("Public", $str_pri)) {
-		return 0;
-	}if (strcmp("Show Followers", $str_pri)) {
-		return 1;
-	}if (strcmp("Show Mutual Concern", $str_pri)) {
-		return 2;
-	}if (strcmp("Private", $str_pri)) {
-		return 3;
-	}
-	return -1;
-}
-function UpdateFullProfile($newly) {
-	$db = new database ();
-	$db->connect ();
-
-	$query = "UPDATE `Profiles` SET 
-			`Habit`= ? ,
-			`Habit_Pri`= ? ,
-			`Location`= ? ,
-			`Location_Pri`= ? ,
-			`BOD`= ? ,
-			`BOD_Pri`= ? 
-			WHERE  `PID` =?";
-
-	if ($stmt = $db->prepare ( $query )) {
-		$stmt->bind_param ( "sisisii",
-				htmlspecialchars ( $newly ['Habit'] ),
-				convert_pri_to_int($newly ['Habit_Pri']),
-				htmlspecialchars ( $newly ['Location'] ),
-				convert_pri_to_int($newly ['Location_Pri']),
-				htmlspecialchars ( $newly ['BOD'] ),
-				convert_pri_to_int($newly ['BOD_Pri']),
-				$newly ['PID'] );
-
-		if ($stmt->execute ()) {
-			$stmt->store_result ();
-			$result = $stmt->affected_rows;
-				
-			return $result;
-		}
-	}
-
-	return - 1;
-}
 
 /*
  * return 1 when success, otherwise failed
@@ -917,11 +867,7 @@ function UpdateProfile($newly) {
 	WHERE `PID` =?";
 	
 	if ($stmt = $db->prepare ( $query )) {
-		$stmt->bind_param ( "sssi", 
-				htmlspecialchars ( $newly ['Habit'] ), 
-				htmlspecialchars ( $newly ['Location'] ), 
-				htmlspecialchars ( $newly ['BOD'] ), 
-				$newly ['PID'] );
+		$stmt->bind_param ( "sssi", htmlspecialchars ( $newly ['Habit'] ), htmlspecialchars ( $newly ['Location'] ), htmlspecialchars ( $newly ['BOD'] ), $newly ['PID'] );
 		
 		if ($stmt->execute ()) {
 			$stmt->store_result ();
@@ -1206,6 +1152,61 @@ function WithdrawVoteDown($AID, $UID) {
 	return - 1;
 }
 
+
+/**
+ * convert string to int
+ * @param unknown $str_pri
+ * @return pri int
+ */
+function convert_pri_to_int($str_pri){
+	if (strncmp("Public", $str_pri,6) == 0) {
+		return 0;
+	}if (strncmp("Show Followers", $str_pri,14) == 0) {
+		return 1;
+	}if (strncmp("Show Mutual Concern", $str_pri, 19) == 0) {
+		return 2;
+	}if (strncmp("Private", $str_pri, 7) == 0) {
+		return 3;
+	}
+	return -1;
+}
+
+function UpdateFullProfile($newly) {
+	$db = new database ();
+	$db->connect ();
+
+	$query = "UPDATE `Profiles` SET 
+			`Habit`= ? ,
+			`Habit_Pri`= ? ,
+			`Location`= ? ,
+			`Location_Pri`= ? ,
+			`BOD`= ? ,
+			`BOD_Pri`= ? 
+			WHERE  `PID` =?";
+			print_r($newly);
+			// echo "HABIT_PRI".convert_pri_to_int($newly ['Habit_Pri'])."<br/>";
+			// echo "Location_Pri".convert_pri_to_int($newly ['Location_Pri'])."<br/>";
+			// echo "BOD_Pri".convert_pri_to_int($newly ['BOD_Pri'])."<br/>";
+	if ($stmt = $db->prepare ( $query )) {
+		$stmt->bind_param ( "sisisii",
+				htmlspecialchars ( $newly ['Habit'] ),
+				convert_pri_to_int($newly ['Habit_Pri']),
+				htmlspecialchars ( $newly ['Location'] ),
+				convert_pri_to_int($newly ['Location_Pri']),
+				htmlspecialchars ( $newly ['BOD'] ),
+				convert_pri_to_int($newly ['BOD_Pri']),
+				$newly ['PID'] );
+
+		if ($stmt->execute ()) {
+			$stmt->store_result ();
+			$result = $stmt->affected_rows;
+				
+			return $result;
+		}
+	}
+
+	return - 1;
+}
 // get questions by user ID
 function GetQuestionsByUID($UID, $LIMITION) {
 	$LIMITION = 10;
@@ -1241,9 +1242,9 @@ function GetQuestionsByUID($UID, $LIMITION) {
  * 
  * @param unknown $UID
  * @param unknown $FUID
- * @return return 1 when $FUID follows $UID, else return -1
+ * @return return 1 when $FUID fellows $UID, else return -1
  */
-function IsFollowedBy($UID, $FUID){
+function IsFellowedBy($UID, $FUID){
 
 	$db = new database ();
 	$db->connect ();
@@ -1279,7 +1280,6 @@ function GetRelation($UID, $FUID){
 	if (IsFellowedBy($UID, $FUID) != -1) {
 		$res = $res + 1;
 	}
-	//echo "$res";
 	if (IsFellowedBy($FUID, $UID) != -1) {
 		$res = $res + 2;
 	}

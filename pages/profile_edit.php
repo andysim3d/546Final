@@ -44,8 +44,20 @@ $group_info=GetGRPName($group);
 				<legend>Personal Information</legend>
 				<div class="form-group">
 					<div class="row">
-						<img src="http://umsbc.com/wp-content/uploads/2013/03/img_logo_blue.jpg" class="img-thumbnail" width="200" height="200">
-					</div>
+							<img
+							src=<?php
+							if ($profile ['getProfile'] == - 1) {
+							} else {
+								if (isset ( $profile ['Image'] )) {
+									echo "\"../upload/" . $profile ['Image'] . "\"";
+								}
+								else{
+									echo "http://umsbc.com/wp-content/uploads/2013/03/img_logo_blue.jpg";
+								}
+							}
+							?> 
+							class="img-thumbnail" width="200" height="200">
+				</div>
 					<div class="row">
 						<div class="col-md-4">
 							<label for="Image">Edit Photo</label> <input type="file"
@@ -102,8 +114,8 @@ $group_info=GetGRPName($group);
 			<div class="form-group">
 				<div class="row">
 					<div class="col-md-4">
-						<label for="location_pri">Location display settings:</label>
-						<select  name="location_pri" class="form-control">
+						<label for="Location_Pri">Location display settings:</label>
+						<select  name="Location_Pri" class="form-control">
 						<option>Public</option>
 						<option>Show Followers</option>
 						<option>Show Mutual Concern</option>
@@ -126,8 +138,8 @@ $group_info=GetGRPName($group);
 			<div class="form-group">
 				<div class="row">
 					<div class="col-md-4">
-						<label for="BOD_pri">BOD display settings:</label>
-						<select name="BOD_pri" class="form-control">
+						<label for="BOD_Pri">BOD display settings:</label>
+						<select name="BOD_Pri" class="form-control">
 						<option>Public</option>
 						<option>Show Followers</option>
 						<option>Show Mutual Concern</option>
@@ -148,8 +160,8 @@ $group_info=GetGRPName($group);
 			<div class="form-group">
 				<div class="row">
 					<div class="col-md-4">
-						<label for="habits_pri">Habits display settings:</label>
-						<select name="habits_pri" class="form-control">
+						<label for="Habit_Pri">Habits display settings:</label>
+						<select name="Habit_Pri" class="form-control">
 						<option>Public</option>
 						<option>Show Followers</option>
 						<option>Show Mutual Concern</option>

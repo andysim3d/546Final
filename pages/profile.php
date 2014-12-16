@@ -6,27 +6,50 @@ if ((isset ( $_SESSION ['login'] )) && ($_SESSION ['login'] == true)) {
 	header ( "Location: http://localhost/546Final/pages/index.php" );
 }
 include ("../include/DB.php");
+
 if ((isset ( $_SESSION ['login'] )) && ($_SESSION ['login'] == true)) {
 	$Editable = 1;
 	$user_id = $_SESSION ['UID'];
 	$profile = GetProfile ( $user_id );
 	$group = GetGroup ( $user_id );
 	$group_info = GetGRPName ( $group );
-	// print_r($profile);
+	//assume self
+	$Privilage = 3;
+	/// print_r($profile);
+	echo $user_id;
 	echo "<br/>";
 	if (isset ( $_GET ['UID'] )) {
 		if (IDValidate ( $_GET ['UID'] ) == 1) {
 			if ($_GET ['UID'] != $_SESSION ['UID']) {
 				$Editable = 0;
+				$user_id = $_GET ['UID'];
+				$profile = GetProfile ( $_GET ['UID'] );
+				$group = GetGroup ( $_GET ['UID'] );
+				$readerGrp = GetGroup(GetProfile($_SESSION ['UID']));
+				//admin has all privilage
+				if ($readerGrp >=5) {
+
+					$Privilage = 3;
+				}
+				else{
+					$rel = GetRelation($_GET['UID'], $_SESSION ['UID']);
+					echo $rel;
+					if($rel == 1){
+						$Privilage = 1;
+					}
+					else if($rel == 3){
+						$Privilage = 2;
+					}
+					else {
+						$Privilage = 0;
+					}
+				}
+				$group_info = GetGRPName ( $group );
 			}
-			$user_id = $_GET ['UID'];
-			$profile = GetProfile ( $_GET ['UID'] );
-			$group = GetGroup ( $_GET ['UID'] );
-			$group_info = GetGRPName ( $group );
 		}
 	}
-	
-	echo $Editable;
+	print_r($profile);
+	echo $Privilage;
 }
 ?>
 <!DOCTYPE html>
@@ -73,9 +96,6 @@ if ((isset ( $_SESSION ['login'] )) && ($_SESSION ['login'] == true)) {
 	</div>
 </div>
 
-<?php
-								print_r($profile);
-?>
 <div class="container">
 
 	<form role="form">
@@ -85,7 +105,8 @@ if ((isset ( $_SESSION ['login'] )) && ($_SESSION ['login'] == true)) {
 				<div class="row">
 					<div class="col-md-6">
 
-						<label for="Photo">Photo:</label> <img
+						<label for="Photo">Photo:</label> 
+						<img
 							src=<?php
 							if ($profile ['getProfile'] == - 1) {
 							} else {
@@ -146,7 +167,20 @@ if ((isset ( $_SESSION ['login'] )) && ($_SESSION ['login'] == true)) {
 					<div class="col-md-4">
 						<label for="location">Location:</label> <input type="text"
 							class="form-control" id="locaction" name="location" readonly
-							value="<?PHP  if($profile['getProfile']==-1){}else {echo $profile['Location'];} ?>"></input>
+							value="<?PHP  
+							if($profile['getProfile']==-1)
+								{}
+							else 
+								{
+									if($Privilage < $profile['Location_Pri']){
+										echo '-';
+									}
+									else{
+										echo $profile['Location'];
+									}
+
+								}
+							?>"></input>
 					</div>
 				</div>
 			</div>
@@ -155,7 +189,20 @@ if ((isset ( $_SESSION ['login'] )) && ($_SESSION ['login'] == true)) {
 					<div class="col-md-4">
 						<label for="bod">Date of Birth:</label> <input type="date"
 							class="form-control" id="bod" name="bod" readonly
-							value="<?PHP if($profile['getProfile']==-1){} else {echo $profile['BOD'];  } ?>"></input>
+							value="<?PHP  
+							if($profile['getProfile']==-1)
+								{}
+							else 
+								{
+									if($Privilage < $profile['BOD_Pri']){
+										echo '-';
+									}
+									else{
+										echo $profile['BOD'];
+									}
+
+								}
+							?>"></input>
 					</div>
 				</div>
 			</div>
@@ -164,7 +211,18 @@ if ((isset ( $_SESSION ['login'] )) && ($_SESSION ['login'] == true)) {
 					<div class="col-md-4">
 						<label for="habits">Habits:</label> <input type="text"
 							class="form-control" id="habits" name="habits" readonly
-							value="<?PHP if($profile['getProfile']==-1){} else { echo $profile['Habit']; }?>"></input>
+							value="<?PHP  
+							if($profile['getProfile']==-1)
+								{}
+							else 
+								{if($Privilage < $profile['Habit_Pri']){echo '-';
+									}
+									else{
+										echo $profile['Habit'];
+									}
+
+								}
+							?>"></input>
 					</div>
 				</div>
 			</div>
