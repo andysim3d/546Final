@@ -97,11 +97,20 @@ function regist($email, $username, $password) {
 		// here
 		if ($stmt->execute ()) {
 			
+			
 			$stmt->store_result ();
 			$affectrows = $stmt->affected_rows;
 			
 			if ($affectrows == 1) {
 				$id = $stmt->insert_id;
+				//TODO:
+				$newly ['UID'] = insert_id;
+				$newly ['Habit'] = " ";
+				$newly ['Location'] = " " ;
+				$newly ['BOD'] = " ";
+				//create profile here
+				InsertProfile($newly);
+				
 				$db->disconnect ();
 				return $id;
 			}
@@ -1231,8 +1240,7 @@ function GetQuestion() {
 	// static SQL, no need to bind
 	$query = "select * from Questions
 	order by TIME
-	limit $LIMITION
-	";
+	limit $LIMITION";
 	if (! $res = $db->send_sql ( $query )) {
 		$db->disconnect ();
 		echo "Get Questions failed!<br/>\n";
@@ -1249,5 +1257,30 @@ function GetQuestion() {
 	}
 	
 	return $res;
+}
+
+function UploadImage($path, $UID){
+	$db = new database();
+	$db -> connect();
+	//update database information
+	$query = "UPDATE `Profiles` 
+			SET `Image`= ?  
+			WHERE `UID` = ?";
+	
+	if ($stmt = $db->prepare ( $query )) {
+		$stmt->bind_param ( "si",$path, $UID );
+		if ($stmt->execute ()) {
+				
+			$stmt->store_result ();
+			$affectrows = $stmt->affected_rows;
+			if ($affectrows != 0) {
+				$db->disconnect ();
+				return 1;
+			}
+		}
+	}
+	return - 1;
+	
+
 }
 ?>

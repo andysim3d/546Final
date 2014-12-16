@@ -1,6 +1,7 @@
 <?php session_start();
 // Not login
 include ("DB.php");
+$header = "Location: http://localhost/546Final/pages/index.php";
 if((isset($_SESSION['login']))&&($_SESSION['login']==true))
 {
 }
@@ -13,10 +14,11 @@ $UID = $_SESSION['UID'];
 if(isset($_POST['AID'])){
 	$WriterUID = Get_UID_By_AID($_POST['AID']);
 	if($WriterUID != $UID){
+
 		header($header);
 	}
 	$GRP = GetGroup($UID);
-	$header = "Location: http://localhost/546Final/pages/index.php";
+	//$header = "Location: http://localhost/546Final/pages/index.php";
 	//Permission Denied
 	if ($GRP < 1) {
 		header($header);
@@ -24,7 +26,7 @@ if(isset($_POST['AID'])){
 	}
 	if(isset($_POST['AID'])&& isset($_POST['Content'])){
 		Modify_Answer($_POST['AID'], $_POST['Content']);	
-		header($header);
+		header($header);	
 	}
 }
 header($header);
