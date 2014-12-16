@@ -38,7 +38,6 @@ if ((isset ( $_SESSION ['login'] )) && ($_SESSION ['login'] == true)) {
 <meta name="description" content="">
 <meta name="author" content="">
 <title>Profile</title>
-
 <link
 	href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css"
 	rel="stylesheet">
@@ -74,7 +73,9 @@ if ((isset ( $_SESSION ['login'] )) && ($_SESSION ['login'] == true)) {
 	</div>
 </div>
 
-
+<?php
+								print_r($profile);
+?>
 <div class="container">
 
 	<form role="form">
@@ -89,11 +90,13 @@ if ((isset ( $_SESSION ['login'] )) && ($_SESSION ['login'] == true)) {
 							if ($profile ['getProfile'] == - 1) {
 							} else {
 								if (isset ( $profile ['Image'] )) {
-									echo "\"localhost/546final/upload/" . $profile ['Image'] . "\"";
+									echo "\"../upload/" . $profile ['Image'] . "\"";
 								}
-								echo "http://umsbc.com/wp-content/uploads/2013/03/img_logo_blue.jpg";
+								else{
+									echo "http://umsbc.com/wp-content/uploads/2013/03/img_logo_blue.jpg";
+								}
 							}
-							?>
+							?> 
 							class="img-thumbnail" width="200" height="200">
 					</div>
 				</div>
