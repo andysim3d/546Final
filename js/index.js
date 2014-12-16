@@ -123,6 +123,41 @@ function Downvote() {
 	});   
 }
 
+function Follow() {
+_UUID=$(this).prev().prev().text();
+_UID=$(this).prev().text();
+if($(this).text()=="Follow")
+{
+$.post("../include/AJAXFollow.php",{UID:_UID,UUID:_UUID},function(xml){
+         
+		 if($("Followed",xml).text()==1)
+		 {
+		 $("#Follow_Btn").text('UnFollow');
+		 }
+		 else
+		 {
+		 }
+     
+     });
+}
+if($(this).text()=="UnFollow")
+{
+$.post("../include/AJAXUnfollow.php",{UID:_UID,UUID:_UUID},function(xml){
+         
+		 if($("Unfollowed",xml).text()==1)
+		 {
+		 $("#Follow_Btn").text('Follow');
+		 }
+		 else
+		 {
+		 
+		 }
+     
+     });
+
+}
+}
+
 $(document).ready(function() {
 
     $("#LoginBtn").on("click", Login);
@@ -153,6 +188,7 @@ $(document).ready(function() {
 	  
 	$(".up_count_btn").on ("click",Upvote); 
 	$(".down_count_btn").on("click",Downvote);
+	$("#Follow_Btn").bind("click",Follow);
 });
 
 
@@ -201,35 +237,34 @@ $(function() {
   }
   
   });
-  
   $("#post_article_form").validate({
-	  rules: {
-	      
-		 Title: {
-	     required: true   	 
-		 },
-		 Content: {
-		 required: true
-		 }
-	  },
-	  submitHandler: function(form){
-	        from.submit();
-	  }
-	  });
+  rules: {
+      
+	 Title: {
+     required: true   	 
+	 },
+	 Content: {
+	 required: true
+	 }
+  },
+  submitHandler: function(form){
+        from.submit();
+  }
+  });
   
-  $("#edit_article_form").validate({
-	  rules: {
-	      
-		 Title: {
-	     required: true   	 
-		 },
-		 Content: {
-		 required: true
-		 }
-	  },
-	  submitHandler: function(form){
-	        from.submit();
-	  }
-	  });
+    $("#edit_article_form").validate({
+  rules: {
+      
+	 Title: {
+     required: true   	 
+	 },
+	 Content: {
+	 required: true
+	 }
+  },
+  submitHandler: function(form){
+        from.submit();
+  }
+  });
   
 });

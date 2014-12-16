@@ -227,11 +227,23 @@ if ((isset ( $_SESSION ['login'] )) && ($_SESSION ['login'] == true)) {
 				</div>
 			</div>
 			<!--<a class="btn btn-primary" href="profile_edit.php" role="button" type=-->
-				<?php
+		<?php
 				if ($Editable == 1) {
 					echo "<a class=\"btn btn-primary\" href=\"profile_edit.php\" role=\"button\">Edit</a>";
 				} else {
-					echo "<a class=\"btn btn-primary\" name=\"Fellow_Btn\" id=\"Fellow_Btn\" role=\"label\">Follow</a>";
+				    echo "<div id=\"answer_info\" style=\"display: none;\">".$_SESSION['UID']."</div>";
+					  echo "<div id=\"answer_info\" style=\"display: none;\">".$_GET['UID']."</div>";
+					echo "<a  class=\"btn btn-primary\" name=\"Follow_Btn\" id=\"Follow_Btn\" role=\"label\">";
+					if(IsFollowedBy($_GET['UID'],$_SESSION['UID'])==1)
+					{
+					echo "UnFollow";
+					}
+					else
+					{
+					echo "Follow";
+					}
+				
+					echo "</a>";
 				}
 				?>
 			</fieldset>
