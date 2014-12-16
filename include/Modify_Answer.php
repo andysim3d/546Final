@@ -13,7 +13,6 @@ $UID = $_SESSION['UID'];
 if(isset($_POST['AID'])){
 	$WriterUID = Get_UID_By_AID($_POST['AID']);
 	if($WriterUID != $UID){
-
 		header($header);
 	}
 	$GRP = GetGroup($UID);
@@ -24,8 +23,8 @@ if(isset($_POST['AID'])){
 		return ;
 	}
 	if(isset($_POST['AID'])&& isset($_POST['Content'])){
-		// echo Modify_Answer($_POST['AID'], $_POST['Content']);	
-		header($header);	
+		Modify_Answer($_POST['AID'], $_POST['Content']);	
+		header($header);
 	}
 }
 header($header);
