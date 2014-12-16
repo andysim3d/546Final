@@ -367,9 +367,8 @@ function GetProfile($userID) {
 	$db->connect ();
 	$query = "SELECT `Location`, `Location_Pri`, 
 	`Name`,`Habit`, `Habit_Pri`,`BOD`,`BOD_Pri`, `Email`, `group`, `credits`, `PID`,`Image`
-	from `Profiles`, `User` 
-	where `User`.`UID` = ? 
-	and `Profiles`.`UID` = `User`.`UID`";
+	FROM `User` left JOIN `Profiles` on `User`.`UID` = `Profiles`.`UID` 
+	where `User`.`UID` = ? ";
 	
 	if ($stmt = $db->prepare ( $query )) {
 		$stmt->bind_param ( "i", $userID );
@@ -1218,6 +1217,7 @@ function GetRelation($UID, $FUID){
 	if (IsFellowedBy($UID, $FUID) != -1) {
 		$res = $res + 1;
 	}
+	//echo "$res";
 	if (IsFellowedBy($FUID, $UID) != -1) {
 		$res = $res + 2;
 	}
