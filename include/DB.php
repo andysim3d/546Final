@@ -1176,6 +1176,54 @@ function GetQuestionsByUID($UID, $LIMITION) {
 	}
 	return - 1;
 }
+/**
+ * 
+ * @param unknown $UID
+ * @param unknown $FUID
+ * @return return 1 when $FUID fellows $UID, else return -1
+ */
+function IsFellowedBy($UID, $FUID){
+
+	$db = new database ();
+	$db->connect ();
+	
+	//if (emailValidate ( $email ) != false) {
+		$query = "SELECT * FROM `Follow` WHERE `UID_User` = ? and `UID_follower` = ?";
+		// echo $query;
+		if ($stmt = $db->prepare ( $query )) {
+			$stmt->bind_param ( "ii", $UID, $FUID );
+			if ($stmt->execute ()) {
+	
+				$stmt->store_result ();
+				$affectrows = $stmt->affected_rows;
+				if ($affectrows == 1) {
+					$db->disconnect ();
+					return 1;
+				}
+			}
+		}
+	//}
+	$db->disconnect ();
+	return -1;
+}
+
+/**
+ * @param unknown $UID
+ * @param unknown $FUID
+ * @return 0 on they don't know each other, 1 on $FUID follow $UID
+ * 2 on $UID follow $FUID, 3 on they follow each.
+ */
+function GetRelation($UID, $FUID){
+	$res = 0;
+	if (IsFellowedBy($UID, $FUID) != -1) {
+		$res = $res + 1;
+	}
+	if (IsFellowedBy($FUID, $UID) != -1) {
+		$res = $res + 2;
+	}
+	return $res;
+}
+
 function GetQuestion() {
 	$LIMITION = 10;
 	$db = new database ();
