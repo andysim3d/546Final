@@ -56,10 +56,11 @@ include ("../include/DB.php");
 $LIMITATION=10;
 	$db = new database();
 	$db->connect();
-	$query_question ="SELECT user.Name,questions.Title,questions.time,questions.QID
+	$query_question ="SELECT user.Name,questions.Title,questions.time,questions.QID,user.UID
                       FROM `user` 
                       INNER JOIN `questions`
                       ON user.UID=questions.UID
+					  LIMIT 10
 ";
 	if(!$res_question = $db->send_sql($query_question)){
 		$db->disconnect();
@@ -75,20 +76,21 @@ $LIMITATION=10;
 		$content_question[$i][1]=$content['Title'];
 		$content_question[$i][2]=$content['time'];
 		$content_question[$i][3]=$content['QID'];
+		$content_question[$i][4]=$content['UID'];
 		$i++;
 	}
 	$i=0;
 	while($i<$num)
 	{
 	 $question_id=$content_question[$i][3];
-	 $query_answer="SELECT user.Name,answers.Content,answers.Time,answers.Anonymity,answers.Up_Vote,answers.Down_Vote,answers.AID
+	 $query_answer="SELECT user.Name,answers.Content,answers.Time,answers.Anonymity,answers.Up_Vote,answers.Down_Vote,answers.AID,user.UID
                     FROM `user` 
                     INNER JOIN `answers`
                     ON user.UID=answers.UID and answers.QID=$question_id;
 	 ";
 	 echo "<div class=\"jumbotron\">\n";
 	 echo "<h4><a href=\"edit_answer.php?var=".$content_question[$i][3]."\">".$content_question[$i][1]."</a></h4>\n";
-	 echo "<h6>Poster:".$content_question[$i][0]."</h6>\n";
+	 echo "<h6>Poster:<a href=\"profile.php?UID=".$content_question[$i][4]."\">".$content_question[$i][0]."</a></h6>\n";
      echo "<h6>Time:".$content_question[$i][2]."</h6>\n";	
 	 
     if(!$res_answer = $db->send_sql($query_answer)){
@@ -112,7 +114,7 @@ $LIMITATION=10;
 	 echo "<div class=\"answer_wrapper\" style=\"cursor:pointer;\">";
 	 echo "<div class=\"answer_summary\" style=\"display: block;\">".$answer_short."......</div>";
 	 echo "<div class=\"answer_rich\" style=\"display: none;\">".$answer_content['Content']."</div>";
-     echo "<h6>".$answer_content['Name']."</h6>";
+     echo "<h6>Answer By:<a href=\"profile.php?UID=".$answer_content['UID']."\">".$answer_content['Name']."</a></h6>";
 	 echo "</div>";
 	 echo "<h4></h4>";
 	  if(isset($_SESSION['UID']))
@@ -136,8 +138,8 @@ $LIMITATION=10;
 	 else
 	 //If the length of the answer is suitable
 	 {
-	 echo "<p>".$answer_content['Content']."</p>";
-	 echo "<p>".$answer_content['Name']."</p>";
+	 echo "<h4>".$answer_content['Content']."</h4>";
+	 echo "<h6>Answer By:<a href=\"profile.php?UID=".$answer_content['UID']."\">".$answer_content['Name']."</a></h6>";
 	  echo "<h4></h4>";
 	  if(isset($_SESSION['UID']))
 	  {
@@ -162,6 +164,8 @@ $LIMITATION=10;
 	 }
 	 $i++;
 	}
+	
+		 echo "<button class=\"btn btn-primary\" >Load More</button>";
 	
 ?>
 		</fieldset>
