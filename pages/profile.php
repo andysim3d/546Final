@@ -176,7 +176,7 @@ $group_info=GetGRPName($group);
 	while($i<$num)
 	{
 	echo "<div class=\"jumbotron\">\n";
-	 echo "<h4><a href=\"edit_article.php?var=".$article_content[$i]['ArtID']."\" >".$article_content[$i]['Title']."</a></h4>\n";
+	 echo "<h4><a href=\"article_view.php?var=".$article_content[$i]['ArtID']."\" >".$article_content[$i]['Title']."</a></h4>\n";
 	 echo "<h6>Time:".$article_content[$i]['Time']."</h6>\n";
 	  echo "<h4></h4>";
 	 echo "<span class=\"glyphicon glyphicon-thumbs-up\" aria-hidden=\"true\"></span><span class=\"count\">&nbsp".$article_content[$i]['Up_Vote']."</span>";
