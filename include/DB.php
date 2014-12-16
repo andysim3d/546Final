@@ -293,9 +293,9 @@ function IDValidate($userID) {
 }
 
 /**
- * Fellow
- * @param who is fellowed $UID
- * @param fellower's UID $FUID
+ * Follow
+ * @param who is followed $UID
+ * @param follower's UID $FUID
  * @return success on insert_id, else -1
  */
 function Follow($UID, $FUID){
@@ -1187,9 +1187,9 @@ function GetQuestionsByUID($UID, $LIMITION) {
  * 
  * @param unknown $UID
  * @param unknown $FUID
- * @return return 1 when $FUID fellows $UID, else return -1
+ * @return return 1 when $FUID follows $UID, else return -1
  */
-function IsFellowedBy($UID, $FUID){
+function IsFollowedBy($UID, $FUID){
 
 	$db = new database ();
 	$db->connect ();
