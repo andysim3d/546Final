@@ -104,7 +104,7 @@ function regist($email, $username, $password) {
 			if ($affectrows == 1) {
 				$id = $stmt->insert_id;
 				//TODO:
-				$newly ['UID'] = insert_id;
+				$newly ['UID'] = $id;
 				$newly ['Habit'] = " ";
 				$newly ['Location'] = " " ;
 				$newly ['BOD'] = " ";
@@ -902,11 +902,10 @@ function CheckProfileExist($UID) {
 function InsertProfile($newly) {
 	$db = new database ();
 	$db->connect ();
-	$query = "INSERT INTO `Profiles`(`UID`, `Habit`, `Location`, `BOD`)
-	VALUES (? , ? , ? , ? )";
-
+	$query = "INSERT INTO `Profiles`(`UID`, `Habit`, `Location`)
+	VALUES (? , ? , ? )";
 	if ($stmt = $db->prepare ( $query )) {
-		$stmt->bind_param ( "isss", $newly ['UID'], htmlspecialchars ( $newly ['Habit'] ), htmlspecialchars ( $newly ['Location'] ), htmlspecialchars ( $newly ['BOD'] ) );
+		$stmt->bind_param ( "iss", $newly ['UID'], htmlspecialchars ( $newly ['Habit'] ), htmlspecialchars ( $newly ['Location'] ));
 		
 		if ($stmt->execute ()) {
 			
@@ -1259,7 +1258,7 @@ function GetQuestion() {
 	return $res;
 }
 
-function UploadImage($path, $UID){
+function UploadImage($UID,$path){
 	$db = new database();
 	$db -> connect();
 	//update database information
@@ -1280,7 +1279,5 @@ function UploadImage($path, $UID){
 		}
 	}
 	return - 1;
-	
-
 }
 ?>
