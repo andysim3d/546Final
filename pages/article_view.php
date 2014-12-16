@@ -50,8 +50,6 @@
 	$article_id=$_GET['var'];
 	include("../include/DB.php");
 	$res_art=GetArticle($article_id);
-// 	print_r($res_art);
-// 	print_r($_SESSION);
 	echo "<div class=\"jumbotron\">\n";
 	echo "<h4>".$res_art[0]['Title']."</h4>";
 	echo "<h6>Author:".$res_art[0]['Name']."</h6>\n";
@@ -69,6 +67,18 @@
 	echo "<a href=\"edit_article.php?var=".$article_id."\" class=\"btn btn-primary\" >Edit</a>";     
 	}
 }
+
+	if((isset($_SESSION['login']))&&($_SESSION['login']==true))
+{
+    $user_id=$_SESSION['UID'];
+       $group=GetGroup($user_id);
+	if((isset($group))&&($group>=5))
+	{
+	    echo "<br></br>";
+		echo "<a padding-left:10px href=\"../include/Delete_Article.php?ArtID=".$article_id."\" class=\"btn btn-primary\" role=\"button\" >Delete</a>";   
+	}
+}
+
 echo "</div>";
 	?>
 	</div>
