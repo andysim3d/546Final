@@ -70,7 +70,7 @@ else{
        $question_id=$_GET['var'];
 	   $question_content=GetQuestion_ByID($question_id);
 	  // print_r($question_content);
-		echo "<h3>".$question_content[0]['Title']."</h4>\n";
+		echo "<h3>".$question_content[0]['Title']."</h3>\n";
 		echo "<p>Details:".$question_content[0]['Content']."</p>\n";
 		if((isset($group))&&($group>1))
 		{
@@ -142,7 +142,7 @@ else{
 		$num=count($answer_content);
 		while($i<$num)
 		{
-		$article_uid=Get_UID_By_AID($answer_content[$i]['AID']);
+		$answer_uid=Get_UID_By_AID($answer_content[$i]['AID']);
 		$up_count=GetUpCount($answer_content[$i]['AID']);
 		$down_count=GetDownCount($answer_content[$i]['AID']);
 		echo "<div class=\"jumbotron\">\n";
@@ -156,10 +156,10 @@ else{
 	 echo "<span>&nbsp &nbsp &nbsp</span>";
 	 echo "<div id=\"answer_info\" style=\"display: none;\">".$answer_content[$i]['AID']."</div>";
 	 echo "<a padding-left:10px href=\"#\" class=\"down_count_btn\" id=\"down_count_".$answer_content[$i]['AID']."\"><span class=\"glyphicon glyphicon-thumbs-down\" aria-hidden=\"true\"></span></span><span class=\"count\">&nbsp-".$down_count."</span>&nbspDown</a>";
-	 if($article_uid==$_SESSION['UID'])		
+	 if($answer_uid==$_SESSION['UID'])		
 	{
      echo "<br></br>";     
-	 echo "<a href=\"modifyanswer.php?var=".$answer_content[$i]['AID']."\" class=\"btn btn-primary\" >Edit</a>";     
+	 echo "<a href=\"modifyanswer.php?var=".$answer_content[$i]['AID']."&qid=".$question_id."\" class=\"btn btn-primary\" >Edit</a>";     
     	
 	}		
 			if((isset($group))&&($group>=5))
