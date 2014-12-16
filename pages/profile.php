@@ -10,13 +10,27 @@ header("Location: http://localhost/546Final/pages/index.php");
 include("../include/DB.php"); 
 if((isset($_SESSION['login']))&&($_SESSION['login']==true))
 {
+$Editable = 0;
 $user_id=$_SESSION['UID'];
 $profile=GetProfile($user_id);
 $group=GetGroup($user_id);
 $group_info=GetGRPName($group);
+//print_r($profile);
+echo "<br/>";
+if(isset($_GET['UID'])){
+	if (IDValidate($_GET['UID']) == 1) {
+		if ($_GET['UID'] == $_SESSION['UID']) {
+			$Editable = 1;
+		}
+		$user_id = $_GET['UID'];
+		$profile=GetProfile($_GET['UID']);
+		$group=GetGroup($_GET['UID']);
+		$group_info=GetGRPName($group);
+	}
 }
 
-
+echo $Editable;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -72,7 +86,17 @@ $group_info=GetGRPName($group);
 				<div class="form-group"  >
 					<div class="row">
 						<div class="col-md-6">
-							<label for="Photo">Photo:</label> <img src=""
+						
+							<label for="Photo">Photo:</label> <img src=
+							<?php
+								if($profile['getProfile']==-1){} 
+									else {
+										if (isset($profile['Image'])) {
+											echo "\"localhost/546final/upload/".$profile['Image']."\"";
+										}
+										echo "http://umsbc.com/wp-content/uploads/2013/03/img_logo_blue.jpg";
+										}
+							?>
 								class="img-thumbnail" width="200" height="200">
 						</div>
 					</div>
@@ -82,9 +106,9 @@ $group_info=GetGRPName($group);
 						<div class="col-md-4">
 							<label for="Name">Name:</label> <input type="text"
 								class="form-control" id="Name" name="Name" readonly value="<?PHP 
-								if(isset($_SESSION['Name']))
+								if(isset($profile['Name']))
 								{
-								echo $_SESSION['Name'];
+								echo $profile['Name'];
 								}
 								?>"></input>
 						</div>
@@ -95,9 +119,9 @@ $group_info=GetGRPName($group);
 						<div class="col-md-4">
 							<label for="email">Email:</label> <input type="email"
 								class="form-control" id="email" name="email" readonly value="<?PHP 
-								if(isset($_SESSION['Email']))
+								if(isset($profile['Email']))
 								{
-								echo $_SESSION['Email'];
+								echo $profile['Email'];
 								}
 								?>"></input>
 						</div>
@@ -137,7 +161,14 @@ $group_info=GetGRPName($group);
 						</div>
 					</div>
 				</div>
-				<a class="btn btn-primary" href="profile_edit.php" role="button">Edit</a>
+				<!--<a class="btn btn-primary" href="profile_edit.php" role="button" type=-->
+				<?php
+					if ($Editable == 1) {
+						echo "<a class=\"btn btn-primary\" href=\"profile_edit.php\" role=\"button\">Edit</a>";
+					}
+					else{
+					}
+				?>
 			</fieldset>
 		</form>
 
@@ -148,7 +179,7 @@ $group_info=GetGRPName($group);
 		<fieldset>
 			<legend>Questions List</legend>
 			<?PHP
-			$questions_content=GetQuestionsByUID($_SESSION['UID'],10);
+			$questions_content=GetQuestionsByUID($user_id,10);
 	$i=0;
 	$num=count($questions_content);
 	while($i<$num)
@@ -170,7 +201,7 @@ $group_info=GetGRPName($group);
 		<fieldset>
 			<legend>Articles List</legend>
 						<?PHP
-			$article_content=GetArticlesByUID($_SESSION['UID']);
+			$article_content=GetArticlesByUID($user_id);
 	$i=0;
 	$num=count($article_content);
 	while($i<$num)
