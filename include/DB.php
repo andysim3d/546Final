@@ -309,7 +309,9 @@ function Follow($UID, $FUID){
 			$stmt->store_result();
 			$affectrows = $stmt->affected_rows;
 	
-			return $affectrows;
+			if ($affectrows != 0) {
+				return $affectrows;
+			}
 		}
 	}
 	return - 1;
@@ -356,12 +358,15 @@ function Unfollow($UID, $FUID){
  */
 function GetProfile($userID) {
 	if (IDValidate ( $userID ) == - 1) {
-		echo "User Invalidate<br/>";
-		return - 1;
+		//echo "User Invalidate<br/>";
+		
+		$resu ['getProfile'] = - 1;
+		return $resu;
 	}
 	$db = new database ();
 	$db->connect ();
-	$query = "Select `Location`, `Name`,`Habit`, `BOD`, `Email`, `group`, `credits`, `PID`,`Image`
+	$query = "SELECT `Location`, `Location_Pri`, 
+	`Name`,`Habit`, `Habit_Pri`,`BOD`,`BOD_Pri`, `Email`, `group`, `credits`, `PID`,`Image`
 	from `Profiles`, `User` 
 	where `User`.`UID` = ? 
 	and `Profiles`.`UID` = `User`.`UID`";
@@ -462,7 +467,6 @@ function Modify_Answer($AID, $Content){
 	$query = "UPDATE `Answers` SET `Content`= ? WHERE `AID` = ? ";
 	$content_Processed = nl2br(htmlspecialchars($Content));
 	if ($stmt = $db->prepare ( $query )) {
-		echo "???";
 		$stmt->bind_param ( "si", $content_Processed, $AID );
 
 		if ($stmt->execute ()) {
