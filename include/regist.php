@@ -1,3 +1,4 @@
+<meta http-equiv="refresh" content="3;url= http://localhost/546Final/pages/index.php ">
 <?php
 
 	include ("./DB.php");
@@ -15,7 +16,7 @@
 		}
 		else{
 
-			echo "Register Success! Your ID is $res<br/>\n";
+				echo "Register Success! Your ID is $res<br/>\n";
 		}
 	}
 	else{

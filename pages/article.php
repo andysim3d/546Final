@@ -52,7 +52,7 @@
 	{
   $user_id=$_SESSION['UID'];
   $group=GetGroup($user_id);
-  if($group>3)
+  if($group>=3)
   {
     echo"<div class=\"container\">
 	<fieldset>
