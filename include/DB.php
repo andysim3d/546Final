@@ -1244,7 +1244,7 @@ function GetQuestionsByUID($UID, $LIMITION) {
  * @param unknown $FUID
  * @return return 1 when $FUID fellows $UID, else return -1
  */
-function IsFellowedBy($UID, $FUID){
+function isfollowedBy($UID, $FUID){
 
 	$db = new database ();
 	$db->connect ();
@@ -1277,10 +1277,10 @@ function IsFellowedBy($UID, $FUID){
  */
 function GetRelation($UID, $FUID){
 	$res = 0;
-	if (IsFellowedBy($UID, $FUID) != -1) {
+	if (isfollowedBy($UID, $FUID) != -1) {
 		$res = $res + 1;
 	}
-	if (IsFellowedBy($FUID, $UID) != -1) {
+	if (isfollowedBy($FUID, $UID) != -1) {
 		$res = $res + 2;
 	}
 	return $res;
