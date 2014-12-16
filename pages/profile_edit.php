@@ -97,6 +97,20 @@ $group_info=GetGRPName($group);
 						</div>
 					</div>
 				</div>
+			<div class="form-group">
+				<div class="row">
+					<div class="col-md-4">
+						<label for="location_pri">Location display settings:</label>
+						<select  name="location_pri" class="form-control">
+						<option>Public</option>
+						<option>Show Followers</option>
+						<option>Show Mutual Concern</option>
+						<option>Private</option>
+						</select>
+					</div>
+				</div>
+			</div>
+				
 				<div class="form-group">
 					<div class="row">
 						<div class="col-md-4">
@@ -106,6 +120,20 @@ $group_info=GetGRPName($group);
 						</div>
 					</div>
 				</div>
+				
+			<div class="form-group">
+				<div class="row">
+					<div class="col-md-4">
+						<label for="BOD_pri">BOD display settings:</label>
+						<select name="BOD_pri" class="form-control">
+						<option>Public</option>
+						<option>Show Followers</option>
+						<option>Show Mutual Concern</option>
+						<option>Private</option>
+						</select>
+					</div>
+				</div>
+			</div>
 				<div class="form-group">
 					<div class="row">
 						<div class="col-md-4">
@@ -115,6 +143,20 @@ $group_info=GetGRPName($group);
 						</div>
 					</div>
 				</div>
+			<div class="form-group">
+				<div class="row">
+					<div class="col-md-4">
+						<label for="habits_pri">Habits display settings:</label>
+						<select name="habits_pri" class="form-control">
+						<option>Public</option>
+						<option>Show Followers</option>
+						<option>Show Mutual Concern</option>
+						<option>Private</option>
+						</select>
+					</div>
+				</div>
+			</div>
+				
 				 <button type="submit" class="btn btn-primary" name="edit_submit" id="edit_submit">Submit</button>
 			</fieldset>
 		</form>
