@@ -17,17 +17,14 @@ if(isset($_POST['AID'])){
 		header($header);
 	}
 	$GRP = GetGroup($UID);
-	//echo $UID;
-	//print_r($_POST);
-	// $header = "Location: http://localhost/546final/pages/edit_answer.php?var=". $_POST['QID'];
 	$header = "Location: http://localhost/546Final/pages/index.php";
 	//Permission Denied
-	if ($GRP <= 1) {
+	if ($GRP < 1) {
 		header($header);
 		return ;
 	}
-	if(isset($_POST['AID']) && isset($_POST['Title']) && isset($_POST['Content'])){
-		Modify_Answer($_POST['AID'], $_POST['Content']);	
+	if(isset($_POST['AID'])&& isset($_POST['Content'])){
+		// echo Modify_Answer($_POST['AID'], $_POST['Content']);	
 		header($header);	
 	}
 }

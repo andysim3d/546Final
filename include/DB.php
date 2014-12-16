@@ -395,7 +395,8 @@ function Modify_Answer($AID, $Content){
 	$query = "UPDATE `Answers` SET `Content`= ? WHERE `AID` = ? ";
 	$content_Processed = nl2br(htmlspecialchars($Content));
 	if ($stmt = $db->prepare ( $query )) {
-		$stmt->bind_param ( "si", $content_Processed, $ArtID );
+		echo "???";
+		$stmt->bind_param ( "si", $content_Processed, $AID );
 
 		if ($stmt->execute ()) {
 			$stmt->store_result ();

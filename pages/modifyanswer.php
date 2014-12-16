@@ -70,7 +70,7 @@ header("Location: http://localhost/546Final/pages/index.php");
 					<div class="row">
 						<div class="col-md-4">
 							<label for="Content">Content:</label> 
-							 <textarea id="Content" rows="5" cols="40"></textarea>
+							 <textarea id="Content" name="Content" rows="5" cols="40"></textarea>
 						</div>
 					</div>
 				</div>
