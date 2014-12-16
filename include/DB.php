@@ -282,6 +282,73 @@ function IDValidate($userID) {
 	}
 	return - 1;
 }
+
+/**
+ * Fellow
+ * @param who is fellowed $UID
+ * @param fellower's UID $FUID
+ * @return success on insert_id, else -1
+ */
+function Follow($UID, $FUID){
+
+	if (IDValidate( $UID ) == - 1) {
+		return - 1;
+	}
+	if (IDValidate( $FUID ) == - 1) {
+		return - 1;
+	}
+	$db = new database ();
+	$db->connect ();
+	
+	$query = "INSERT INTO `Follow`(`UID_User`, `UID_follower`) VALUES ( ? , ? )";
+	
+	if ($stmt = $db->prepare ( $query )) {
+		$stmt->bind_param ( "ii", $UID, $FUID);
+		if ($stmt->execute ()) {
+	
+			$stmt->store_result();
+			$affectrows = $stmt->affected_rows;
+	
+			return $affectrows;
+		}
+	}
+	return - 1;
+}
+
+/**
+ * unfollow
+ * @param unknown $UID
+ * @param unknown $FUID
+ * @return number|unknown
+ */
+function Unfollow($UID, $FUID){
+
+	if (IDValidate( $UID ) == - 1) {
+		return - 1;
+	}
+	if (IDValidate( $FUID ) == - 1) {
+		return - 1;
+	}
+	$db = new database ();
+	$db->connect ();
+	
+	$query = "DELETE FROM `Follow` WHERE `UID_User` = ? and  `UID_follower` = ? ";
+	
+	if ($stmt = $db->prepare ( $query )) {
+		$stmt->bind_param ( "ii", $UID, $FUID);
+		if ($stmt->execute ()) {
+	
+			$stmt->store_result();
+			$affectrows = $stmt->affected_rows;
+			return $affectrows;
+			//if ($affectrows != 0) {
+				//return $stmt->insert_id;
+		//	}
+		}
+	}
+	return - 1;
+}
+
 /**
  * Get user's Profile
  * @param int $userID
@@ -294,7 +361,7 @@ function GetProfile($userID) {
 	}
 	$db = new database ();
 	$db->connect ();
-	$query = "Select `Location`, `Name`,`Habit`, `BOD`, `Email`, `group`, `credits`, `PID`
+	$query = "Select `Location`, `Name`,`Habit`, `BOD`, `Email`, `group`, `credits`, `PID`,`Image`
 	from `Profiles`, `User` 
 	where `User`.`UID` = ? 
 	and `Profiles`.`UID` = `User`.`UID`";
