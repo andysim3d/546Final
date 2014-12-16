@@ -76,10 +76,11 @@ else{
 		{
 		echo "<form action=\"edit_question.php\" method=\"post\" id=\"edit_question_form\">";
 		echo "<input type=\"hidden\" name=\"QID\" id=\"QID\" value=\"".$question_id."\"></input>"; 
-		    echo "<button type=\"submit\" class=\"btn btn-primary\" name=\"edit_question_title\" id=\"edit_question_info\">Edit</button>";
-			echo "</form>";
+		echo "<button type=\"submit\" class=\"btn btn-primary\" name=\"edit_question_title\" id=\"edit_question_info\">Edit</button>";
+		echo "</form>";
 			
 		}
+		
 		if((isset($group))&&($group>=5))
 		{
 		echo "<br></br>";
@@ -141,6 +142,7 @@ else{
 		$num=count($answer_content);
 		while($i<$num)
 		{
+		$article_uid=Get_UID_By_AID($answer_content[$i]['AID']);
 		$up_count=GetUpCount($answer_content[$i]['AID']);
 		$down_count=GetDownCount($answer_content[$i]['AID']);
 		echo "<div class=\"jumbotron\">\n";
@@ -152,13 +154,19 @@ else{
 	 echo "<div id=\"answer_info\" style=\"display: none;\">".$answer_content[$i]['AID']."</div>";
 	 echo "<a href=\"#\" class=\"up_count_btn\" id=\"up_count_".$answer_content[$i]['AID']."\"><span class=\"glyphicon glyphicon-thumbs-up\" aria-hidden=\"true\"></span><span class=\"count\">&nbsp".$up_count."</span>&nbspUp</a>";
 	 echo "<span>&nbsp &nbsp &nbsp</span>";
-	   echo "<div id=\"answer_info\" style=\"display: none;\">".$answer_content[$i]['AID']."</div>";
+	 echo "<div id=\"answer_info\" style=\"display: none;\">".$answer_content[$i]['AID']."</div>";
 	 echo "<a padding-left:10px href=\"#\" class=\"down_count_btn\" id=\"down_count_".$answer_content[$i]['AID']."\"><span class=\"glyphicon glyphicon-thumbs-down\" aria-hidden=\"true\"></span></span><span class=\"count\">&nbsp-".$down_count."</span>&nbspDown</a>";
-		     		if((isset($group))&&($group>=5))
+	 if($article_uid==$_SESSION['UID'])		
+	{
+     echo "<br></br>";     
+	 echo "<a href=\"modifyanswer.php?var=".$answer_content[$i]['AID']."\" class=\"btn btn-primary\" >Edit</a>";     
+    	
+	}		
+			if((isset($group))&&($group>=5))
 		{
 		echo "<br></br>";
 		echo "<a padding-left:10px href=\"../include/Delete_Answer.php?AID=".$answer_content[$i]['AID']."\" class=\"btn btn-primary\" role=\"button\" >Delete</a>";
-		}
+		}	 
 		    }
 		    else
 		    {
