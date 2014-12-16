@@ -1,123 +1,178 @@
-<?php session_start();
+<?php session_start(); 
+if((isset($_SESSION['login']))&&($_SESSION['login']==true))
+{
+//print_r($_SESSION);
 
-include("./DB.php");
-//$_POST is used for test
-
-// print_r($_POST);
-// print_r($_FILES);
-if (!isset($_SESSION['UID'])){
-	echo"balh<br/>";
-	return -1;
 }
-
-$userID = $_SESSION['UID'];
-//echo $userID
-$after = array();
-$profile = GetProfile($userID);
-//print_r($profile);
-//upload file
-if($profile['getProfile'] == -1){
-	// echo "No profiles found.<br/>";
-	//return -1;
-	
-	//generate newly as profile entity.
-	if(isset($_POST['Location'])){
-
-		$after['Location'] = $_POST['Location'];
-	}
-	else{
-		$after['Location'] ="-";
-	}
-	
-	if(isset($_POST['Habit'])){
-		$after['Habit'] = $_POST['Habit'];
-	}
-	else{
-		$after['Habit'] ="-";
-	}
-	
-	if(isset($_POST['BOD'])){
-		$after['BOD'] = $_POST['BOD'];
-	}
-	else{
-		$after['BOD'] ="1970-01-01";
-	}
-	$after['UID'] = $userID;
-	//insert
-	//print_r($after);
-	//echo "so insert???<br/>";
-	InsertProfile($after);
-}
-
-/*
-echo "Before:Location: ".$profile['Location']."<br/>";
-echo "Before:Habit: ".$profile['Habit']."<br/>";
-echo "Before:BOD: ".$profile['BOD']."<br/>";
-*/
 else{
-	if(isset($_POST['Location'])){
-		$after['Location'] = $_POST['Location'];
-	}
-	else{
-		$after['Location'] =$profile['Location'];
-	}
-
-	if(isset($_POST['Habit'])){
-		$after['Habit'] = $_POST['Habit'];
-	}
-	else{
-		$after['Habit'] =$profile['Habit'];
-	}
-
-	if(isset($_POST['BOD'])){
-		$after['BOD'] = $_POST['BOD'];
-	}
-	else{
-		$after['BOD'] =$profile['BOD'];
-	}
-	$after['PID'] = $profile['PID'];
-	//echo " set!!!";
-	UpdateProfile($after);
+header("Location: http://localhost/546Final/pages/index.php");
+}
+include("../include/DB.php"); 
+if((isset($_SESSION['login']))&&($_SESSION['login']==true))
+{
+$user_id=$_SESSION['UID'];
+$profile=GetProfile($user_id);
+$group=GetGroup($user_id);
+$group_info=GetGRPName($group);
 }
 
-//update image;
-if (isset($_FILES['pic'])) {
-	//error happens
-	if ($_FILES['pic']['error']!= 0) {
-		//header("Location: http://localhost/546Final/pages/profile.php");
-	}
-
-	$allowed =  array('gif','png' ,'jpg', 'bmp');
-	$filename = $_FILES['pic']['name'];
-	$ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
-	// echo $ext;
-	if(!in_array($ext,$allowed) ) {
-		//echo "extension name error";
-		header("Location: http://localhost/546Final/pages/profile.php");
-	}
-
-	$upload_file_name = $userID.".".$ext;
-	$upload_full_file_name = "upload/".$upload_file_name;
-	//echo getcwd().$upload_full_file_name;
-	$pwd = getcwd();
-	chdir("../upload");
-	if (move_uploaded_file($_FILES['pic']['tmp_name'], $upload_file_name)) {
-		UploadImage($userID,$upload_file_name);	
-	}
-	chdir($pwd);
-	
-
-}
-header("Location: http://localhost/546Final/pages/profile.php");
-
-// $profile = GetProfile($userID);
-//jump back to profile.php
-//header("Location: http://localhost/546Final/pages/profile.php")
-
-// print_r($profile);
-/*
-echo "After: Location: ".$profile['Location']."<br/>";
-echo "After: Habit: ".$profile['Habit']."<br/>";
-echo "After: BOD: ".$profile['BOD']."<br/>";
-*/
 ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+<title>Profile Edit</title>
+
+<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css" rel="stylesheet">
+<link href="../css/bootstrap.min.css" rel="stylesheet">
+<link href="../css/profile_site.css" rel="stylesheet">
+
+</head>
+<?PHP  include '../include/page_title.php';?>
+
+
+
+
+	<div class="container">
+
+		<form role="form" action="../include/profileEdit.php" method="post" enctype="multipart/form-data">
+			<fieldset>
+				<legend>Personal Information</legend>
+				<div class="form-group">
+					<div class="row">
+						<img src="http://umsbc.com/wp-content/uploads/2013/03/img_logo_blue.jpg" class="img-thumbnail" width="200" height="200">
+					</div>
+					<div class="row">
+						<div class="col-md-4">
+							<label for="Image">Edit Photo</label> <input type="file"
+								name="pic" accept="image/*"> 
+                            <button type="submit" class="btn btn-primary" id="upload">Upload</button>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="row">
+						<div class="col-md-4">
+							<label for="Name">Name:</label> <input type="text"
+								class="form-control" id="Name" name="Name" value="<?PHP 	if(isset($_SESSION['Name']))
+								{
+								echo $_SESSION['Name'];
+								}
+								?>" readonly>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="row">
+						<div class="col-md-4">
+							<label for="Email">Email:</label> <input type="email"
+								class="form-control" id="Email" name="Email" value="<?PHP 
+										if(isset($_SESSION['Email']))
+								{
+								echo $_SESSION['Email'];
+								}
+								?>" readonly >
+						</div>
+					</div>
+				</div>
+						<div class="form-group">
+					<div class="row">
+						<div class="col-md-4">
+							<label for="group">Group:</label> <input type="text"
+								class="form-control" id="group" name="group" readonly value="<?PHP 
+							if($profile['getProfile']==-1){}else {echo $group_info;}
+								?>"></input>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="row">
+						<div class="col-md-4">
+							<label for="Location">Location:</label> <input type="text"
+								class="form-control" id="Location" name="Location" value="<?PHP 
+								 if($profile['getProfile']==-1){}else {echo $profile['Location'];}
+								?>">
+						</div>
+					</div>
+				</div>
+			<div class="form-group">
+				<div class="row">
+					<div class="col-md-4">
+						<label for="location_pri">Location display settings:</label>
+						<select  name="location_pri" class="form-control">
+						<option>Public</option>
+						<option>Show Followers</option>
+						<option>Show Mutual Concern</option>
+						<option>Private</option>
+						</select>
+					</div>
+				</div>
+			</div>
+				
+				<div class="form-group">
+					<div class="row">
+						<div class="col-md-4">
+							<label for="BOD">Date of Birth:</label> <input type="date"
+								class="form-control" id="BOD" name="BOD" value="<?PHP 
+								if($profile['getProfile']==-1){} else {echo $profile['BOD'];  } ?>">
+						</div>
+					</div>
+				</div>
+				
+			<div class="form-group">
+				<div class="row">
+					<div class="col-md-4">
+						<label for="BOD_pri">BOD display settings:</label>
+						<select name="BOD_pri" class="form-control">
+						<option>Public</option>
+						<option>Show Followers</option>
+						<option>Show Mutual Concern</option>
+						<option>Private</option>
+						</select>
+					</div>
+				</div>
+			</div>
+				<div class="form-group">
+					<div class="row">
+						<div class="col-md-4">
+							<label for="habits">Habits:</label> <input type="text"
+								class="form-control" id="Habit" name="Habit" value="<?PHP 
+								if($profile['getProfile']==-1){} else { echo $profile['Habit']; }?>">
+						</div>
+					</div>
+				</div>
+			<div class="form-group">
+				<div class="row">
+					<div class="col-md-4">
+						<label for="habits_pri">Habits display settings:</label>
+						<select name="habits_pri" class="form-control">
+						<option>Public</option>
+						<option>Show Followers</option>
+						<option>Show Mutual Concern</option>
+						<option>Private</option>
+						</select>
+					</div>
+				</div>
+			</div>
+				
+				 <button type="submit" class="btn btn-primary" name="edit_submit" id="edit_submit">Submit</button>
+			</fieldset>
+		</form>
+
+	</div>
+	<!-- /container -->
+
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script
+		src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+	<script src="../js/bootstrap.min.js"></script>
+		<script src="../js/index.js"></script> 
+	<script src="../js/jquery.validate.min.js"></script>
+</body>
+</html>
