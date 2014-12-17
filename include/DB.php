@@ -750,8 +750,51 @@ function Delete_Down($AID){
 	return - 1;
 }
 
+//TODO:
+function Delete_Article_Up($ArtID){
+
+	$db = new database ();
+	$db->connect ();
+	
+	$query = "DELETE FROM `UP_Table_Art` WHERE `ArtID` =  ? ";
+	
+	if ($stmt = $db->prepare ( $query )) {
+		$stmt->bind_param ( "i", $ArtID);
+		
+		if ($stmt->execute ()) {
+			$stmt->store_result ();
+			$result = $stmt->affected_rows;
+			
+			return $result;
+		}
+	}	
+	return - 1;
+}
+function Delete_Article_Down($ArtID){
+
+	$db = new database ();
+	$db->connect ();
+	
+	$query = "DELETE FROM `Down_Table_Art` WHERE `ArtID` =  ? ";
+	
+	if ($stmt = $db->prepare ( $query )) {
+		$stmt->bind_param ( "i", $ArtID);
+		
+		if ($stmt->execute ()) {
+			$stmt->store_result ();
+			$result = $stmt->affected_rows;
+			
+			return $result;
+		}
+	}	
+	return - 1;
+}
+
+
 function Delete_Article($ArtID){
 
+	Delete_Article_Up($ArtID);
+	Delete_Article_Down($ArtID);
 	$db = new database ();
 	$db->connect ();
 	
