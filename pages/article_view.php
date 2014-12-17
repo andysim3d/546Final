@@ -50,15 +50,29 @@
 	$article_id=$_GET['var'];
 	include("../include/DB.php");
 	$res_art=GetArticle($article_id);
+	$up_count=GetUpCount_Art($article_id);
+	$down_count=GetDownCount_Art($article_id);
 	echo "<div class=\"jumbotron\">\n";
 	echo "<h4>".$res_art[0]['Title']."</h4>";
 	echo "<h6>Author:".$res_art[0]['Name']."</h6>\n";
     echo "<h6>Time:".$res_art[0]['Time']."</h6>\n";
 	echo "<p>".$res_art[0]['Content']."</p>";
+	if((isset($_SESSION['login']))&&($_SESSION['login']==true))
+	{
 	echo "<h4></h4>";
-	echo "<a href=\"#\" class=\"up_count_btn\" id=\"up_count_".$article_id."\"><span class=\"glyphicon glyphicon-thumbs-up\" aria-hidden=\"true\"></span><span class=\"count\">&nbsp".$res_art[0]['Up_Vote']."</span>&nbspUp</a>";
+    echo "<div id=\"article_info\" style=\"display: none;\">".$article_id."</div>";
+	echo "<a href=\"#\" class=\"up_count_art_btn\" id=\"up_count_art_".$article_id."\"><span class=\"glyphicon glyphicon-thumbs-up\" aria-hidden=\"true\"></span><span class=\"count\">&nbsp".$up_count."</span>&nbspUp</a>";
 	echo "<span>&nbsp &nbsp &nbsp</span>";
-	echo "<a padding-left:10px href=\"#\" class=\"down_count_btn\" id=\"down_count_".$article_id."\"><span class=\"glyphicon glyphicon-thumbs-down\" aria-hidden=\"true\"></span></span><span class=\"count\">&nbsp-".$res_art[0]['Down_Vote']."</span>&nbspDown</a>";
+	 echo "<div id=\"article_info\" style=\"display: none;\">".$article_id."</div>";
+	echo "<a padding-left:10px href=\"#\" class=\"down_count_art_btn\" id=\"down_count_art_".$article_id."\"><span class=\"glyphicon glyphicon-thumbs-down\" aria-hidden=\"true\"></span></span><span class=\"count\">&nbsp-".$down_count."</span>&nbspDown</a>";
+	}
+	else
+	{
+	echo "<h4></h4>";
+	echo "<span class=\"glyphicon glyphicon-thumbs-up\" aria-hidden=\"true\"></span><span class=\"count\">&nbsp".$up_count."</span>";
+	echo "<span>&nbsp &nbsp &nbsp</span>";
+	echo "<span class=\"glyphicon glyphicon-thumbs-down\" aria-hidden=\"true\"></span></span><span class=\"count\">&nbsp-".$down_count."</span>";
+	}
 	if((isset($_SESSION['login']))&&($_SESSION['login']==true))
 {
 	if($_SESSION['UID']==$res_art[0]['UID'])

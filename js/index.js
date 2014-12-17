@@ -103,6 +103,25 @@ _AID=$(this).prev().text();
 
 }
 
+function Upvote_art() {
+_ArtID=$(this).prev().text();
+tag_id_up="#up_count_art_"+_ArtID;
+tag_id_down="#down_count_art_"+_ArtID;
+$.post("../include/AJAXUpVoteArt.php",{ArtID:_ArtID},
+function(xml){
+up_count=$("Up_Count",xml).text();
+down_count=$("Down_Count",xml).text();
+
+$(tag_id_up).text("");
+change_append="<span class=\"glyphicon glyphicon-thumbs-up\" aria-hidden=\"true\">"+up_count+"  UP</span>";
+   $(tag_id_up).append(change_append);
+   $(tag_id_up).removeClass("up_count_art_btn");
+   $(tag_id_up).addClass("disabled");
+   $(tag_id_down).remove();
+});
+
+}
+
 function Downvote() {
  _AID=$(this).prev().text();
    tag_id_up="#up_count_"+_AID;
@@ -121,6 +140,25 @@ function Downvote() {
    $(tag_id_up).remove();
     
 	});   
+}
+
+function Downvote_art() {
+_ArtID=$(this).prev().text();
+tag_id_up="#up_count_art_"+_ArtID;
+tag_id_down="#down_count_art_"+_ArtID;
+$.post("../include/AJAXDownVoteArt.php",{ArtID:_ArtID},
+function(xml){
+up_count=$("Up_Count",xml).text();
+down_count=$("Down_Count",xml).text();
+
+$(tag_id_down).text("");
+change_append="<span class=\"glyphicon glyphicon-thumbs-up\" aria-hidden=\"true\">-"+down_count+"  UP</span>";
+   $(tag_id_down).append(change_append);
+   $(tag_id_down).removeClass("down_count_art_btn");
+   $(tag_id_down).addClass("disabled");
+   $(tag_id_up).remove();
+});
+
 }
 
 function Follow() {
@@ -188,6 +226,8 @@ $(document).ready(function() {
 	  
 	$(".up_count_btn").on ("click",Upvote); 
 	$(".down_count_btn").on("click",Downvote);
+	$(".up_count_art_btn").on("click",Upvote_art);
+	$(".down_count_art_btn").on("click",Downvote_art);
 	$("#Follow_Btn").bind("click",Follow);
 });
 

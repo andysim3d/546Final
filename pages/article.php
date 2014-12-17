@@ -115,10 +115,6 @@ $query_article="SELECT user.Name,article.*,user.UID
 	echo "<h4><a href=\"article_view.php?var=".$content['ArtID']."\">".$content['Title']."</a></h4>";
 	echo "<h6>Author:".$content['Name']."</h6>\n";
     echo "<h6>Time:".$content['Time']."</h6>\n";
-	echo "<h4></h4>";
-	echo "<span class=\"glyphicon glyphicon-thumbs-up\" aria-hidden=\"true\"></span><span class=\"count\">&nbsp".$content['Up_Vote']."</span>";
-	echo "<span>&nbsp &nbsp &nbsp</span>";
-	echo "<span class=\"glyphicon glyphicon-thumbs-down\" aria-hidden=\"true\"></span></span><span class=\"count\">&nbsp-".$content['Down_Vote']."</span>";
 	echo "</div>";
 	$i++;
 	}
