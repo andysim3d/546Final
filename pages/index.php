@@ -1,5 +1,4 @@
 <?php session_start();
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -91,10 +90,12 @@ $LIMITATION=10;
 	$page_tag_offset=10;
 	}
 	//echo $page_num;
-	$query_question ="SELECT user.Name,questions.Title,questions.time,questions.QID,user.UID
+	$query_question ="SELECT `user`.`Name`,`questions`.`Title`,
+					   	`questions`.`time`,`questions`.`QID`,`user`.`UID`
                       FROM `user` 
                       INNER JOIN `questions`
-                      ON user.UID=questions.UID
+                      ON `user`.`UID`=`questions`.`UID`
+					  ORDER BY `questions`.`time` DESC
 					  LIMIT $page_tag_int,$page_tag_offset
 ";
 	if(!$res_question = $db->send_sql($query_question)){
