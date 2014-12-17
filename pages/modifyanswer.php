@@ -5,6 +5,11 @@ include("../include/DB.php");
 
 $answer_id=$_GET['var'];
 $question_id=$_GET['qid'];
+$writer_id = Get_UID_By_AID($_GET['var']);
+if($writer_id != $_SESSION['UID']){
+	header("Location: http://localhost/546Final/pages/index.php");
+}
+
 $question_content=GetQuestion_ByID($question_id);
 $answer_content=GetQuestion_Answer($question_id);
 $i=0;
