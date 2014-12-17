@@ -995,6 +995,32 @@ function GetUpCount($AID) {
 	return - 1;
 }
 
+function GetUpCount_Art($ArtID) {
+	$db = new database ();
+	$db->connect ();
+	$query = "SELECT count(*) as Count from `UP_Table_Art`
+	where `ArtID` = ?";
+
+	if ($stmt = $db->prepare ( $query )) {
+		$stmt->bind_param ( "i", $ArtID );
+
+		if ($stmt->execute ()) {
+			$result = $stmt->get_result ();
+			// return $result;
+				
+			$results = array ();
+			foreach ( $result as $keys => $values ) {
+				$element;
+				foreach ( $values as $key => $value ) {
+					$element [$key] = $value;
+				}
+				array_push ( $results, $element );
+			}
+			return $results[0]['Count'];
+		}
+	}
+	return - 1;
+}
 
 function Get_UID_By_ArtID($ArtID){
 
@@ -1075,6 +1101,28 @@ function VoteUp($AID, $UID) {
 	}
 	return - 1;
 }
+function VoteUp_Art($ArtID, $UID) {
+	
+	$WriterUID = Get_UID_By_ArtID($ArtID);
+	if($WriterUID != -1){
+		AddCreadits($WriterUID);
+	}
+	//AddCreadits($UID);
+	$db = new database ();
+	$db->connect ();
+	$query = "INSERT INTO `UP_Table_Art`(`ArtID`, `UID`) 
+	VALUES ( ? , ? )";
+	
+	if ($stmt = $db->prepare ( $query )) {
+		$stmt->bind_param ( "ii", $ArtID, $UID );
+		
+		if ($stmt->execute ()) {
+			$result = $stmt->store_result ();
+			return $result;
+		}
+	}
+	return - 1;
+}
 function WithdrawVoteUp($AID, $UID) {
 	$db = new database ();
 	$db->connect ();
@@ -1092,6 +1140,27 @@ function WithdrawVoteUp($AID, $UID) {
 	}
 	return - 1;
 }
+
+
+function VoteDown_Art($ArtID, $UID) {
+
+	$db = new database ();
+	$db->connect ();
+	$query = "INSERT INTO `DOWN_Table_Art`(`ArtID`, `UID`)
+	VALUES ( ? , ? )";
+
+	if ($stmt = $db->prepare ( $query )) {
+		$stmt->bind_param ( "ii", $ArtID, $UID );
+
+		if ($stmt->execute ()) {
+				
+			$result = $stmt->store_result ();
+			return $result;
+		}
+	}
+	return - 1;
+}
+
 function VoteDown($AID, $UID) {
 	
 	$db = new database ();
@@ -1110,6 +1179,33 @@ function VoteDown($AID, $UID) {
 	}
 	return - 1;
 }
+
+
+function GetDownCount_Art($ArtID) {
+	$db = new database ();
+	$db->connect ();
+	$query = "SELECT count(*) as Count from `DOWN_Table_Art`
+	where `ArtID` = ?";
+
+	if ($stmt = $db->prepare ( $query )) {
+		$stmt->bind_param ( "i", $ArtID );
+
+		if ($stmt->execute ()) {
+			$result = $stmt->get_result ();
+			$results = array ();
+			foreach ( $result as $keys => $values ) {
+				$element;
+				foreach ( $values as $key => $value ) {
+					$element [$key] = $value;
+				}
+				array_push ( $results, $element );
+			}
+			return $results[0]['Count'];
+		}
+	}
+	return - 1;
+}
+
 function GetDownCount($AID) {
 	$db = new database ();
 	$db->connect ();
