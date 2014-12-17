@@ -54,13 +54,48 @@
 //change to your path
 include ("../include/DB.php");
 $LIMITATION=10;
+
 	$db = new database();
 	$db->connect();
+	$query_question_count="SELECT COUNT(*)
+	                       FROM `questions`
+	";
+		if(!$res_question_count = $db->send_sql($query_question_count)){
+		$db->disconnect();
+		echo "Get Questions failed!<br>\n";
+		return -1;
+	}
+	$count=$res_question_count->fetch_assoc();
+	$page=(int)$count['COUNT(*)']/10;
+	$page_offset=(int)$count['COUNT(*)']%10;
+	if($page_offset==0)
+	{
+	$page_offset=10;
+	}
+	$page_num=ceil($page);
+	if(isset($_GET['var']))
+	{
+	$page_tag=$_GET['var'];
+	}
+	else
+	{
+	$page_tag="1";
+	}
+	$page_tag_int=((int)$page_tag-1)*10;
+	if((int)$page_tag==$page_num)
+	{
+	$page_tag_offset=$page_offset;
+	}
+	else
+	{
+	$page_tag_offset=10;
+	}
+	//echo $page_num;
 	$query_question ="SELECT user.Name,questions.Title,questions.time,questions.QID,user.UID
                       FROM `user` 
                       INNER JOIN `questions`
                       ON user.UID=questions.UID
-					  LIMIT 10
+					  LIMIT $page_tag_int,$page_tag_offset
 ";
 	if(!$res_question = $db->send_sql($query_question)){
 		$db->disconnect();
@@ -164,10 +199,29 @@ $LIMITATION=10;
 	 }
 	 $i++;
 	}
-	
-		 echo "<button class=\"btn btn-primary\" >Load More</button>";
-	
 ?>
+
+<nav>
+<center>
+  <ul class="pagination">
+    <li><a href="index.php"><span aria-hidden="true">First Page</span></a></li>
+    <?PHP  
+	$i=1;
+	while($i<=$page_num)
+	{
+	echo "<li "; 
+	if($page_tag==$i)
+	{
+	echo "class=\"active\"";
+	}
+	echo " ><a href=\"index.php?var=".$i."\">".$i."</a></li>";
+	$i++;
+	}
+	?>
+    <li><a href="index.php?var=<?PHP echo $page_num; ?>"><span aria-hidden="true">Last Page</a></li>
+  </ul>
+  </center>
+</nav>
 		</fieldset>
 
 	</div>
