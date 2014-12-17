@@ -205,7 +205,20 @@ $LIMITATION=10;
 <center>
   <ul class="pagination">
     <li><a href="index.php"><span aria-hidden="true">First Page</span></a></li>
+
     <?PHP  
+	if($page_tag=="1")
+   { 	
+	echo "<li class=\"disabled\"><a href=\"#\"><span aria-hidden=\"true\">&laquo;</span><span class=\"sr-only\">Previous</span></a></li>";
+	}
+	else
+	{
+	$pre=(int)$page_tag-1;
+	echo "<li><a href=\"index.php?var=".$pre."\"><span aria-hidden=\"true\">&laquo;</span><span class=\"sr-only\">Previous</span></a></li>";
+	}
+	
+	if($page_num<4)
+	{
 	$i=1;
 	while($i<=$page_num)
 	{
@@ -217,7 +230,48 @@ $LIMITATION=10;
 	echo " ><a href=\"index.php?var=".$i."\">".$i."</a></li>";
 	$i++;
 	}
+	}
+	else
+	{
+	if($page_tag=="1")
+	{
+	$next_tag=(int)$page_tag+1;
+	$next_next_tag=$next_tag+1;
+	echo "<li class=\"active\" ><a href=\"index.php?var=".$page_tag."\">".$page_tag."</a></li>";
+	echo "<li ><a href=\"index.php?var=".$next_tag."\">".$next_tag."</a></li>";
+	echo "<li ><a href=\"index.php?var=".$next_next_tag."\">".$next_next_tag."</a></li>";
+	}
+	else if($page_tag==$page_num)
+	{
+	$pre_tag=(int)$page_tag-1;
+	$pre_pre_tag=$pre_tag-1;
+	echo "<li ><a href=\"index.php?var=".$pre_pre_tag."\">".$pre_pre_tag."</a></li>";
+	echo "<li ><a href=\"index.php?var=".$pre_tag."\">".$pre_tag."</a></li>";
+	echo "<li class=\"active\" ><a href=\"index.php?var=".$page_tag."\">".$page_tag."</a></li>";
+	}
+    else
+	{
+	$pre_tag=(int)$page_tag-1;
+	$next_tag=(int)$page_tag+1;
+	echo "<li ><a href=\"index.php?var=".$pre_tag."\">".$pre_tag."</a></li>";
+	echo "<li class=\"active\" ><a href=\"index.php?var=".$page_tag."\">".$page_tag."</a></li>";
+	echo "<li ><a href=\"index.php?var=".$next_tag."\">".$next_tag."</a></li>";
+	}
+	}
+	
+	if($page_tag==$page_num)
+{	
+	echo "	<li class=\"disabled\"><a  href=\"#\"><span aria-hidden=\"true\">&raquo;</span><span 
+	class=\"sr-only\">Next</span></a></li>";
+}
+else
+{
+$next=(int)$page_tag+1;
+echo "<li><a href=\"index.php?var=".$next."\"><span aria-hidden=\"true\">&raquo;</span><span 
+	class=\"sr-only\">Next</span></a></li>";
+}
 	?>
+
     <li><a href="index.php?var=<?PHP echo $page_num; ?>"><span aria-hidden="true">Last Page</a></li>
   </ul>
   </center>
