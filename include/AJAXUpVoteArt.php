@@ -8,7 +8,7 @@ $Up = -1;
 $Down = -1;
 if (isset ( $_SESSION ['UID'] ) && isset ( $_POST ['ArtID'] )) {
 	
-	if (VoteUp ( $_POST ['ArtID'], $_SESSION ['UID'] ) == - 1) {
+	if (VoteUp_Art( $_POST ['ArtID'], $_SESSION ['UID'] ) == - 1) {
 		
 		$Up = GetUpCount_Art($_POST ['ArtID']);
 		$Down = GetDownCount_Art($_POST ['ArtID']);

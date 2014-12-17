@@ -1103,10 +1103,10 @@ function VoteUp($AID, $UID) {
 }
 function VoteUp_Art($ArtID, $UID) {
 	
-	$WriterUID = Get_UID_By_ArtID($ArtID);
-	if($WriterUID != -1){
-		AddCreadits($WriterUID);
-	}
+// 	$WriterUID = Get_UID_By_ArtID($ArtID);
+// 	if($WriterUID != -1){
+// 		AddCreadits($WriterUID);
+// 	}
 	//AddCreadits($UID);
 	$db = new database ();
 	$db->connect ();
